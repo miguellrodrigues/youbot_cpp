@@ -46,6 +46,8 @@ public:
     static Matrix *multiply(Matrix *mx, Matrix *my);
     static Matrix *hadamard(Matrix *mx, Matrix *my);
 
+    void assign_matrix_array(double *array) const;
+
     void printToConsole();
 
     std::string matrixToString() const;

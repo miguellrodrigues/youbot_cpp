@@ -284,3 +284,13 @@ void Matrix::operator*=(double x) const {
 void Matrix::operator/=(double x) const {
     split(x);
 }
+
+void Matrix::assign_matrix_array(double *array) const {
+    unsigned int aux = 0;
+
+    for (unsigned int i = 0; i < rows; ++i) {
+        for (unsigned int j = 0; j < cols; ++j) {
+            setValue(i, j, array[aux++]);
+        }
+    }
+}

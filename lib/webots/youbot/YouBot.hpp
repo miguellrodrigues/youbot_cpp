@@ -10,6 +10,7 @@
 #include "arm/Arm.hpp"
 #include "base/Base.hpp"
 #include "gripper/Gripper.hpp"
+#include "../../util/angle/Angle.hpp"
 
 using namespace lib;
 
@@ -49,6 +50,12 @@ public:
 
     void setGripperOrientation(double orientation);
 
+    void turnLeft();
+    void turnRight();
+
+    void strafeLeft();
+    void strafeRight();
+
     void pickupBox(double orientation);
 
     void throwBox();
@@ -59,6 +66,8 @@ private:
     Arm *arm;
     Base *base;
     Gripper *gripper;
+
+    Angle *angle;
 
     string def = "youBot";
 };

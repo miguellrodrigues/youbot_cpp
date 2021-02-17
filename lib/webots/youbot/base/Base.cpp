@@ -17,6 +17,7 @@ Base::Base(Controller *controller) {
 
     for (auto &wheel : wheels) {
         wheel->setPosition(INFINITY);
+        wheel->setVelocity(.0);
     }
 }
 

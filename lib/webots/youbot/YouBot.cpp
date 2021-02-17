@@ -10,6 +10,8 @@ YouBot::YouBot(Controller *controller) {
     this->arm = new Arm(controller);
     this->base = new Base(controller);
     this->gripper = new Gripper(controller);
+
+    this->angle = new Angle();
 }
 
 void YouBot::passiveWait(double seconds) {
@@ -21,7 +23,7 @@ void YouBot::passiveWait(double seconds) {
 }
 
 double YouBot::getRotationAngle() {
-    return controller->getObjectRotation(def)[3];
+    return angle->calculateAngle(controller->getObjectRotation(def));
 }
 
 Vector YouBot::getPosition() {
@@ -74,6 +76,22 @@ void YouBot::gripRelease() {
 
 void YouBot::setWheelsSpeed(vector<double> speeds) {
     base->setWheelsSpeed(speeds);
+}
+
+void YouBot::turnLeft() {
+    base->turnLeft();
+}
+
+void YouBot::turnRight() {
+    base->turnRight();
+}
+
+void YouBot::strafeLeft() {
+    base->strafeLeft();
+}
+
+void YouBot::strafeRight() {
+    base->strafeRight();
 }
 
 void YouBot::setGripperOrientation(double orientation) {

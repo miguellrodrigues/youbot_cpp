@@ -6,7 +6,7 @@
 #include <webots/Motor.hpp>
 
 #include <string>
-#include "Controller.h"
+#include "Controller.hpp"
 
 using namespace std;
 

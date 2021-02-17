@@ -5,7 +5,7 @@
 #ifndef YOUBOT_CPP_YOUBOT_HPP
 #define YOUBOT_CPP_YOUBOT_HPP
 
-#include "../controller/Controller.h"
+#include "../controller/Controller.hpp"
 #include "../../util/vector/Vector.hpp"
 #include "arm/Arm.hpp"
 #include "base/Base.hpp"

@@ -1,5 +1,5 @@
 #include "lib/neural_network/network/Network.hpp"
-#include "lib/webots/controller/Controller.h"
+#include "lib/webots/controller/Controller.hpp"
 #include "lib/webots/youbot/YouBot.hpp"
 
 using namespace std;

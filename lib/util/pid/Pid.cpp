@@ -2,7 +2,7 @@
 // Created by miguellr on 29/11/2020.
 //
 
-#include "Pid.h"
+#include "Pid.hpp"
 
 Pid::Pid(double kp, double ki, double kd, double saturation, double maxError) {
     this->kp = kp;

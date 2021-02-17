@@ -7,7 +7,7 @@
 
 
 #include <cmath>
-#include "../../controller/Controller.h"
+#include "../../controller/Controller.hpp"
 
 class Arm {
 public:

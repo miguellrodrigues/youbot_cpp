@@ -2,8 +2,8 @@
 // Created by miguel on 31/01/2021.
 //
 
-#ifndef REDENEURAL_NEURON_HPP
-#define REDENEURAL_NEURON_HPP
+#ifndef YOUBOT_CPP_NEURON_HPP
+#define YOUBOT_CPP_NEURON_HPP
 
 class Neuron {
 public:

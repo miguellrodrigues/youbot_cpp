@@ -2,8 +2,8 @@
 // Created by miguel on 30/01/2021.
 //
 
-#ifndef REDENEURAL_NETWORK_HPP
-#define REDENEURAL_NETWORK_HPP
+#ifndef YOUBOT_CPP_NETWORK_HPP
+#define YOUBOT_CPP_NETWORK_HPP
 
 #include <vector>
 #include "../layer/Layer.hpp"

@@ -2,8 +2,8 @@
 // Created by miguellr on 06/12/2020.
 //
 
-#ifndef CINEMATICCONTROLLER_PID_H
-#define CINEMATICCONTROLLER_PID_H
+#ifndef YOUBOT_CPP_PID_HPP
+#define YOUBOT_CPP_PID_HPP
 
 
 class Pid {

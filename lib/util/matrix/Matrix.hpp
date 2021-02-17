@@ -2,8 +2,8 @@
 // Created by miguel on 30/01/2021.
 //
 
-#ifndef REDENEURAL_MATRIX_HPP
-#define REDENEURAL_MATRIX_HPP
+#ifndef YOUBOT_CPP_MATRIX_HPP
+#define YOUBOT_CPP_MATRIX_HPP
 
 
 #include <string>

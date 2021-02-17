@@ -6,7 +6,7 @@
 #define YOUBOT_CPP_GRIPPER_HPP
 
 
-#include "../../controller/Controller.h"
+#include "../../controller/Controller.hpp"
 
 class Gripper {
 

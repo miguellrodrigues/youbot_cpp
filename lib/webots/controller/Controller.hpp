@@ -2,8 +2,8 @@
 // Created by miguellr on 06/12/2020.
 //
 
-#ifndef CINEMATICCONTROLLER_CONTROLLER_H
-#define CINEMATICCONTROLLER_CONTROLLER_H
+#ifndef YOUBOT_CPP_CONTROLLER_H
+#define YOUBOT_CPP_CONTROLLER_H
 
 #include "webots/Supervisor.hpp"
 #include "vector"

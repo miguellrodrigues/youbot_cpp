@@ -2,8 +2,8 @@
 // Created by miguel on 31/01/2021.
 //
 
-#ifndef REDENEURAL_LAYER_HPP
-#define REDENEURAL_LAYER_HPP
+#ifndef YOUBOT_CPP_LAYER_HPP
+#define YOUBOT_CPP_LAYER_HPP
 
 #include "../neuron/Neuron.hpp"
 #include "../../util/matrix/Matrix.hpp"

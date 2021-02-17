@@ -2,8 +2,8 @@
 // Created by miguellr on 06/12/2020.
 //
 
-#ifndef CINEMATICCONTROLLER_VECTOR_H
-#define CINEMATICCONTROLLER_VECTOR_H
+#ifndef YOUBOT_CPP_VECTOR_HPP
+#define YOUBOT_CPP_VECTOR_HPP
 
 namespace lib {
     class Vector {

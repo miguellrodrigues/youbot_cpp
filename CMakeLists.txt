@@ -15,9 +15,9 @@ set(SOURCES ${C_SOURCES} ${CPP_SOURCES}
         lib/util/vector/Vector.hpp
         lib/util/vector/Vector.cpp
         lib/util/pid/Pid.cpp
-        lib/util/pid/Pid.h
+        lib/util/pid/Pid.hpp
         lib/webots/controller/Controller.cpp
-        lib/webots/controller/Controller.h
+        lib/webots/controller/Controller.hpp
         lib/neural_network/network/Network.hpp
         lib/neural_network/network/Network.cpp
         lib/util/matrix/Matrix.hpp

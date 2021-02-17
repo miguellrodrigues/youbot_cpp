@@ -43,7 +43,7 @@ set(LIBRARIES /usr/local/webots/lib/controller/libController.so Controller${CMAK
 include_directories(/usr/local/webots/lib/controller /usr/local/webots/include/controller/c /usr/local/webots/include/controller/cpp)
 
 # Setup the target executable.
-add_executable(${PROJECT} ${SOURCES} lib/webots/youbot/gripper/Gripper.cpp lib/webots/youbot/gripper/Gripper.hpp)
+add_executable(${PROJECT} ${SOURCES})
 target_link_libraries(${PROJECT} ${LIBRARIES})
 
 # Copy the target executable at the right location.

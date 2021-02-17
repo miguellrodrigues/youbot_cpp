@@ -1,8 +1,6 @@
-#include "iostream"
 #include "lib/neural_network/network/Network.hpp"
 #include "lib/webots/controller/Controller.h"
 #include "lib/webots/youbot/YouBot.hpp"
-#include "lib/util/angle/Angle.hpp"
 
 using namespace std;
 

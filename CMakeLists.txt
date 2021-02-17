@@ -32,7 +32,10 @@ set(SOURCES ${C_SOURCES} ${CPP_SOURCES}
         lib/webots/youbot/base/Base.hpp
         lib/webots/youbot/gripper/Gripper.cpp
         lib/webots/youbot/gripper/Gripper.hpp
-        lib/webots/youbot/YouBot.cpp lib/webots/youbot/YouBot.hpp lib/util/angle/Angle.cpp lib/util/angle/Angle.hpp)
+        lib/webots/youbot/YouBot.cpp
+        lib/webots/youbot/YouBot.hpp
+        lib/util/angle/Angle.cpp
+        lib/util/angle/Angle.hpp)
 
 # Link with the Webots controller library.
 link_directories(/usr/local/webots/lib/controller)

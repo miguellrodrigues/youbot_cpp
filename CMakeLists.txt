@@ -25,7 +25,14 @@ set(SOURCES ${C_SOURCES} ${CPP_SOURCES}
         lib/neural_network/neuron/Neuron.hpp
         lib/neural_network/neuron/Neuron.cpp
         lib/neural_network/layer/Layer.hpp
-        lib/neural_network/layer/Layer.cpp lib/webots/youbot/arm/Arm.cpp lib/webots/youbot/arm/Arm.hpp lib/webots/youbot/base/Base.cpp lib/webots/youbot/base/Base.hpp)
+        lib/neural_network/layer/Layer.cpp
+        lib/webots/youbot/arm/Arm.cpp
+        lib/webots/youbot/arm/Arm.hpp
+        lib/webots/youbot/base/Base.cpp
+        lib/webots/youbot/base/Base.hpp
+        lib/webots/youbot/gripper/Gripper.cpp
+        lib/webots/youbot/gripper/Gripper.hpp
+        lib/webots/youbot/YouBot.cpp lib/webots/youbot/YouBot.hpp)
 
 # Link with the Webots controller library.
 link_directories(/usr/local/webots/lib/controller)
@@ -33,7 +40,7 @@ set(LIBRARIES /usr/local/webots/lib/controller/libController.so Controller${CMAK
 include_directories(/usr/local/webots/lib/controller /usr/local/webots/include/controller/c /usr/local/webots/include/controller/cpp)
 
 # Setup the target executable.
-add_executable(${PROJECT} ${SOURCES})
+add_executable(${PROJECT} ${SOURCES} lib/webots/youbot/gripper/Gripper.cpp lib/webots/youbot/gripper/Gripper.hpp)
 target_link_libraries(${PROJECT} ${LIBRARIES})
 
 # Copy the target executable at the right location.

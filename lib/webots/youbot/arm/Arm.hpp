@@ -65,6 +65,16 @@ public:
 
     void setSubRotation(unsigned int arm, double radian);
 
+    Height getCurrentHeight() const
+    {
+        return static_cast<Height>(currentHeight);
+    }
+
+    Orientation getCurrentOrientation() const
+    {
+        return static_cast<Orientation>(currentOrientation);
+    }
+
     static double radians(double degrees)
     {
         return degrees * (M_PI / 180.0);

@@ -83,7 +83,7 @@ void Network::feedForward() {
 
         right = this->weightMatrices.at(i);
 
-        r = right->multiply(*left);
+        r = right->multiply(left);
 
         for (int j = 0; j < r->rows; ++j) {
             this->layers.at(i + 1)->setNeuronValue(j, r->getValue(j, 0) + (this->bias));
@@ -141,7 +141,7 @@ void Network::backPropagation() {
 
     Matrix *lastHiddenLayerActivated = this->layers.at(indexOutputLayer - 1)->convertActivatedValues();
 
-    Matrix *deltaWeightsLastHiddenToOutput = Matrix::multiply(*gradients, *lastHiddenLayerActivated->transpose());
+    Matrix *deltaWeightsLastHiddenToOutput = gradients->multiply(lastHiddenLayerActivated->transpose());
 
     auto *tempWeights = new Matrix(
             this->topology.at(indexOutputLayer),
@@ -171,14 +171,14 @@ void Network::backPropagation() {
 
         Matrix *transposeWeights = this->weightMatrices.at(i)->transpose();
 
-        gradients = new Matrix(*transposeWeights->multiply(*_gradients));
+        gradients = new Matrix(*transposeWeights->multiply(_gradients));
 
         delete transposeWeights;
         delete _gradients;
 
         Matrix *derivedValues = this->layers.at(i)->convertDerivedValues();
 
-        Matrix *layerGradients = Matrix::hadamard(*derivedValues, *gradients);
+        Matrix *layerGradients = derivedValues->hadamard(gradients);
 
         delete derivedValues;
 
@@ -193,7 +193,7 @@ void Network::backPropagation() {
         Matrix *layerValues =
                 i == 1 ? this->layers.at(0)->convertValues() : this->layers.at(i - 1)->convertActivatedValues();
 
-        Matrix *deltaWeights = Matrix::multiply(*gradients, *layerValues->transpose());
+        Matrix *deltaWeights = gradients->multiply(layerValues->transpose());
 
         delete layerValues;
 
@@ -283,7 +283,7 @@ void Network::save() {
     string dataStr;
 
     for (auto &weightMatrix : this->weightMatrices) {
-        dataStr.append(weightMatrix->arrayToString());
+        dataStr.append(weightMatrix->matrixToString());
         dataStr.append("#\n");
     }
 

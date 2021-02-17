@@ -11,57 +11,57 @@
 class Matrix {
 
 public:
-    Matrix(unsigned int rows, unsigned int cols, bool isRandom);
+    static double randomDouble(double min, double max);
 
     Matrix();
 
-    Matrix *copy() const;
-
-    void map(double (*function)(double)) const;
-
-    void hadamard(Matrix &mx) const;
-
-    void add(Matrix &mx) const;
-
-    void subtract(Matrix &mx) const;
-
-    void scalar(double x) const;
-
-    void split(double x) const;
+    Matrix(unsigned int rows, unsigned int cols, bool isRandom);
 
     void setValue(unsigned int row, unsigned int col, double value) const;
 
     double getValue(unsigned int row, unsigned int col) const;
 
+    Matrix *copy() const;
+
+    Matrix *transpose() const;
+
+    Matrix *hadamard(Matrix *mx) const;
+
+    Matrix *multiply(Matrix *mx) const;
+
+    void add(Matrix *mx) const;
+
+    void subtract(Matrix *mx) const;
+
+    void scalar(double x) const;
+
+    void split(double x) const;
+
+    void map(double (*function)(double)) const;
+
     double *matrixToArray() const;
 
     static Matrix *arrayToMatrix(double *array, unsigned int size);
 
-    static double randomDouble(double min, double max);
-
-    Matrix *transpose() const;
-
-    Matrix *multiply(Matrix &mx) const;
-
     void printToConsole();
 
-    std::string arrayToString() const;
+    std::string matrixToString() const;
 
-    Matrix *operator+(Matrix &mx) const;
+    Matrix *operator+(Matrix *mx) const;
 
-    Matrix *operator-(Matrix &mx) const;
+    Matrix *operator-(Matrix *mx) const;
 
-    Matrix *operator*(Matrix &mx) const;
+    Matrix *operator*(Matrix *mx) const;
 
     Matrix *operator*(double x) const;
 
     Matrix *operator/(double x) const;
 
-    void operator+=(Matrix &mx) const;
+    void operator+=(Matrix *mx) const;
 
-    void operator-=(Matrix &mx) const;
+    void operator-=(Matrix *mx) const;
 
-    void operator*=(Matrix &mx) const;
+    void operator*=(Matrix *mx) const;
 
     void operator*=(double x) const;
 

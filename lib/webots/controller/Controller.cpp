@@ -10,13 +10,13 @@
 
 using namespace std;
 
-Controller::Controller(Supervisor *supervisor, unsigned int samplingRate, bool setupSensors) {
+Controller::Controller(Supervisor *supervisor, unsigned int samplingRate) {
     this->supervisor = supervisor;
     this->samplingRate = samplingRate;
 }
 
-void Controller::step() {
-    this->getSupervisor()->step(this->samplingRate);
+double Controller::step() {
+    return this->getSupervisor()->step(samplingRate);
 }
 
 Supervisor *Controller::getSupervisor() {

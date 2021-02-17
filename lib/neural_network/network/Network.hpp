@@ -6,7 +6,6 @@
 #define REDENEURAL_NETWORK_HPP
 
 #include <vector>
-#include "../matrix/Matrix.hpp"
 #include "../layer/Layer.hpp"
 
 using std::vector;

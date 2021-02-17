@@ -13,9 +13,9 @@ using namespace webots;
 
 class Controller {
 public:
-    explicit Controller(Supervisor *supervisor, unsigned int samplingRate, bool setupSensors);
+    explicit Controller(Supervisor *supervisor, unsigned int samplingRate);
 
-    void step();
+    double step();
 
     Supervisor *getSupervisor();
 

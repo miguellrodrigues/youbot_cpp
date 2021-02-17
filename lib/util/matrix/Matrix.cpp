@@ -30,7 +30,7 @@ Matrix::Matrix(unsigned int rows, unsigned int cols, bool isRandom) : rows(rows)
     if (isRandom) {
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
-                this->data[i][j] = randomDouble(-.0001, .0001);
+                this->data[i][j] = randomDouble(-.501, .501);
             }
         }
     } else {
@@ -163,6 +163,38 @@ Matrix *Matrix::arrayToMatrix(double *array, unsigned int size) {
 
     for (int i = 0; i < size; ++i) {
         matrix->setValue(i, 0, array[i]);
+    }
+
+    return matrix;
+}
+
+Matrix *Matrix::hadamard(Matrix *mx, Matrix *my) {
+    auto *matrix = new Matrix(mx->rows, mx->cols, false);
+
+    for (int i = 0; i < mx->rows; ++i) {
+        for (int j = 0; j < mx->cols; ++j) {
+            matrix->setValue(i, j, mx->getValue(i, j) * my->getValue(i, j));
+        }
+    }
+
+    return matrix;
+}
+
+Matrix *Matrix::multiply(Matrix *mx, Matrix *my) {
+    auto *matrix = new Matrix(mx->rows, my->cols, false);
+
+    double aux;
+
+    for (int i = 0; i < mx->rows; ++i) {
+        for (int j = 0; j < my->cols; ++j) {
+            aux = 0.0;
+
+            for (int l = 0; l < my->rows; ++l) {
+                aux += mx->getValue(i, l) * my->getValue(l, j);
+            }
+
+            matrix->setValue(i, j, aux);
+        }
     }
 
     return matrix;

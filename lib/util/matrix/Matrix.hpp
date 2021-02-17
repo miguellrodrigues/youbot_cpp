@@ -43,6 +43,9 @@ public:
 
     static Matrix *arrayToMatrix(double *array, unsigned int size);
 
+    static Matrix *multiply(Matrix *mx, Matrix *my);
+    static Matrix *hadamard(Matrix *mx, Matrix *my);
+
     void printToConsole();
 
     std::string matrixToString() const;

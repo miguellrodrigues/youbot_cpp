@@ -14,9 +14,9 @@ class Network {
 public:
     Network(unsigned int *topology, unsigned int topologySize);
 
-    void train(Matrix &input, Matrix &meta);
+    void train(Matrix *input, Matrix *meta);
 
-    double *predict(Matrix &input);
+    double *predict(Matrix *input);
 
     double globalError = 0.0;
 
@@ -26,9 +26,9 @@ public:
 
     void mutate(double rate);
 
-    void assign(Network &other);
+    void assign(Network *other);
 
-    void crossOver(Network &father, Network &mother);
+    void crossOver(Network *father, Network *mother);
 
     void save();
 
@@ -37,7 +37,7 @@ public:
     vector<Matrix *> weightMatrices;
 
 private:
-    double learningRate = 0.05;
+    double learningRate = 0.001;
     double bias = 0.1;
 
     double fitness{};
@@ -50,11 +50,11 @@ private:
     vector<double> derivedErrors;
     vector<double> errors;
 
-    void setCurrentInput(Matrix matrix);
+    void setCurrentInput(Matrix *matrix);
 
     void feedForward();
 
-    void setErrors(Matrix &meta);
+    void setErrors(Matrix *meta);
 
     void backPropagation();
 };

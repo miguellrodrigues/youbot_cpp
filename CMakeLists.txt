@@ -25,7 +25,7 @@ set(SOURCES ${C_SOURCES} ${CPP_SOURCES}
         lib/neural_network/neuron/Neuron.hpp
         lib/neural_network/neuron/Neuron.cpp
         lib/neural_network/layer/Layer.hpp
-        lib/neural_network/layer/Layer.cpp lib/webots/youbot/arm/Arm.cpp lib/webots/youbot/arm/Arm.hpp)
+        lib/neural_network/layer/Layer.cpp lib/webots/youbot/arm/Arm.cpp lib/webots/youbot/arm/Arm.hpp lib/webots/youbot/base/Base.cpp lib/webots/youbot/base/Base.hpp)
 
 # Link with the Webots controller library.
 link_directories(/usr/local/webots/lib/controller)

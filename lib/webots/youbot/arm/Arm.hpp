@@ -51,7 +51,19 @@ public:
 
     void reset();
 
-    void setHeight(Height height);
+    void setHeight(unsigned int height);
+
+    void increaseHeight();
+
+    void decreaseHeight();
+
+    void setOrientation(unsigned int orientation);
+
+    void increaseOrientation();
+
+    void decreaseOrientation();
+
+    void setSubRotation(unsigned int arm, double radian);
 
     static double radians(double degrees)
     {
@@ -60,7 +72,9 @@ public:
 
 private:
     const unsigned int ARMS_SIZE = 5;
-    unsigned int curretHeight = 0;
+
+    unsigned int currentHeight = 0;
+    unsigned int currentOrientation = 0;
 
     Controller *controller;
 

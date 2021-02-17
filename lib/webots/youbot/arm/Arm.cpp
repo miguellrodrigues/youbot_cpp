@@ -3,21 +3,20 @@
 //
 
 #include "Arm.hpp"
-#include <string>
 #include <utility>
 #include <cmath>
 #include <iostream>
 #include <webots/Motor.hpp>
 
 using namespace webots;
+
 using std::cout;
 using std::endl;
-using std::string;
 
 Arm::Arm(Controller *controller) {
     this->controller = controller;
 
-    elements.reserve(5);
+    elements.reserve(ARMS_SIZE);
 
     elements.push_back((Motor *) controller->getDeviceByName("arm1"));
     elements.push_back((Motor *) controller->getDeviceByName("arm2"));
@@ -42,7 +41,7 @@ void Arm::reset() {
     setArmsPosition({ARM1, ARM2, ARM3, ARM4, ARM5}, {.0, 1.57, -2.635, 1.78, .0});
 }
 
-void Arm::setHeight(Arm::Height height) {
+void Arm::setHeight(unsigned int height) {
     switch (height) {
         case ARM_FRONT_FLOOR:
             change({-.97, -1.55, -.61, .0});
@@ -82,7 +81,74 @@ void Arm::setHeight(Arm::Height height) {
             break;
     }
 
-    curretHeight = height;
+    currentHeight = height;
 }
 
+void Arm::increaseHeight() {
+    currentHeight++;
 
+    if (currentHeight >= ARM_MAX_HEIGHT)
+        currentHeight = ARM_MAX_HEIGHT - 1;
+
+    setHeight(currentHeight);
+}
+
+void Arm::decreaseHeight() {
+    if (currentHeight - 1 < 0)
+        currentHeight = ARM_FRONT_FLOOR;
+    else
+        currentHeight--;
+
+    setHeight(currentHeight);
+}
+
+void Arm::setOrientation(unsigned int orientation) {
+    switch (orientation) {
+        case ARM_BACK_LEFT:
+            elements.at(ARM1)->setPosition(-2.949);
+            break;
+        case ARM_LEFT:
+            elements.at(ARM1)->setPosition(-(M_PI / 2.0));
+            break;
+        case ARM_FRONT_LEFT:
+            elements.at(ARM1)->setPosition(-.2);
+            break;
+        case ARM_FRONT:
+            elements.at(ARM1)->setPosition(.0);
+            break;
+        case ARM_FRONT_RIGHT:
+            elements.at(ARM1)->setPosition(.2);
+            break;
+        case ARM_RIGHT:
+            elements.at(ARM1)->setPosition((M_PI / 2.0));
+            break;
+        case ARM_BACK_RIGHT:
+            elements.at(ARM1)->setPosition(2.949);
+            break;
+        default:
+            cout << "SetOrientation Bad argument" << endl;
+            break;
+    }
+}
+
+void Arm::increaseOrientation() {
+    currentOrientation++;
+
+    if (currentOrientation >= ARM_MAX_SIDE)
+        currentOrientation = ARM_MAX_SIDE - 1;
+
+    setOrientation(currentOrientation);
+}
+
+void Arm::decreaseOrientation() {
+    if (currentOrientation - 1 < 0)
+        currentOrientation = ARM_BACK_LEFT;
+    else
+        currentOrientation--;
+
+    setOrientation(currentOrientation);
+}
+
+void Arm::setSubRotation(unsigned int arm, double radian) {
+    elements.at(arm)->setPosition(radian);
+}

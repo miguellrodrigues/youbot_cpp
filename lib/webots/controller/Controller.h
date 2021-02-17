@@ -35,15 +35,15 @@ public:
 
     Device *getDeviceByName(string name);
 
-    double *getObjectPosition(string nodeDef);
+    double *getObjectPosition(const string& nodeDef);
 
-    double *getObjectRotation(string nodeDef);
+    double *getObjectRotation(const string& nodeDef);
 
-    void setObjectPosition(string nodeDef, double *position);
+    void setObjectPosition(const string& nodeDef, double *position);
 
-    void setObjectRotation(string nodeDef, double *rotation);
+    void setObjectRotation(const string& nodeDef, double *rotation);
 
-    double *getObjectVelocity(string nodeDef);
+    double *getObjectVelocity(const string& nodeDef);
 
     void setupMotors(double position);
 

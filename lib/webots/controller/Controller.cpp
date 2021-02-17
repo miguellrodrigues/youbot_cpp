@@ -123,7 +123,7 @@ Device *Controller::getDeviceByName(string name) {
     return nullptr;
 }
 
-double *Controller::getObjectPosition(string nodeDef) {
+double *Controller::getObjectPosition(const string& nodeDef) {
     auto robotNode = supervisor->getFromDef(nodeDef);
 
     auto translationField = robotNode->getField("translation");
@@ -131,7 +131,7 @@ double *Controller::getObjectPosition(string nodeDef) {
     return const_cast<double *>(translationField->getSFVec3f());
 }
 
-double *Controller::getObjectRotation(string nodeDef) {
+double *Controller::getObjectRotation(const string& nodeDef) {
     auto robotNode = supervisor->getFromDef(nodeDef);
 
     auto rotationField = robotNode->getField("rotation");
@@ -139,7 +139,7 @@ double *Controller::getObjectRotation(string nodeDef) {
     return const_cast<double *>(rotationField->getSFRotation());
 }
 
-void Controller::setObjectPosition(string nodeDef, double *position) {
+void Controller::setObjectPosition(const string& nodeDef, double *position) {
     auto robotNode = supervisor->getFromDef(nodeDef);
 
     auto translationField = robotNode->getField("translation");
@@ -147,7 +147,7 @@ void Controller::setObjectPosition(string nodeDef, double *position) {
     translationField->setSFVec3f(position);
 }
 
-void Controller::setObjectRotation(string nodeDef, double *rotation) {
+void Controller::setObjectRotation(const string& nodeDef, double *rotation) {
     auto robotNode = supervisor->getFromDef(nodeDef);
 
     auto rotationField = robotNode->getField("rotation");
@@ -155,7 +155,7 @@ void Controller::setObjectRotation(string nodeDef, double *rotation) {
     rotationField->setSFRotation(rotation);
 }
 
-double *Controller::getObjectVelocity(string nodeDef) {
+double *Controller::getObjectVelocity(const string& nodeDef) {
     return const_cast<double *>(getSupervisor()->getFromDef(nodeDef)->getVelocity());
 }
 

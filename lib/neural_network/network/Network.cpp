@@ -78,7 +78,7 @@ void Network::setRecurrentInput() {
     auto output = layers.at(topologySize - 1)->convertActivatedValues();
 
     for (unsigned int i = topology.at(0) - topology[topologySize - 1]; i < topology.at(0); ++i) {
-        this->layers.at(0)->setNeuronValue(i, output->getValue(i - 1, 0));
+        this->layers.at(0)->setNeuronValue(i, output->getValue(i - topology[topologySize - 1], 0));
     }
 }
 

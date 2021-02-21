@@ -37,8 +37,8 @@ public:
     vector<Matrix *> weightMatrices;
 
 private:
-    double learningRate = 0.0015;
-    double bias = 0.0005;
+    double learningRate = .0004;
+    double bias = .002;
 
     double fitness{};
 

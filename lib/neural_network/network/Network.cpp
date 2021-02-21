@@ -309,6 +309,9 @@ void Network::save() {
     }
 
     string topologyStr;
+
+    topology[0] -= topology[topologySize - 1];
+
     for (int i = 0; i < topologySize; ++i) {
         topologyStr.append(to_string(this->topology[i]));
         topologyStr.append("\n");

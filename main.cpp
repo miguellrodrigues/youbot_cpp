@@ -39,9 +39,13 @@ int main() {
         } else {
             double out = network.predict({angleError})[0];
 
-            double x = out * 6;
+            cout << out << endl;
+
+            double x = out * 10;
 
             youBot.setWheelsSpeed({-x, x, -x, x});
         }
     }
+
+    network.save();
 }

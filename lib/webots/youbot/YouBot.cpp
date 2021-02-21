@@ -4,6 +4,8 @@
 
 #include "YouBot.hpp"
 
+#include <utility>
+
 YouBot::YouBot(Controller *controller) {
     this->controller = controller;
 
@@ -75,7 +77,7 @@ void YouBot::gripRelease() {
 }
 
 void YouBot::setWheelsSpeed(vector<double> speeds) {
-    base->setWheelsSpeed(speeds);
+    base->setWheelsSpeed(std::move(speeds));
 }
 
 void YouBot::turnLeft() {

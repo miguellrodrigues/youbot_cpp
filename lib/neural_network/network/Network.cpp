@@ -4,6 +4,7 @@
 
 #include "Network.hpp"
 #include <cmath>
+#include <utility>
 #include <vector>
 #include <algorithm>
 #include <iostream>
@@ -41,12 +42,16 @@ Network::Network(unsigned int *topology, unsigned int topologySize) {
 
     this->topology.reserve(topologySize);
 
+    unsigned int input_neurons = (topology[0] + topology[topologySize - 1]);
+
     for (int i = 0; i < topologySize; ++i) {
         this->topology.push_back(topology[i]);
     }
 
+    this->topology.at(0) = input_neurons;
+
     for (unsigned int i = 0; i < topologySize; ++i) {
-        auto *layer = new Layer(topology[i]);
+        auto *layer = new Layer(this->topology.at(i));
 
         this->layers.push_back(layer);
     }
@@ -66,6 +71,14 @@ Network::Network(unsigned int *topology, unsigned int topologySize) {
 void Network::setCurrentInput(Matrix *matrix) {
     for (int i = 0; i < matrix->rows; ++i) {
         this->layers.at(0)->setNeuronValue(i, matrix->getValue(i, 0));
+    }
+}
+
+void Network::setRecurrentInput() {
+    auto output = layers.at(topologySize - 1)->convertActivatedValues();
+
+    for (unsigned int i = topology.at(0) - topology[topologySize - 1]; i < topology.at(0); ++i) {
+        this->layers.at(0)->setNeuronValue(i, output->getValue(i - 1, 0));
     }
 }
 
@@ -108,6 +121,7 @@ void Network::setErrors(Matrix *meta) {
     this->globalError = 0.0;
 
     vector<Neuron *> outputNeurons = this->layers.at(outputLayerIndex)->getNeurons();
+
     for (int i = 0; i < meta->rows; ++i) {
         double t = meta->getValue(i, 0);
         double y = outputNeurons.at(i)->getDerivedValue();
@@ -229,18 +243,25 @@ void Network::backPropagation() {
         this->weightMatrices.push_back(new Matrix(*weight));
         delete weight;
     }
+
+    setRecurrentInput();
 }
 
-void Network::train(Matrix *input, Matrix *meta) {
-    setCurrentInput(input);
+void Network::train(vector<double> input, vector<double> meta) {
+    auto inputMatrix = Matrix::vectorToMatrix(std::move(input));
+    auto metaMatrix = Matrix::vectorToMatrix(std::move(meta));
+
+    setCurrentInput(inputMatrix);
 
     feedForward();
-    setErrors(meta);
+    setErrors(metaMatrix);
     backPropagation();
 }
 
-double *Network::predict(Matrix *input) {
-    setCurrentInput(input);
+double *Network::predict(vector<double> input) {
+    auto inputMatrix = Matrix::vectorToMatrix(std::move(input));
+
+    setCurrentInput(inputMatrix);
     feedForward();
 
     double *out = this->layers.at(this->topologySize - 1)->convertActivatedValues()->matrixToArray();
@@ -256,7 +277,7 @@ void Network::assign(Network *other) {
 
 void Network::mutate(double rate) {
     if (Matrix::randomDouble(0.0, 1.0) < rate) {
-        for (auto & weightMatrix : this->weightMatrices) {
+        for (auto &weightMatrix : this->weightMatrices) {
             weightMatrix->map(mutateFunction);
         }
     }
@@ -282,7 +303,7 @@ void Network::crossOver(Network *father, Network *mother) {
 void Network::save() {
     string dataStr;
 
-    for (auto & weightMatrix : this->weightMatrices) {
+    for (auto &weightMatrix : this->weightMatrices) {
         dataStr.append(weightMatrix->matrixToString());
         dataStr.append("#\n");
     }
@@ -352,3 +373,4 @@ Network *Network::load() {
 
     return network;
 }
+

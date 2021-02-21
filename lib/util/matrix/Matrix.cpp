@@ -168,6 +168,16 @@ Matrix *Matrix::arrayToMatrix(double *array, unsigned int size) {
     return matrix;
 }
 
+Matrix *Matrix::vectorToMatrix(vector<double> vector) {
+    auto *matrix = new Matrix(vector.size(), 1, false);
+
+    for (int i = 0; i < vector.size(); ++i) {
+        matrix->setValue(i, 0, vector.at(i));
+    }
+
+    return matrix;
+}
+
 Matrix *Matrix::hadamard(Matrix *mx, Matrix *my) {
     auto *matrix = new Matrix(mx->rows, mx->cols, false);
 

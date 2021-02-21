@@ -14,9 +14,9 @@ class Network {
 public:
     Network(unsigned int *topology, unsigned int topologySize);
 
-    void train(Matrix *input, Matrix *meta);
+    void train(vector<double> input, vector<double> meta);
 
-    double *predict(Matrix *input);
+    double *predict(vector<double> input);
 
     double globalError = 0.0;
 
@@ -57,6 +57,8 @@ private:
     void setErrors(Matrix *meta);
 
     void backPropagation();
+
+    void setRecurrentInput();
 };
 
 

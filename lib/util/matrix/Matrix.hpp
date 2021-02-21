@@ -7,6 +7,7 @@
 
 
 #include <string>
+#include <vector>
 
 class Matrix {
 
@@ -42,6 +43,7 @@ public:
     double *matrixToArray() const;
 
     static Matrix *arrayToMatrix(double *array, unsigned int size);
+    static Matrix *vectorToMatrix(std::vector<double> vector);
 
     static Matrix *multiply(Matrix *mx, Matrix *my);
     static Matrix *hadamard(Matrix *mx, Matrix *my);
@@ -76,9 +78,6 @@ public:
 
     unsigned int rows{};
     unsigned int cols{};
-
-
-private:
 };
 
 

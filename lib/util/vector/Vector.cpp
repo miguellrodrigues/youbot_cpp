@@ -38,7 +38,7 @@ namespace lib
         return atan2(other.z - this->z, other.x - this->x);
     }
 
-    double Vector::dot(Vector other) {
+    double Vector::dot(Vector other) const {
         return this->x * other.x + this->y * other.y + this->z * other.z;
     }
 

@@ -10,7 +10,7 @@ class Pid {
 public:
     Pid(double kp, double ki, double kd, double saturation, double maxError);
 
-    double update(double err, double time);
+    double compute(double err, double time);
 
 private:
     double kp, ki, kd;

@@ -24,7 +24,7 @@ namespace lib {
 
         double differenceAngle(Vector other) const;
 
-        double dot(Vector other);
+        double dot(Vector other) const;
 
         void scalar(double value);
 

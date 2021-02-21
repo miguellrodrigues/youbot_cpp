@@ -17,12 +17,12 @@ Pid::Pid(double kp, double ki, double kd, double saturation, double maxError) {
     this->maxError = maxError;
 }
 
-double Pid::update(double err, double time) {
+double Pid::compute(double err, double time) {
     this->oldError = error;
     this->error = err;
 
-    if (out < saturation && out > -saturation) {
-        if (err < maxError && err > -maxError) {
+    if (-saturation < out < saturation) {
+        if (-maxError < err < maxError) {
             accumulator += ((err + oldError) / 2.0) * time;
         }
     }
@@ -32,8 +32,6 @@ double Pid::update(double err, double time) {
     double derivative = kd * (err - oldError) / time;
 
     double d = proportional + integral + derivative;
-
-    d = d > saturation ? saturation : d < -saturation ? -saturation : d;
 
     this->out = d;
 

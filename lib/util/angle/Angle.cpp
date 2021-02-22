@@ -19,7 +19,7 @@ Angle::Angle() {
     rotation_x->assign_matrix_array(reinterpret_cast<double *>(data));
 }
 
-Matrix *Angle::calculateMatrix(double *data) {
+Matrix &Angle::calculateMatrix(double *data) {
     auto *R = new Matrix(3, 3, false);
 
     double cosTheta = cos(data[3]);
@@ -33,7 +33,7 @@ Matrix *Angle::calculateMatrix(double *data) {
 
     R->assign_matrix_array(mx);
 
-    return R;
+    return *R;
 }
 
 double Angle::calculateAngle(double *data) {

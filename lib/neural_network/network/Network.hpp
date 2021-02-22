@@ -26,13 +26,13 @@ public:
 
     void mutate(double rate);
 
-    void assign(Network *other);
+    void assign(Network &other);
 
-    void crossOver(Network *father, Network *mother);
+    void crossOver(Network &father, Network &mother);
 
     void save();
 
-    static Network *load();
+    static Network &load();
 
     vector<Matrix *> weightMatrices;
 
@@ -50,11 +50,11 @@ private:
     vector<double> derivedErrors;
     vector<double> errors;
 
-    void setCurrentInput(Matrix *matrix);
+    void setCurrentInput(Matrix &matrix);
 
     void feedForward();
 
-    void setErrors(Matrix *meta);
+    void setErrors(Matrix &meta);
 
     void backPropagation();
 

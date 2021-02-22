@@ -12,7 +12,7 @@ class Angle {
 public:
     Angle();
 
-    static Matrix *calculateMatrix(double *data);
+    static Matrix &calculateMatrix(double *data);
 
     double calculateAngle(double *data);
 

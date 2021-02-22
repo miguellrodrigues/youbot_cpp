@@ -74,29 +74,29 @@ Matrix *Matrix::transpose() const {
     return matrix;
 }
 
-Matrix *Matrix::hadamard(Matrix *mx) const {
+Matrix *Matrix::hadamard(Matrix &mx) const {
     auto *matrix = new Matrix(this->rows, this->cols, false);
 
     for (int i = 0; i < this->rows; ++i) {
         for (int j = 0; j < this->cols; ++j) {
-            matrix->setValue(i, j, getValue(i, j) * mx->getValue(i, j));
+            matrix->setValue(i, j, getValue(i, j) * mx.getValue(i, j));
         }
     }
 
     return matrix;
 }
 
-Matrix *Matrix::multiply(Matrix *mx) const {
-    auto *matrix = new Matrix(this->rows, mx->cols, false);
+Matrix *Matrix::multiply(Matrix &mx) const {
+    auto *matrix = new Matrix(this->rows, mx.cols, false);
 
     double aux;
 
     for (int i = 0; i < this->rows; ++i) {
-        for (int j = 0; j < mx->cols; ++j) {
+        for (int j = 0; j < mx.cols; ++j) {
             aux = 0.0;
 
-            for (int l = 0; l < mx->rows; ++l) {
-                aux += getValue(i, l) * mx->getValue(l, j);
+            for (int l = 0; l < mx.rows; ++l) {
+                aux += getValue(i, l) * mx.getValue(l, j);
             }
 
             matrix->setValue(i, j, aux);
@@ -106,18 +106,18 @@ Matrix *Matrix::multiply(Matrix *mx) const {
     return matrix;
 }
 
-void Matrix::add(Matrix *mx) const {
+void Matrix::add(Matrix &mx) const {
     for (int i = 0; i < this->rows; ++i) {
         for (int j = 0; j < this->cols; ++j) {
-            setValue(i, j, getValue(i, j) + mx->getValue(i, j));
+            setValue(i, j, getValue(i, j) + mx.getValue(i, j));
         }
     }
 }
 
-void Matrix::subtract(Matrix *mx) const {
+void Matrix::subtract(Matrix &mx) const {
     for (int i = 0; i < this->rows; ++i) {
         for (int j = 0; j < this->cols; ++j) {
-            setValue(i, j, getValue(i, j) - mx->getValue(i, j));
+            setValue(i, j, getValue(i, j) - mx.getValue(i, j));
         }
     }
 }
@@ -178,29 +178,29 @@ Matrix *Matrix::vectorToMatrix(vector<double> vector) {
     return matrix;
 }
 
-Matrix *Matrix::hadamard(Matrix *mx, Matrix *my) {
-    auto *matrix = new Matrix(mx->rows, mx->cols, false);
+Matrix *Matrix::hadamard(Matrix &mx, Matrix &my) {
+    auto *matrix = new Matrix(mx.rows, mx.cols, false);
 
-    for (int i = 0; i < mx->rows; ++i) {
-        for (int j = 0; j < mx->cols; ++j) {
-            matrix->setValue(i, j, mx->getValue(i, j) * my->getValue(i, j));
+    for (int i = 0; i < mx.rows; ++i) {
+        for (int j = 0; j < mx.cols; ++j) {
+            matrix->setValue(i, j, mx.getValue(i, j) * my.getValue(i, j));
         }
     }
 
     return matrix;
 }
 
-Matrix *Matrix::multiply(Matrix *mx, Matrix *my) {
-    auto *matrix = new Matrix(mx->rows, my->cols, false);
+Matrix *Matrix::multiply(Matrix &mx, Matrix &my) {
+    auto *matrix = new Matrix(mx.rows, my.cols, false);
 
     double aux;
 
-    for (int i = 0; i < mx->rows; ++i) {
-        for (int j = 0; j < my->cols; ++j) {
+    for (int i = 0; i < mx.rows; ++i) {
+        for (int j = 0; j < my.cols; ++j) {
             aux = 0.0;
 
-            for (int l = 0; l < my->rows; ++l) {
-                aux += mx->getValue(i, l) * my->getValue(l, j);
+            for (int l = 0; l < my.rows; ++l) {
+                aux += mx.getValue(i, l) * my.getValue(l, j);
             }
 
             matrix->setValue(i, j, aux);
@@ -235,7 +235,7 @@ string Matrix::matrixToString() const {
     return dataStr;
 }
 
-Matrix *Matrix::operator+(Matrix *mx) const {
+Matrix *Matrix::operator+(Matrix &mx) const {
     Matrix *c = copy();
 
     c->add(mx);
@@ -243,7 +243,7 @@ Matrix *Matrix::operator+(Matrix *mx) const {
     return c;
 }
 
-Matrix *Matrix::operator-(Matrix *mx) const {
+Matrix *Matrix::operator-(Matrix &mx) const {
     Matrix *c = copy();
 
     c->subtract(mx);
@@ -251,7 +251,7 @@ Matrix *Matrix::operator-(Matrix *mx) const {
     return c;
 }
 
-Matrix *Matrix::operator*(Matrix *mx) const {
+Matrix *Matrix::operator*(Matrix &mx) const {
     Matrix *c = copy();
 
     c->multiply(mx);
@@ -275,15 +275,15 @@ Matrix *Matrix::operator/(double x) const {
     return c;
 }
 
-void Matrix::operator+=(Matrix *mx) const {
+void Matrix::operator+=(Matrix &mx) const {
     add(mx);
 }
 
-void Matrix::operator-=(Matrix *mx) const {
+void Matrix::operator-=(Matrix &mx) const {
     subtract(mx);
 }
 
-void Matrix::operator*=(Matrix *mx) const {
+void Matrix::operator*=(Matrix &mx) const {
     multiply(mx);
 }
 

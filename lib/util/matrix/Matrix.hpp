@@ -26,13 +26,13 @@ public:
 
     Matrix *transpose() const;
 
-    Matrix *hadamard(Matrix *mx) const;
+    Matrix *hadamard(Matrix &mx) const;
 
-    Matrix *multiply(Matrix *mx) const;
+    Matrix *multiply(Matrix &mx) const;
 
-    void add(Matrix *mx) const;
+    void add(Matrix &mx) const;
 
-    void subtract(Matrix *mx) const;
+    void subtract(Matrix &mx) const;
 
     void scalar(double x) const;
 
@@ -45,8 +45,8 @@ public:
     static Matrix *arrayToMatrix(double *array, unsigned int size);
     static Matrix *vectorToMatrix(std::vector<double> vector);
 
-    static Matrix *multiply(Matrix *mx, Matrix *my);
-    static Matrix *hadamard(Matrix *mx, Matrix *my);
+    static Matrix *multiply(Matrix &mx, Matrix &my);
+    static Matrix *hadamard(Matrix &mx, Matrix &my);
 
     void assign_matrix_array(double *array) const;
 
@@ -54,21 +54,21 @@ public:
 
     std::string matrixToString() const;
 
-    Matrix *operator+(Matrix *mx) const;
+    Matrix *operator+(Matrix &mx) const;
 
-    Matrix *operator-(Matrix *mx) const;
+    Matrix *operator-(Matrix &mx) const;
 
-    Matrix *operator*(Matrix *mx) const;
+    Matrix *operator*(Matrix &mx) const;
 
     Matrix *operator*(double x) const;
 
     Matrix *operator/(double x) const;
 
-    void operator+=(Matrix *mx) const;
+    void operator+=(Matrix &mx) const;
 
-    void operator-=(Matrix *mx) const;
+    void operator-=(Matrix &mx) const;
 
-    void operator*=(Matrix *mx) const;
+    void operator*=(Matrix &mx) const;
 
     void operator*=(double x) const;
 

@@ -10,17 +10,15 @@ double normalize(double r) {
 }
 
 int main() {
-    unsigned int topology[5] = { 2, 16, 32, 64, 2 };
+    unsigned int topology[5] = { 1, 16, 32, 64, 1 };
 
-    Network network(topology, 5);
+    //Network network(topology, 5);
+    Network network = Network::load();
 
     Controller controller(new Supervisor(), 14);
     YouBot youBot(&controller);
 
     Pid anglePid(8.0, .001, 2.6, 5.0, 0.1);
-    Pid distancePid(4.0, .01, 1.6, 5.0, 0.1);
-
-    double starttime, endtime = .0;
 
     while (controller.step() != -1) {
         double time = controller.getSupervisor()->getTime();
@@ -30,30 +28,31 @@ int main() {
         Vector bp = Vector(controller.getObjectPosition("box"));
 
         double angleError = normalize(youBotAngle + youBot.getPosition().differenceAngle(bp));
-        double distanceError = youBot.getPosition().distance(bp);
 
-        if (time > 0 && time < 15) {
+        double out = network.predict({angleError})[0];
+
+        cout << out << endl;
+
+        out *= 6;
+
+        youBot.setWheelsSpeed({-out, out, -out, out});
+
+        /*if (time > 0 && time < 15) {
             double out = anglePid.compute(angleError, .05);
-            double dOut = distancePid.compute(distanceError, .05);
 
-            double x = (out - dOut);
-            double y = (out + dOut);
+            youBot.setWheelsSpeed({-out, out, -out, out});
 
-            youBot.setWheelsSpeed({-x, y, -x, y});
-
-            network.train({angleError, distanceError}, {out, dOut});
+            network.train({angleError}, {out});
         } else {
-            double *out = network.predict({angleError, distanceError});
+            double out = network.predict({angleError})[0];
 
-            double a = out[0] * 6;
-            double b = out[1] * 6;
+            cout << out << endl;
 
-            double x = (a - b);
-            double y = (a + b);
+            out *= 6;
 
-            youBot.setWheelsSpeed({-x, y, -x, y});
-        }
+            youBot.setWheelsSpeed({-out, out, -out, out});
+        }*/
     }
 
-    network.save();
+    //network.save();
 }

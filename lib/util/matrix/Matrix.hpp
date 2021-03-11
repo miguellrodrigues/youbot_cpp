@@ -42,6 +42,8 @@ public:
 
     double *matrixToArray() const;
 
+    double *vectorize() const;
+
     static Matrix *arrayToMatrix(double *array, unsigned int size);
     static Matrix *vectorToMatrix(std::vector<double> vector);
 

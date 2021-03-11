@@ -3,6 +3,8 @@
 //
 
 #include "Matrix.hpp"
+#include "../../neural_network/cuda/matmul/MatUtil.cuh"
+#include "../../neural_network/cuda/dev_array.h"
 #include <cstdlib>
 #include <string>
 #include <random>
@@ -89,7 +91,32 @@ Matrix *Matrix::hadamard(Matrix &mx) const {
 Matrix *Matrix::multiply(Matrix &mx) const {
     auto *matrix = new Matrix(this->rows, mx.cols, false);
 
-    double aux;
+    unsigned int size = matrix->rows * matrix->cols;
+
+    auto a = this->vectorize();
+    auto b = mx.vectorize();
+    auto c = static_cast<double *>(malloc(sizeof(double) * size));
+
+    dev_array<double> d_A(size);
+    dev_array<double> d_B(size);
+    dev_array<double> d_C(size);
+
+    d_A.set(&a[0], size);
+    d_B.set(&b[0], size);
+
+    MatUtil::matrixMultiply(d_A.getData(), d_B.getData(), d_C.getData(), this->rows, this->cols, mx.cols);
+
+    cudaDeviceSynchronize();
+
+    d_C.get(&c[0], size);
+
+    for (unsigned int row = 0, count = 0; row < matrix->rows; row++) {
+        for (unsigned int col = 0; col < matrix->cols; ++col) {
+            matrix->setValue(row, col, c[count++]);
+        }
+    }
+
+    /*double aux;
 
     for (int i = 0; i < this->rows; ++i) {
         for (int j = 0; j < mx.cols; ++j) {
@@ -101,7 +128,7 @@ Matrix *Matrix::multiply(Matrix &mx) const {
 
             matrix->setValue(i, j, aux);
         }
-    }
+    }*/
 
     return matrix;
 }
@@ -303,4 +330,18 @@ void Matrix::assign_matrix_array(double *array) const {
             setValue(i, j, array[aux++]);
         }
     }
+}
+
+double *Matrix::vectorize() const {
+    unsigned int n = rows * cols;
+
+    auto *d = static_cast<double *>(malloc(sizeof(double) * n));
+
+    for (unsigned int i = 0, count = 0; i < rows; ++i) {
+        for (unsigned int j = 0; j < cols; ++j) {
+            d[count++] = getValue(i, j);
+        }
+    }
+
+    return d;
 }

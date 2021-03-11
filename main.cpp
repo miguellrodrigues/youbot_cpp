@@ -10,10 +10,10 @@ using namespace std;
 
 int main() {
 
-    //new Train({1, 8, 16, 16, 8, 3}, 5, 1000, 30);
+    new Train({1, 8, 16, 16, 8, 3}, 5, 1000, 30);
     //new Test();
 
-    int m = 2, n = 3, k = 2;
+    /*int m = 2, n = 3, k = 2;
 
     int size = 6;
 
@@ -60,7 +60,7 @@ int main() {
 
             cout << h_C[ROW * m + COL] << endl;
         }
-    }
+    }*/
 
 
     return 0;

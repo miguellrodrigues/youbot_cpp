@@ -3,11 +3,10 @@
 //
 
 #include "MatUtil.cuh"
-#include <stdio.h>
 
 #define BLOCK_SIZE 16
 
-__global__ void matrixMultiplyKernel(const double *a, const double *b, double *c, int m, int n, int k) {
+__global__ void matrixMultiplyKernel(const double *a, const double *b, double *c, unsigned int m, unsigned int n, unsigned int k) {
     unsigned int row = blockIdx.y * blockDim.y + threadIdx.y;
     unsigned int col = blockIdx.x * blockDim.x + threadIdx.x;
 
@@ -34,7 +33,7 @@ __global__ void matrixTransposeKernel(double *a, double *b, unsigned int rows, u
     }
 }
 
-void MatUtil::matrixMultiply(double *a, double *b, double *c, int m, int n, int k) {
+void MatUtil::matrixMultiply(double *a, double *b, double *c, unsigned int m, unsigned int n, unsigned int k) {
     dim3 dimGrid((k + BLOCK_SIZE - 1) / BLOCK_SIZE, (m + BLOCK_SIZE - 1) / BLOCK_SIZE);
     dim3 dimBlock(BLOCK_SIZE, BLOCK_SIZE);
 

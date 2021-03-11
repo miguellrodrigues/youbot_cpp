@@ -8,7 +8,7 @@
 
 class MatUtil {
 public:
-    static void matrixMultiply(double *a, double *b, double *c, int m, int n, int k);
+    static void matrixMultiply(double *a, double *b, double *c, unsigned int m, unsigned int n, unsigned int k);
 
     static void matrixTranspose(double *a, double *b, unsigned int rows, unsigned int cols);
 };

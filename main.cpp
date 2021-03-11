@@ -2,7 +2,7 @@
 #include "include/Test.hpp"
 
 #include "lib/neural_network/cuda/dev_array.h"
-#include "lib/neural_network/cuda/matmul/Matmul.cuh"
+#include "lib/neural_network/cuda/matmul/MatUtil.cuh"
 #include <vector>
 #include <iostream>
 
@@ -48,7 +48,7 @@ int main() {
     d_A.set(&h_A[0], size);
     d_B.set(&h_B[0], size);
 
-    Matmul::matrixMultiply(d_A.getData(), d_B.getData(), d_C.getData(), 2, 3, 2);
+    MatUtil::matrixMultiply(d_A.getData(), d_B.getData(), d_C.getData(), 2, 3, 2);
 
     cudaDeviceSynchronize();
 

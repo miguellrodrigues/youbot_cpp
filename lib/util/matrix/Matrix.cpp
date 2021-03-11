@@ -32,7 +32,7 @@ Matrix::Matrix(unsigned int rows, unsigned int cols, bool isRandom) : rows(rows)
     if (isRandom) {
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
-                this->data[i][j] = randomDouble(-.701, .701);
+                this->data[i][j] = randomDouble(-.501, .501);
             }
         }
     } else {
@@ -106,18 +106,18 @@ Matrix *Matrix::multiply(Matrix &mx) const {
     double *h_c;
     cudaMallocHost((void **) &h_c, sizeof (double) * size_c);
 
-    dev_array<double> d_A(size_a);
-    dev_array<double> d_B(size_b);
-    dev_array<double> d_C(size_c);
+    double *d_a, *d_b, *d_c;
 
-    d_A.set(a, size_a);
-    d_B.set(b, size_b);
+    cudaMalloc((void **) &d_a, sizeof (double) * size_a);
+    cudaMalloc((void **) &d_b, sizeof (double) * size_b);
+    cudaMalloc((void **) &d_c, sizeof (double) * size_c);
 
-    MatUtil::matrixMultiply(d_A.getData(), d_B.getData(), d_C.getData(), this->rows, this->cols, mx.cols);
+    cudaMemcpy(d_a, a, sizeof (double) * size_a, cudaMemcpyHostToDevice);
+    cudaMemcpy(d_b, b, sizeof (double) * size_b, cudaMemcpyHostToDevice);
 
-    cudaDeviceSynchronize();
+    MatUtil::matrixMultiply(d_a, d_b, d_c, this->rows, this->cols, mx.cols);
 
-    d_C.get(h_c, size_c);
+    cudaMemcpy(h_c, d_c, sizeof (double) * size_c, cudaMemcpyDeviceToHost);
 
     cudaDeviceSynchronize();
 
@@ -128,6 +128,10 @@ Matrix *Matrix::multiply(Matrix &mx) const {
     }
 
     cudaFreeHost(h_c);
+
+    cudaFree(d_a);
+    cudaFree(d_b);
+    cudaFree(d_c);
 
     return matrix;
 }

@@ -10,9 +10,9 @@ __global__ void matrixMultiplyKernel(const double *a, const double *b, double *c
     unsigned int row = blockIdx.y * blockDim.y + threadIdx.y;
     unsigned int col = blockIdx.x * blockDim.x + threadIdx.x;
 
-    double aux = 0;
-
     if (row < m && col < k) {
+        double aux = .0;
+
         for (int i = 0; i < n; i++) {
             aux += a[row * n + i] * b[i * k + col];
         }
@@ -23,7 +23,7 @@ __global__ void matrixMultiplyKernel(const double *a, const double *b, double *c
     }
 }
 
-__global__ void matrixTransposeKernel(double *a, double *b, unsigned int rows, unsigned int cols) {
+__global__ void matrixTransposeKernel(const double *a, double *b, unsigned int rows, unsigned int cols) {
     unsigned int idx = blockIdx.x * blockDim.x + threadIdx.x;
     unsigned int idy = blockIdx.y * blockDim.y + threadIdx.y;
 

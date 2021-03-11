@@ -16,7 +16,7 @@ using namespace std;
 using json = nlohmann::json;
 
 double mutateFunction(double x) {
-    return x + Matrix::randomDouble(-.1, .1);
+    return x + Matrix::randomDouble(-1.0, 1.0);
 }
 
 Network::Network(unsigned int *topology, unsigned int topologySize) {

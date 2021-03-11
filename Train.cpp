@@ -31,10 +31,10 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
     auto initialPosition = center;
 
     double  angle          = .0,
-            comp           = .02,
+            comp           = .009,
             max_velocity   = 10.0,
             last_time      = .0,
-            target_fitness = .0001;
+            target_fitness = .001;
 
     vector<Network *> networks;
     vector<double> errors;
@@ -61,9 +61,9 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
 
         angle += comp;
 
-        if (angle > 1 * M_PI || angle < -(1 * M_PI)) {
+        /*if (angle > 1 * M_PI || angle < -(1 * M_PI)) {
             comp *= -1;
-        }
+        }*/
 
         double x = 0.8 * cos(angle);
         double z = 0.8 * sin(angle);

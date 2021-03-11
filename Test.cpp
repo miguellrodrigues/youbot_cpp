@@ -11,7 +11,7 @@ Test::Test() {
     Controller controller(new Supervisor(), 14);
     YouBot youBot(&controller);
 
-    double max_velocity   = 12.0;
+    double max_velocity   = 10.0;
 
     auto network = Network::load();
 

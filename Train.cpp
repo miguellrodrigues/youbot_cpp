@@ -31,8 +31,8 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
     auto initialPosition = center;
 
     double  angle          = .0,
-            comp           = .01,
-            max_velocity   = 6.0,
+            comp           = .02,
+            max_velocity   = 10.0,
             last_time      = .0,
             target_fitness = .0001;
 

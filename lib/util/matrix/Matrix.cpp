@@ -127,10 +127,6 @@ Matrix *Matrix::multiply(Matrix &mx) const {
         }
     }
 
-    cudaFree(d_A.getData());
-    cudaFree(d_B.getData());
-    cudaFree(d_C.getData());
-
     cudaFreeHost(h_c);
 
     return matrix;

@@ -36,7 +36,9 @@ set(SOURCES ${C_SOURCES} ${CPP_SOURCES}
         lib/webots/youbot/YouBot.cpp
         lib/webots/youbot/YouBot.hpp
         lib/util/angle/Angle.cpp
-        lib/util/angle/Angle.hpp)
+        lib/util/angle/Angle.hpp
+        include/Train.hpp
+        include/Test.hpp)
 
 add_subdirectory(nlohmann_json)
 

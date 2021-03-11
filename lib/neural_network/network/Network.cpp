@@ -9,7 +9,6 @@
 #include <algorithm>
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include <iomanip>
 #include "nlohmann/json.hpp"
 
@@ -18,26 +17,6 @@ using json = nlohmann::json;
 
 double mutateFunction(double x) {
     return x + Matrix::randomDouble(-.1, .1);
-}
-
-vector<string> breakString(string s) {
-    s.append(":");
-
-    vector<string> parts;
-
-    parts.reserve(10);
-
-    string delimiter = ":";
-
-    size_t pos;
-    string token;
-    while ((pos = s.find(delimiter)) != string::npos) {
-        token = s.substr(0, pos);
-        parts.push_back(token);
-        s.erase(0, pos + delimiter.length());
-    }
-
-    return parts;
 }
 
 Network::Network(unsigned int *topology, unsigned int topologySize) {
@@ -312,7 +291,10 @@ void Network::save() {
     data["weight_matrices"] = this->vectorizeWeightMatrices();
 
     std::ofstream o("network.json");
+
     o << std::setw(4) << data << endl;
+
+    o.close();
 }
 
 Network &Network::load() {
@@ -321,6 +303,8 @@ Network &Network::load() {
     json data;
 
     ifs >> data;
+
+    ifs.close();
 
     vector<unsigned int> topology = data["topology"];
     vector<vector<double>> weightMatrices = data["weight_matrices"];

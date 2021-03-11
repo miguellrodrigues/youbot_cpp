@@ -36,9 +36,9 @@ public:
 
     vector<Matrix *> weightMatrices;
 
+    double bias = .02;
 private:
     double learningRate = .0001;
-    double bias = .02;
 
     double fitness = .0;
 
@@ -64,4 +64,4 @@ private:
 };
 
 
-#endif //REDENEURAL_NETWORK_HPP
+#endif

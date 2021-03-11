@@ -32,7 +32,7 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
 
     double  angle          = .0,
             comp           = .001,
-            max_velocity   = 10.0,
+            max_velocity   = 14.0,
             last_time      = .0,
             target_fitness = .001;
 

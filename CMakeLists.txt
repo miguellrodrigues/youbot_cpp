@@ -6,7 +6,7 @@ set(JSON_BuildTests OFF CACHE INTERNAL "")
 # Setup the project.
 # Its name is defined to be the controller directory name.
 get_filename_component(PROJECT ${CMAKE_SOURCE_DIR} NAME)
-project(${PROJECT})
+project(${PROJECT} LANGUAGES CXX CUDA)
 
 # Get C or C++ sources in the current directory (only).
 file(GLOB C_SOURCES *.c)
@@ -38,7 +38,7 @@ set(SOURCES ${C_SOURCES} ${CPP_SOURCES}
         lib/util/angle/Angle.cpp
         lib/util/angle/Angle.hpp
         include/Train.hpp
-        include/Test.hpp)
+        include/Test.hpp lib/neural_network/cuda/matmul/Matmul.cu lib/neural_network/cuda/matmul/Matmul.cuh lib/neural_network/cuda/dev_array.h)
 
 add_subdirectory(nlohmann_json)
 
@@ -51,6 +51,8 @@ include_directories(/usr/local/webots/lib/controller /usr/local/webots/include/c
 # Setup the target executable.
 add_executable(${PROJECT} ${SOURCES})
 target_link_libraries(${PROJECT} ${LIBRARIES})
+
+set_target_properties(${PROJECT} PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
 
 # Copy the target executable at the right location.
 add_custom_command(TARGET ${PROJECT} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/${PROJECT} ${CMAKE_SOURCE_DIR})

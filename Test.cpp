@@ -11,7 +11,7 @@ Test::Test() {
     Controller controller(new Supervisor(), 14);
     YouBot youBot(&controller);
 
-    double max_velocity   = 4.0;
+    double max_velocity   = 12.0;
 
     auto network = Network::load();
 
@@ -26,6 +26,8 @@ Test::Test() {
         double angle_error = nm(youBotRotationAngle + theta);
 
         auto output = network.predict({angle_error});
+
+        cout << angle_error << endl;
 
         if (output[0] > 0) {
             youBot.setWheelsSpeed({-max_velocity, max_velocity, -max_velocity, max_velocity});

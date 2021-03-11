@@ -10,8 +10,11 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <iomanip>
+#include "nlohmann/json.hpp"
 
 using namespace std;
+using json = nlohmann::json;
 
 double mutateFunction(double x) {
     return x + Matrix::randomDouble(-.1, .1);
@@ -42,13 +45,9 @@ Network::Network(unsigned int *topology, unsigned int topologySize) {
 
     this->topology.reserve(topologySize);
 
-    //unsigned int input_neurons = (topology[0] + topology[topologySize - 1]);
-
     for (int i = 0; i < topologySize; ++i) {
         this->topology.push_back(topology[i]);
     }
-
-    //this->topology.at(0) = input_neurons;
 
     for (unsigned int i = 0; i < topologySize; ++i) {
         auto *layer = new Layer(this->topology.at(i));
@@ -301,79 +300,63 @@ void Network::crossOver(Network &father, Network &mother) {
 }
 
 void Network::save() {
-    string dataStr;
+    json data;
 
-    for (auto &weightMatrix : this->weightMatrices) {
-        dataStr.append(weightMatrix->matrixToString());
-        dataStr.append("#\n");
-    }
+    vector<vector<double>> a;
 
-    string topologyStr;
+    vector<double> b = {1, 2, 3, 4, 5, 6};
 
-    topology[0] -= topology[topologySize - 1];
+    a.push_back(b);
 
-    for (int i = 0; i < topologySize; ++i) {
-        topologyStr.append(to_string(this->topology[i]));
-        topologyStr.append("\n");
-    }
+    data["topology"] = this->topology;
+    data["weight_matrices"] = this->vectorizeWeightMatrices();
 
-    ofstream weights, topologyStream;
-
-    topologyStream.open("network_topology.txt", ios::out);
-    weights.open("network_weights.txt", ios::out);
-
-    weights << dataStr;
-    topologyStream << topologyStr;
-
-    weights.close();
-    topologyStream.close();
+    std::ofstream o("network.json");
+    o << std::setw(4) << data << endl;
 }
 
 Network &Network::load() {
-    unsigned int topologySize = 0;
-    auto *topology = static_cast<unsigned int *>(malloc(sizeof(int) * 15));
+    std::ifstream ifs("network.json");
 
-    ifstream iftopology("network_topology.txt");
+    json data;
 
-    string topologyline;
+    ifs >> data;
 
-    while (getline(iftopology, topologyline)) {
-        istringstream iss(topologyline);
+    vector<unsigned int> topology = data["topology"];
+    vector<vector<double>> weightMatrices = data["weight_matrices"];
 
-        topology[topologySize] = stoi(topologyline);
+    auto network = new Network(topology.data(), topology.size());
 
-        topologySize++;
-    }
+    for (unsigned int i = 0; i < network->weightMatrices.size(); i++) {
+        auto matrix = network->weightMatrices.at(i);
+        auto json_matrix = weightMatrices.at(i);
 
-    topology = static_cast<unsigned int *>(realloc(topology, sizeof(int) * topologySize));
-
-    auto *network = new Network(topology, topologySize);
-
-    ifstream ifweights("network_weights.txt");
-
-    string line;
-    int currentMatrix = 0;
-
-    vector<Matrix *> weights;
-
-    while (getline(ifweights, line)) {
-        std::istringstream iss(line);
-
-        if (line.c_str()[0] == '#') {
-            currentMatrix++;
-            continue;
+        unsigned int count = 0;
+        for (unsigned int j = 0; j < matrix->rows; ++j) {
+            for (unsigned int k = 0; k < matrix->cols; ++k) {
+                matrix->setValue(j, k, json_matrix.at(count++));
+            }
         }
-
-        vector<string> split = breakString(line);
-
-        double currentValue = stod(split.at(0));
-
-        int posI = stoi(split.at(1));
-        int posJ = stoi(split.at(2));
-
-        network->weightMatrices.at(currentMatrix)->setValue(posI, posJ, currentValue);
     }
 
     return *network;
+}
+
+vector<vector<double>> Network::vectorizeWeightMatrices() {
+    vector<vector<double>> data;
+
+    for (auto &matrix : this->weightMatrices) {
+        vector<double> x;
+
+        for (unsigned int i = 0; i < matrix->rows; i++) {
+            for (unsigned int j = 0; j < matrix->cols; j++) {
+                x.push_back(matrix->getValue(i, j));
+            }
+        }
+
+        data.push_back(x);
+    }
+
+    return data;
 }
 

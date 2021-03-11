@@ -59,6 +59,8 @@ private:
     void backPropagation();
 
     void setRecurrentInput();
+
+    vector<vector<double>> vectorizeWeightMatrices();
 };
 
 

@@ -39,6 +39,8 @@ int main() {
 
     cout << "Geracao " << count << " De " << max_generations << endl;
 
+    Network::load();
+
     while (controller.step() != -1) {
         double time = controller.getSupervisor()->getTime();
 

@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 11)
+set(JSON_BuildTests OFF CACHE INTERNAL "")
 
 # Setup the project.
 # Its name is defined to be the controller directory name.
@@ -37,10 +38,13 @@ set(SOURCES ${C_SOURCES} ${CPP_SOURCES}
         lib/util/angle/Angle.cpp
         lib/util/angle/Angle.hpp)
 
+add_subdirectory(nlohmann_json)
+
 # Link with the Webots controller library.
 link_directories(/usr/local/webots/lib/controller)
-set(LIBRARIES /usr/local/webots/lib/controller/libController.so Controller${CMAKE_SHARED_LIBRARY_SUFFIX} ${CMAKE_SHARED_LIBRARY_PREFIX}CppController${CMAKE_SHARED_LIBRARY_SUFFIX})
+set(LIBRARIES /usr/local/webots/lib/controller/libController.so Controller${CMAKE_SHARED_LIBRARY_SUFFIX} ${CMAKE_SHARED_LIBRARY_PREFIX}CppController${CMAKE_SHARED_LIBRARY_SUFFIX} nlohmann_json)
 include_directories(/usr/local/webots/lib/controller /usr/local/webots/include/controller/c /usr/local/webots/include/controller/cpp)
+
 
 # Setup the target executable.
 add_executable(${PROJECT} ${SOURCES})

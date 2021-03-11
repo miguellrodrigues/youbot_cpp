@@ -60,7 +60,7 @@ namespace lib {
         }
 
     private:
-        double data[3];
+        double data[3]{};
 
         double x;
         double y;

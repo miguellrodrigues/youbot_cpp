@@ -5,7 +5,7 @@ using namespace std;
 
 int main() {
 
-    new Train({1, 8, 16, 16, 8, 3}, 5, 1000, 20);
+    new Train({1, 8, 16, 16, 8, 3}, 5, 1000, 10);
     //new Test();
 
     /*int m = 2, n = 3, k = 2;

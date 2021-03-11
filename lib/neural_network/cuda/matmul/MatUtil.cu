@@ -18,6 +18,8 @@ __global__ void matrixMultiplyKernel(const double *a, const double *b, double *c
         }
 
         c[row * k + col] = aux;
+
+        __syncthreads();
     }
 }
 

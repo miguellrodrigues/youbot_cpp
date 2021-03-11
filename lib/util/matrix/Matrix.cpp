@@ -96,36 +96,28 @@ Matrix *Matrix::multiply(Matrix &mx) const {
 
     auto *matrix = new Matrix(this->rows, mx.cols, false);
 
-    unsigned int size = this->rows * mx.cols;
+    unsigned int size_a = this->rows * this->cols,
+                 size_b = mx.rows * mx.cols,
+                 size_c = this->rows * mx.cols;
 
-    vector<double> h_a(this->rows * this->cols);
-    vector<double> h_b(mx.rows * mx.cols);
-    vector<double> h_c(matrix->rows * matrix->cols);
+    double *a = this->vectorize();
+    double *b = mx.vectorize();
 
-    for (unsigned int i = 0; i < this->rows; ++i) {
-        for (unsigned int j = 0; j < this->cols; ++j) {
-            h_a[i * this->cols + j] = getValue(i, j);
-        }
-    }
+    double *h_c;
+    cudaMallocHost((void **) &h_c, sizeof (double) * size_c);
 
-    for (unsigned int i = 0; i < this->cols; ++i) {
-        for (unsigned int j = 0; j < mx.cols; ++j) {
-            h_b[i * mx.cols + j] = mx.getValue(i, j);
-        }
-    }
+    dev_array<double> d_A(size_a);
+    dev_array<double> d_B(size_b);
+    dev_array<double> d_C(size_c);
 
-    dev_array<double> d_A(size);
-    dev_array<double> d_B(size);
-    dev_array<double> d_C(size);
-
-    d_A.set(&h_a[0], size);
-    d_B.set(&h_b[0], size);
+    d_A.set(a, size_a);
+    d_B.set(b, size_b);
 
     MatUtil::matrixMultiply(d_A.getData(), d_B.getData(), d_C.getData(), this->rows, this->cols, mx.cols);
 
     cudaDeviceSynchronize();
 
-    d_C.get(&h_c[0], size);
+    d_C.get(h_c, size_c);
 
     cudaDeviceSynchronize();
 
@@ -139,29 +131,7 @@ Matrix *Matrix::multiply(Matrix &mx) const {
     cudaFree(d_B.getData());
     cudaFree(d_C.getData());
 
-    /*auto *proof = new Matrix(this->rows, mx.cols, false);
-
-    double aux;
-
-    for (int i = 0; i < this->rows; ++i) {
-        for (int j = 0; j < mx.cols; ++j) {
-            aux = 0.0;
-
-            for (int l = 0; l < mx.rows; ++l) {
-                aux += getValue(i, l) * mx.getValue(l, j);
-            }
-
-            proof->setValue(i, j, aux);
-        }
-    }
-
-    matrix->printToConsole();
-
-    cout << " " << endl;
-
-    proof->printToConsole();
-
-    cout << " " << endl;*/
+    cudaFreeHost(h_c);
 
     return matrix;
 }
@@ -251,7 +221,7 @@ Matrix *Matrix::hadamard(Matrix &mx, Matrix &my) {
 }
 
 Matrix *Matrix::multiply(Matrix &mx, Matrix &my) {
-    if (mx.cols != my.rows) {
+    /*if (mx.cols != my.rows) {
         cout << "bad arguments" << endl;
         return nullptr;
     }
@@ -270,11 +240,8 @@ Matrix *Matrix::multiply(Matrix &mx, Matrix &my) {
 
             proof->setValue(i, j, aux);
         }
-    }
-
-    auto matrix = mx.multiply(my);
-
-    return matrix;
+    }*/
+    return mx.multiply(my);
 }
 
 void Matrix::printToConsole() const {

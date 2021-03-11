@@ -15,6 +15,8 @@ class Controller {
 public:
     explicit Controller(Supervisor *supervisor, unsigned int samplingRate);
 
+    ~Controller();
+
     double step();
 
     Supervisor *getSupervisor();

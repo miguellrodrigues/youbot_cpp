@@ -16,13 +16,12 @@ public:
         ARM_FRONT_PLATE,
         ARM_HANOI_PREPARE,
         ARM_FRONT_CARDBOARD_BOX,
-        ARM_RESET ,
+        ARM_RESET,
         ARM_BACK_PLATE_HIGH,
         ARM_BACK_PLATE_LOW ,
         ARM_FRONT_TABLE_BOX,
         ARM_PREPARE_LAUNCH,
         ARM_LAUNCH,
-        ARM_ALIGNING,
         ARM_MAX_HEIGHT,
     };
 
@@ -45,7 +44,7 @@ public:
         ARM5
     };
 
-    Arm(Controller *controller);
+    explicit Arm(Controller *controller);
 
     void setArmsPosition(vector<Arms> arms, vector<double> positions);
 
@@ -83,7 +82,7 @@ public:
 private:
     const unsigned int ARMS_SIZE = 5;
 
-    unsigned int currentHeight = 0;
+    int currentHeight = 0;
     unsigned int currentOrientation = 0;
 
     Controller *controller;

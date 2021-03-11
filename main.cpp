@@ -1,58 +1,136 @@
-#include "lib/neural_network/network/Network.hpp"
-#include "lib/webots/controller/Controller.hpp"
+#include <algorithm>
 #include "lib/webots/youbot/YouBot.hpp"
-#include "lib/util/pid/Pid.hpp"
+#include "lib/neural_network/network/Network.hpp"
 
 using namespace std;
 
-double normalize(double r) {
-    return atan2(sin(r), cos(r));
+double normalize(double d) {
+    return atan2(sin(d), cos(d));
 }
 
 int main() {
-    unsigned int topology[5] = { 1, 16, 32, 64, 1 };
+    vector<unsigned int> topology = {1, 8, 16, 16, 8, 1};
 
-    //Network network(topology, 5);
-    Network network = Network::load();
-
-    Controller controller(new Supervisor(), 14);
+    Controller controller(new Supervisor(), 50);
     YouBot youBot(&controller);
 
-    Pid anglePid(8.0, .001, 2.6, 5.0, 0.1);
+    auto center = youBot.getPosition();
+    auto initialPosition = center;
+
+    double angle          = .0,
+            comp           = .005,
+            last_time      = .0,
+            target_fitness = .001;
+
+    vector<Network *> networks;
+    vector<double> errors;
+
+    unsigned int max_per_generation = 10,
+            max_generations    = 1000,
+            count              = 0,
+            current            = 0,
+            time_interval      = 10;
+
+    for (unsigned int i = 0; i < max_per_generation; ++i) {
+        networks.push_back(new Network(topology.data(), topology.size()));
+    }
+
+    auto network = networks.at(0);
+
+    cout << "Geracao " << count << " De " << max_generations << endl;
 
     while (controller.step() != -1) {
         double time = controller.getSupervisor()->getTime();
 
-        double youBotAngle = youBot.getRotationAngle();
+        auto youBotPosition = youBot.getPosition();
+        auto youBotRotationAngle = youBot.getRotationAngle();
 
-        Vector bp = Vector(controller.getObjectPosition("box"));
+        angle += comp;
 
-        double angleError = normalize(youBotAngle + youBot.getPosition().differenceAngle(bp));
+        double x = 0.8 * cos(angle);
+        double z = 0.8 * sin(angle);
 
-        double out = network.predict({angleError})[0];
+        center.add(Vector(x, .0, z));
 
-        cout << out << endl;
+        controller.setObjectPosition("box", center.getValues());
 
-        out *= 6;
+        double theta = youBotPosition.differenceAngle(center);
 
-        youBot.setWheelsSpeed({-out, out, -out, out});
+        center.subtract(Vector(x, .0, z));
 
-        /*if (time > 0 && time < 15) {
-            double out = anglePid.compute(angleError, .05);
+        double angle_error = normalize(youBotRotationAngle + theta);
 
-            youBot.setWheelsSpeed({-out, out, -out, out});
+        errors.push_back(angle_error);
 
-            network.train({angleError}, {out});
-        } else {
-            double out = network.predict({angleError})[0];
+        if (time > last_time + 1 && (int) time % time_interval == 0) {
+            last_time = time;
 
-            cout << out << endl;
+            if (count < max_generations) {
+                double sum_errors = .0;
 
-            out *= 6;
+                for (auto &err : errors) {
+                    sum_errors += abs(err);
+                }
 
-            youBot.setWheelsSpeed({-out, out, -out, out});
-        }*/
+                double fitness = (sum_errors / errors.size()) + initialPosition.distance(youBotPosition);
+                double fitness_error = 0.5 * pow(target_fitness - fitness, 2.0);
+
+                errors.clear();
+
+                if (fitness_error <= target_fitness)
+                    break;
+
+                network->setFitness(fitness);
+
+                controller.setObjectPosition("youBot", initialPosition.getValues());
+
+                cout << "Individuo " << current << " Fitness " << network->getFitness() << " Fit Err " << fitness_error << endl;
+
+                current += 1;
+
+                if (current == networks.size()) {
+                    count += 1;
+
+                    sort(networks.begin(), networks.end(), [](Network *one, Network *two) {
+                        return one->getFitness() < two->getFitness();
+                    });
+
+                    double best_fitness = networks[0]->getFitness();
+
+                    auto father = networks.at(0);
+                    auto mother = networks.at(1);
+
+                    networks.clear();
+
+                    for (unsigned int i = 0; i < max_per_generation; ++i) {
+                        auto net = new Network(topology.data(), topology.size());
+
+                        net->crossOver(*father, *mother);
+
+                        net->mutate(.3);
+
+                        networks.push_back(net);
+                    }
+
+                    cout << "Best Fitness: " << best_fitness << endl;
+
+                    cout << "Geracao " << count << " De " << max_generations << endl;
+
+                    current = 0;
+                }
+
+                network = networks.at(current);
+            }
+        }
+
+        auto output = network->predict({angle_error});
+
+        double speed = output[0] * 12;
+
+        youBot.setWheelsSpeed({-speed, speed, -speed, speed});
     }
 
-    //network.save();
+    return 0;
 }
+
+

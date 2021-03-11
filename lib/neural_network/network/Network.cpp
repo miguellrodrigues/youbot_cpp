@@ -14,7 +14,7 @@
 using namespace std;
 
 double mutateFunction(double x) {
-    return x + Matrix::randomDouble(Matrix::randomDouble(-10.0, 10.0), Matrix::randomDouble(-10.0, 10.0));
+    return x + Matrix::randomDouble(-.1, .1);
 }
 
 vector<string> breakString(string s) {
@@ -42,13 +42,13 @@ Network::Network(unsigned int *topology, unsigned int topologySize) {
 
     this->topology.reserve(topologySize);
 
-    unsigned int input_neurons = (topology[0] + topology[topologySize - 1]);
+    //unsigned int input_neurons = (topology[0] + topology[topologySize - 1]);
 
     for (int i = 0; i < topologySize; ++i) {
         this->topology.push_back(topology[i]);
     }
 
-    this->topology.at(0) = input_neurons;
+    //this->topology.at(0) = input_neurons;
 
     for (unsigned int i = 0; i < topologySize; ++i) {
         auto *layer = new Layer(this->topology.at(i));
@@ -244,7 +244,7 @@ void Network::backPropagation() {
         delete weight;
     }
 
-    setRecurrentInput();
+    //setRecurrentInput();
 }
 
 void Network::train(vector<double> input, vector<double> meta) {

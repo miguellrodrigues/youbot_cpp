@@ -37,10 +37,10 @@ public:
     vector<Matrix *> weightMatrices;
 
 private:
-    double learningRate = .0004;
-    double bias = .002;
+    double learningRate = .0001;
+    double bias = .02;
 
-    double fitness{};
+    double fitness = .0;
 
     unsigned int topologySize{};
     vector<unsigned int> topology;

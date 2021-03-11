@@ -5,6 +5,11 @@
 #ifndef YOUBOT_CPP_VECTOR_HPP
 #define YOUBOT_CPP_VECTOR_HPP
 
+#include <vector>
+#include <cstdlib>
+
+using std::vector;
+
 namespace lib {
     class Vector {
     public:
@@ -12,29 +17,29 @@ namespace lib {
 
         explicit Vector(const double *values);
 
-        double length();
+        double length() const;
 
         double lengthSquared() const;
 
-        double distance(Vector other) const;
+        double distance(const Vector& other) const;
 
-        double distanceSquared(Vector other) const;
+        double distanceSquared(const Vector& other) const;
 
-        double angle(Vector other);
+        double angle(const Vector& other);
 
-        double differenceAngle(Vector other) const;
+        double differenceAngle(const Vector& other) const;
 
-        double dot(Vector other) const;
+        double dot(const Vector& other) const;
 
         void scalar(double value);
 
-        void add(Vector other);
+        void add(const Vector& other);
 
-        void subtract(Vector other);
+        void subtract(const Vector& other);
 
         void multiply(Vector other);
 
-        void update(const double *values);
+        void update(const double *data);
 
         double getX() { return this->x; }
 
@@ -42,11 +47,21 @@ namespace lib {
 
         double getZ() { return this->z; }
 
-        Vector *midPoint(Vector other);
+        Vector *midPoint(const Vector& other);
 
         Vector clone() const;
 
+        double * getValues() {
+            data[0] = this->x;
+            data[1] = this->y;
+            data[2] = this->z;
+
+            return this->data;
+        }
+
     private:
+        double data[3];
+
         double x;
         double y;
         double z;

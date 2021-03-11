@@ -32,6 +32,8 @@ public:
 
     void setArmHeight(unsigned int height);
 
+    void setArmsPosition(vector<Arm::Arms> arms, vector<double> positions);
+
     void increaseArmHeight();
 
     void decreaseArmHeight();

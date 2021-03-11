@@ -30,7 +30,7 @@ Matrix::Matrix(unsigned int rows, unsigned int cols, bool isRandom) : rows(rows)
     if (isRandom) {
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
-                this->data[i][j] = randomDouble(-.501, .501);
+                this->data[i][j] = randomDouble(-.701, .701);
             }
         }
     } else {

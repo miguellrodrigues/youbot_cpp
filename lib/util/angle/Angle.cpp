@@ -8,7 +8,7 @@
 Angle::Angle() {
     rotation_x = new Matrix(3, 3, false);
 
-    double phi = -1.5708;
+    double phi = -(M_PI / 2.0);
 
     double data[9] = {
             1, 0, 0,

@@ -7,13 +7,13 @@
 
 namespace lib
 {
-    Vector::Vector(double x, double y, double z) : x(x), y(y), z(z) {
+    Vector::Vector(double x, double y, double z): x(x), y(y), z(z) {
     }
 
     Vector::Vector(const double *values) : Vector(values[0], values[1], values[2]) {
     }
 
-    double Vector::length() {
+    double Vector::length() const {
         return sqrt(this->lengthSquared());
     }
 
@@ -21,24 +21,24 @@ namespace lib
         return (pow(x, 2.0) + pow(y, 2.0) + pow(z, 2.0));
     }
 
-    double Vector::distance(Vector other) const {
+    double Vector::distance(const Vector& other) const {
         return hypot(this->x - other.x, this->z - other.z);
     }
 
-    double Vector::distanceSquared(Vector other) const {
+    double Vector::distanceSquared(const Vector& other) const {
         return pow(distance(other), 2.0);
     }
 
-    double Vector::angle(Vector other) {
+    double Vector::angle(const Vector& other) {
         double dot = this->dot(other) / (this->length() * other.length());
         return acos(dot);
     }
 
-    double Vector::differenceAngle(Vector other) const {
+    double Vector::differenceAngle(const Vector& other) const {
         return atan2(other.z - this->z, other.x - this->x);
     }
 
-    double Vector::dot(Vector other) const {
+    double Vector::dot(const Vector& other) const {
         return this->x * other.x + this->y * other.y + this->z * other.z;
     }
 
@@ -48,27 +48,31 @@ namespace lib
         this->z *= value;
     }
 
-    void Vector::add(Vector other) {
+    void Vector::add(const Vector& other) {
         this->x += other.x;
         this->y += other.y;
+        this->z += other.z;
     }
 
-    void Vector::subtract(Vector other) {
+    void Vector::subtract(const Vector& other) {
         this->x -= other.x;
         this->y -= other.y;
+        this->z -= other.z;
     }
 
     void Vector::multiply(Vector other) {
         this->x *= other.x;
         this->y *= other.y;
+        this->z *= other.z;
     }
 
-    void Vector::update(const double *values) {
-        this->x = values[0];
-        this->y = values[2];
+    void Vector::update(const double *data) {
+        this->x = data[0];
+        this->y = data[1];
+        this->z = data[2];
     }
 
-    Vector *Vector::midPoint(Vector other) {
+    Vector *Vector::midPoint(const Vector& other) {
         auto vector = new Vector(*this);
 
         vector->x = (this->x + other.x) / 2.0;

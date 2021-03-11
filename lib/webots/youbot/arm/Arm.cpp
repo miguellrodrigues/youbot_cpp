@@ -38,7 +38,7 @@ void Arm::change(vector<double> positions) {
 }
 
 void Arm::reset() {
-    setArmsPosition({ARM1, ARM2, ARM3, ARM4, ARM5}, {.0, 1.57, -2.635, 1.78, .0});
+    this->setArmsPosition({ARM1, ARM2, ARM3, ARM4, ARM5}, {.0, 1.57, -2.635, 1.78, .0});
 }
 
 void Arm::setHeight(unsigned int height) {
@@ -73,9 +73,6 @@ void Arm::setHeight(unsigned int height) {
         case ARM_LAUNCH:
             change({-.5, -.5, -.3, .0});
             break;
-        case ARM_ALIGNING:
-            change({-.278, -.682, radians(-75), .0});
-            break;
         default:
             cout << "SetHeight Bad argument";
             break;
@@ -88,16 +85,16 @@ void Arm::increaseHeight() {
     currentHeight++;
 
     if (currentHeight >= ARM_MAX_HEIGHT)
-        currentHeight = ARM_MAX_HEIGHT - 1;
+        currentHeight = ARM_FRONT_FLOOR;
 
     setHeight(currentHeight);
 }
 
 void Arm::decreaseHeight() {
-    if (currentHeight - 1 < 0)
-        currentHeight = ARM_FRONT_FLOOR;
-    else
-        currentHeight--;
+    currentHeight--;
+
+    if (currentHeight < 0)
+        currentHeight = ARM_LAUNCH;
 
     setHeight(currentHeight);
 }

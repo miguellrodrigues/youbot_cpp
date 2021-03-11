@@ -140,9 +140,9 @@ double *Controller::getObjectRotation(const string& nodeDef) {
 }
 
 void Controller::setObjectPosition(const string& nodeDef, double *position) {
-    auto robotNode = supervisor->getFromDef(nodeDef);
+    auto node = supervisor->getFromDef(nodeDef);
 
-    auto translationField = robotNode->getField("translation");
+    auto translationField = node->getField("translation");
 
     translationField->setSFVec3f(position);
 }
@@ -171,6 +171,10 @@ void Controller::setMotorVelocity(unsigned int index, double velocity) {
     vector<Motor *> motors = getMotors();
 
     motors.at(index)->setVelocity(velocity);
+}
+
+Controller::~Controller() {
+    delete this->supervisor;
 }
 
 /*

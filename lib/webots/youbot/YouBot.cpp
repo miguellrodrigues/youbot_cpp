@@ -8,12 +8,14 @@
 
 YouBot::YouBot(Controller *controller) {
     this->controller = controller;
-
     this->arm = new Arm(controller);
     this->base = new Base(controller);
     this->gripper = new Gripper(controller);
 
     this->angle = new Angle();
+
+    this->arm->reset();
+    this->arm->setOrientation(Arm::ARM_FRONT);
 }
 
 void YouBot::passiveWait(double seconds) {
@@ -123,4 +125,8 @@ void YouBot::throwBox() {
     armReset();
     grip();
     passiveWait(2.0);
+}
+
+void YouBot::setArmsPosition(vector<Arm::Arms> arms, vector<double> positions) {
+    this->arm->setArmsPosition(std::move(arms), std::move(positions));
 }

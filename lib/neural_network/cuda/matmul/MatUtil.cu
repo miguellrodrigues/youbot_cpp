@@ -10,9 +10,9 @@ __global__ void matrixMultiplyKernel(const double *a, const double *b, double *c
     unsigned int row = blockIdx.y * blockDim.y + threadIdx.y;
     unsigned int col = blockIdx.x * blockDim.x + threadIdx.x;
 
-    if (row < m && col < k) {
-        double aux = .0;
+    double aux = 0;
 
+    if (row < m && col < k) {
         for (int i = 0; i < n; i++) {
             aux += a[row * n + i] * b[i * k + col];
         }

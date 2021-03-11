@@ -1,16 +1,11 @@
 #include "include/Train.hpp"
 #include "include/Test.hpp"
 
-#include "lib/neural_network/cuda/dev_array.h"
-#include "lib/neural_network/cuda/matmul/MatUtil.cuh"
-#include <vector>
-#include <iostream>
-
 using namespace std;
 
 int main() {
 
-    new Train({1, 8, 16, 16, 8, 3}, 5, 1000, 30);
+    new Train({1, 8, 16, 16, 8, 3}, 5, 1000, 20);
     //new Test();
 
     /*int m = 2, n = 3, k = 2;

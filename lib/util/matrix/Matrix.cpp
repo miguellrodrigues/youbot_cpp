@@ -89,34 +89,59 @@ Matrix *Matrix::hadamard(Matrix &mx) const {
 }
 
 Matrix *Matrix::multiply(Matrix &mx) const {
+    if (this->cols != mx.rows) {
+        cout << "error: matmul bad arguments" << endl;
+        return nullptr;
+    }
+
     auto *matrix = new Matrix(this->rows, mx.cols, false);
 
-    unsigned int size = matrix->rows * matrix->cols;
+    unsigned int size = this->rows * mx.cols;
 
-    auto a = this->vectorize();
-    auto b = mx.vectorize();
-    auto c = static_cast<double *>(malloc(sizeof(double) * size));
+    vector<double> h_a(this->rows * this->cols);
+    vector<double> h_b(mx.rows * mx.cols);
+    vector<double> h_c(matrix->rows * matrix->cols);
+
+    for (unsigned int i = 0; i < this->rows; ++i) {
+        for (unsigned int j = 0; j < this->cols; ++j) {
+            h_a[i * this->cols + j] = getValue(i, j);
+        }
+    }
+
+    for (unsigned int i = 0; i < this->cols; ++i) {
+        for (unsigned int j = 0; j < mx.cols; ++j) {
+            h_b[i * mx.cols + j] = mx.getValue(i, j);
+        }
+    }
 
     dev_array<double> d_A(size);
     dev_array<double> d_B(size);
     dev_array<double> d_C(size);
 
-    d_A.set(&a[0], size);
-    d_B.set(&b[0], size);
+    d_A.set(&h_a[0], size);
+    d_B.set(&h_b[0], size);
 
     MatUtil::matrixMultiply(d_A.getData(), d_B.getData(), d_C.getData(), this->rows, this->cols, mx.cols);
 
     cudaDeviceSynchronize();
 
-    d_C.get(&c[0], size);
+    d_C.get(&h_c[0], size);
+
+    cudaDeviceSynchronize();
 
     for (unsigned int row = 0, count = 0; row < matrix->rows; row++) {
         for (unsigned int col = 0; col < matrix->cols; ++col) {
-            matrix->setValue(row, col, c[count++]);
+            matrix->setValue(row, col, h_c[count++]);
         }
     }
 
-    /*double aux;
+    cudaFree(d_A.getData());
+    cudaFree(d_B.getData());
+    cudaFree(d_C.getData());
+
+    /*auto *proof = new Matrix(this->rows, mx.cols, false);
+
+    double aux;
 
     for (int i = 0; i < this->rows; ++i) {
         for (int j = 0; j < mx.cols; ++j) {
@@ -126,9 +151,17 @@ Matrix *Matrix::multiply(Matrix &mx) const {
                 aux += getValue(i, l) * mx.getValue(l, j);
             }
 
-            matrix->setValue(i, j, aux);
+            proof->setValue(i, j, aux);
         }
-    }*/
+    }
+
+    matrix->printToConsole();
+
+    cout << " " << endl;
+
+    proof->printToConsole();
+
+    cout << " " << endl;*/
 
     return matrix;
 }
@@ -218,7 +251,12 @@ Matrix *Matrix::hadamard(Matrix &mx, Matrix &my) {
 }
 
 Matrix *Matrix::multiply(Matrix &mx, Matrix &my) {
-    auto *matrix = new Matrix(mx.rows, my.cols, false);
+    if (mx.cols != my.rows) {
+        cout << "bad arguments" << endl;
+        return nullptr;
+    }
+
+    auto *proof = new Matrix(mx.rows, my.cols, false);
 
     double aux;
 
@@ -230,14 +268,16 @@ Matrix *Matrix::multiply(Matrix &mx, Matrix &my) {
                 aux += mx.getValue(i, l) * my.getValue(l, j);
             }
 
-            matrix->setValue(i, j, aux);
+            proof->setValue(i, j, aux);
         }
     }
+
+    auto matrix = mx.multiply(my);
 
     return matrix;
 }
 
-void Matrix::printToConsole() {
+void Matrix::printToConsole() const {
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
             cout << getValue(i, j) << " \n"[j == cols - 1];

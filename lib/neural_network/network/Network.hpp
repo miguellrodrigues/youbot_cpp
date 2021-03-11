@@ -36,7 +36,7 @@ public:
 
     vector<Matrix *> weightMatrices;
 
-    double bias = .02;
+    double bias = 0.001;
 private:
     double learningRate = .0001;
 

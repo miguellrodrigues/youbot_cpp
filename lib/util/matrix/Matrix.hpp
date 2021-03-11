@@ -52,7 +52,7 @@ public:
 
     void assign_matrix_array(double *array) const;
 
-    void printToConsole();
+    void printToConsole() const;
 
     std::string matrixToString() const;
 

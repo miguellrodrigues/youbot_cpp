@@ -24,7 +24,7 @@ using json = nlohmann::json;
 
 
 Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, unsigned int max_generations, unsigned int time_interval) {
-    Controller controller(new Supervisor(), 14);
+    Controller controller(new Supervisor(), 50);
     YouBot youBot(&controller);
 
     auto center = youBot.getPosition();
@@ -32,9 +32,9 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
 
     double  angle          = .0,
             comp           = .001,
-            max_velocity   = 14.0,
+            max_velocity   = 6.0,
             last_time      = .0,
-            target_fitness = .001;
+            target_fitness = .0001;
 
     vector<Network *> networks;
     vector<double> errors;
@@ -156,7 +156,7 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
         }
 
         if (output[1] > 0) {
-            youBot.setWheelsSpeed({0, 0, 0, 0});
+            youBot.setWheelsSpeed({.0, .0, .0, .0});
         }
 
         if (output[2] > 0) {

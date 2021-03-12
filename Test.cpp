@@ -11,9 +11,10 @@ Test::Test() {
     Controller controller(new Supervisor(), 14);
     YouBot youBot(&controller);
 
-    double max_velocity   = 10.0;
+    double max_velocity   = 8.0;
 
-    auto network = Network::load();
+    auto network_d = Network::load("network-dd.json");
+    auto network_a = Network::load("network.json");
 
     while (controller.step() != -1) {
         auto youBotPosition = youBot.getPosition();
@@ -21,24 +22,23 @@ Test::Test() {
 
         auto boxPosition = new Vector(controller.getObjectPosition("box"));
 
-        double theta = youBotPosition.differenceAngle(*boxPosition);
+        double angle_error = nm(youBotRotationAngle + youBotPosition.differenceAngle(*boxPosition));
 
-        double angle_error = nm(youBotRotationAngle + theta);
+        auto output_d = network_d.predict({youBotPosition.distance(*boxPosition) - 0.6});
+        auto output_a = network_a.predict({angle_error});
 
-        auto output = network.predict({angle_error});
+        double od = max_velocity * output_d[0];
 
-        cout << angle_error << endl;
-
-        if (output[0] > 0) {
+        if (output_a[0] > 0) {
             youBot.setWheelsSpeed({-max_velocity, max_velocity, -max_velocity, max_velocity});
         }
 
-        if (output[1] > 0) {
-            youBot.setWheelsSpeed({0, 0, 0, 0});
+        if (output_a[1] > 0) {
+            youBot.setWheelsSpeed({max_velocity, -max_velocity, max_velocity, -max_velocity});
         }
 
-        if (output[2] > 0) {
-            youBot.setWheelsSpeed({max_velocity, -max_velocity, max_velocity, -max_velocity});
+        if (output_a[2] > 0) {
+            youBot.setWheelsSpeed({od, od, od, od});
         }
     }
 }

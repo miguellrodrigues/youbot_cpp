@@ -87,5 +87,9 @@ namespace lib
 
         return copy;
     }
+
+    void Vector::setX(double d) {
+        this->x = d;
+    }
 }
 

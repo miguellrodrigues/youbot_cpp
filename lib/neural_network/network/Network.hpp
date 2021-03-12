@@ -6,9 +6,11 @@
 #define YOUBOT_CPP_NETWORK_HPP
 
 #include <vector>
+#include <string>
 #include "../layer/Layer.hpp"
 
 using std::vector;
+using std::string;
 
 class Network {
 public:
@@ -30,15 +32,15 @@ public:
 
     void crossOver(Network &father, Network &mother);
 
-    void save();
+    void save(const string& path);
 
-    static Network &load();
+    static Network &load(const string& path);
 
     vector<Matrix *> weightMatrices;
 
-    double bias = 0.01;
+    double bias = 0.005;
 private:
-    double learningRate = .0001;
+    double learningRate = .0005;
 
     double fitness = .0;
 

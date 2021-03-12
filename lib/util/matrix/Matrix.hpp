@@ -5,9 +5,9 @@
 #ifndef YOUBOT_CPP_MATRIX_HPP
 #define YOUBOT_CPP_MATRIX_HPP
 
-
 #include <string>
 #include <vector>
+
 
 class Matrix {
 

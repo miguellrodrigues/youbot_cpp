@@ -16,7 +16,7 @@ using namespace std;
 using json = nlohmann::json;
 
 double mutateFunction(double x) {
-    return x + Matrix::randomDouble(-1.0, 1.0);
+    return x + Matrix::randomDouble(-1.1, 1.1);
 }
 
 Network::Network(unsigned int *topology, unsigned int topologySize) {
@@ -278,7 +278,7 @@ void Network::crossOver(Network &father, Network &mother) {
     }
 }
 
-void Network::save() {
+void Network::save(const string& path) {
     json data;
 
     vector<vector<double>> a;
@@ -290,15 +290,15 @@ void Network::save() {
     data["topology"] = this->topology;
     data["weight_matrices"] = this->vectorizeWeightMatrices();
 
-    std::ofstream o("network.json");
+    std::ofstream o(path);
 
     o << std::setw(4) << data << endl;
 
     o.close();
 }
 
-Network &Network::load() {
-    std::ifstream ifs("network.json");
+Network &Network::load(const string& path) {
+    std::ifstream ifs(path);
 
     json data;
 

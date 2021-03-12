@@ -59,6 +59,8 @@ namespace lib {
             return this->data;
         }
 
+        void setX(double d);
+
     private:
         double data[3]{};
 

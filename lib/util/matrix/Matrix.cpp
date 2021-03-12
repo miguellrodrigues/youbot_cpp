@@ -89,16 +89,34 @@ Matrix *Matrix::hadamard(Matrix &mx) const {
 }
 
 Matrix *Matrix::multiply(Matrix &mx) const {
+    auto *matrix = new Matrix(this->rows, mx.cols, false);
+
+    double aux;
+
+    for (int i = 0; i < this->rows; ++i) {
+        for (int j = 0; j < mx.cols; ++j) {
+            aux = 0.0;
+
+            for (int l = 0; l < mx.rows; ++l) {
+                aux += getValue(i, l) * mx.getValue(l, j);
+            }
+
+            matrix->setValue(i, j, aux);
+        }
+    }
+
+    return matrix;
+
+    /*auto *matrix = new Matrix(this->rows, mx.cols, false);
+
     if (this->cols != mx.rows) {
         cout << "error: matmul bad arguments" << endl;
         return nullptr;
     }
 
-    auto *matrix = new Matrix(this->rows, mx.cols, false);
-
     unsigned int size_a = this->rows * this->cols,
-                 size_b = mx.rows * mx.cols,
-                 size_c = this->rows * mx.cols;
+            size_b = mx.rows * mx.cols,
+            size_c = this->rows * mx.cols;
 
     double *a = this->vectorize();
     double *b = mx.vectorize();
@@ -133,7 +151,7 @@ Matrix *Matrix::multiply(Matrix &mx) const {
     cudaFree(d_b);
     cudaFree(d_c);
 
-    return matrix;
+    return matrix;*/
 }
 
 void Matrix::add(Matrix &mx) const {
@@ -221,26 +239,6 @@ Matrix *Matrix::hadamard(Matrix &mx, Matrix &my) {
 }
 
 Matrix *Matrix::multiply(Matrix &mx, Matrix &my) {
-    /*if (mx.cols != my.rows) {
-        cout << "bad arguments" << endl;
-        return nullptr;
-    }
-
-    auto *proof = new Matrix(mx.rows, my.cols, false);
-
-    double aux;
-
-    for (int i = 0; i < mx.rows; ++i) {
-        for (int j = 0; j < my.cols; ++j) {
-            aux = 0.0;
-
-            for (int l = 0; l < my.rows; ++l) {
-                aux += mx.getValue(i, l) * my.getValue(l, j);
-            }
-
-            proof->setValue(i, j, aux);
-        }
-    }*/
     return mx.multiply(my);
 }
 

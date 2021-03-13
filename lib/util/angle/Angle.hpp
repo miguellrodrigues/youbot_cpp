@@ -12,12 +12,11 @@ class Angle {
 public:
     Angle();
 
-    static Matrix &calculateMatrix(double *data);
+    static Matrix *calculateMatrix(double *data);
 
-    double calculateAngle(double *data);
+    double calculateAngle(double *data) const;
 
-private:
-    Matrix *rotation_x;
+    const Matrix *rotation_x = new Matrix(3, 3, false);
 };
 
 

@@ -52,6 +52,8 @@ public:
 
     void assign_matrix_array(double *array) const;
 
+    void d() const;
+
     void printToConsole() const;
 
     std::string matrixToString() const;

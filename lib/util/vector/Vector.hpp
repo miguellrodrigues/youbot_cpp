@@ -39,7 +39,7 @@ namespace lib {
 
         void multiply(Vector other);
 
-        void update(const double *data);
+        void update(const double *d);
 
         double getX() { return this->x; }
 
@@ -51,10 +51,10 @@ namespace lib {
 
         Vector clone() const;
 
-        double * getValues() {
-            data[0] = this->x;
-            data[1] = this->y;
-            data[2] = this->z;
+        double* getValues() {
+            this->data[0] = this->x;
+            this->data[1] = this->y;
+            this->data[2] = this->z;
 
             return this->data;
         }
@@ -62,7 +62,7 @@ namespace lib {
         void setX(double d);
 
     private:
-        double data[3]{};
+        double *data;
 
         double x;
         double y;

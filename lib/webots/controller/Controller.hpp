@@ -51,6 +51,8 @@ public:
 
     void setMotorVelocity(unsigned int index, double velocity);
 
+    double *getObjectOrientation(const string& nodeDef);
+
 private:
     Supervisor *supervisor;
 

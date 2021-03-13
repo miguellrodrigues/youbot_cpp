@@ -6,12 +6,9 @@
 
 #include "lib/webots/youbot/YouBot.hpp"
 #include "lib/neural_network/network/Network.hpp"
-#include "nlohmann/json.hpp"
-
-#include <chrono>
 #include <fstream>
-#include <iomanip>
 #include <vector>
+#include <algorithm>
 
 using std::vector;
 
@@ -19,26 +16,23 @@ double normalize(double d) {
     return atan2(sin(d), cos(d));
 }
 
-using json = nlohmann::json;
-
 
 Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, unsigned int max_generations, unsigned int time_interval) {
-    Controller controller(new Supervisor(), 50);
-    YouBot youBot(&controller);
+    Controller controller(new Supervisor(), 25);
+    YouBot youBot = * new YouBot(&controller);
 
-    auto center = youBot.getPosition();
+    auto center = new Vector(youBot.getPosition());
     auto initialPosition = center;
 
     double  angle          = .0,
-            comp           = .008,
+            comp           = .005,
             max_velocity   = 8.0,
             last_time      = .0,
             target_fitness = .0003;
 
     vector<Network *> networks;
-    vector<Network *> temp;
 
-    vector<double> generationsFitness;
+    //vector<double> generationsFitness;
     vector<double> errors;
 
     unsigned int count              = 0,
@@ -50,32 +44,36 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
 
     auto network = networks.at(0);
 
-    vector<string> logs;
+    //vector<string> logs;
 
     cout << "Geracao " << count << " De " << max_generations << endl;
 
     while (controller.step() != -1) {
         double time = controller.getSupervisor()->getTime();
 
-        auto youBotPosition = youBot.getPosition();
+        //auto youBotPosition = youBot.getPosition();
         auto youBotRotationAngle = youBot.getRotationAngle();
 
-        angle += comp;
+        /*angle += comp;
 
         double x = 0.8 * cos(angle);
         double z = 0.8 * sin(angle);
 
-        center.add(Vector(x, .0, z));
+        auto pos = new Vector({x, .0, z});
 
-        controller.setObjectPosition("box", center.getValues());
+        center->add(*pos);
 
-        double theta = youBotPosition.differenceAngle(center);
+        controller.setObjectPosition("box", center->getValues());
 
-        center.subtract(Vector(x, .0, z));
+        double theta = youBotPosition.differenceAngle(*center);
 
-        double angle_error = normalize(youBotRotationAngle + theta);
+        center->subtract(*pos);
 
-        errors.push_back(angle_error);
+        free(pos);
+
+        double angle_error = normalize(youBotRotationAngle + theta);*/
+
+        //errors.push_back(angle_error);
 
         if (angle > M_PI || angle < -M_PI) {
             comp *= -1;
@@ -85,7 +83,7 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
             last_time = time;
 
             if (count < max_generations) {
-                double sum_errors = .0;
+                /*double sum_errors = .0;
 
                 for (auto &err : errors) {
                     sum_errors += abs(err);
@@ -96,17 +94,17 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
 
                 errors.clear();
 
-                if (fitness_error <= target_fitness)
-                    break;
+                *//*if (fitness_error <= target_fitness)
+                    break;*//*
 
                 network->setFitness(fitness);
 
                 controller.setObjectPosition("youBot", initialPosition.getValues());
 
-                logs.push_back("Individuo " + to_string(current) + " Fitness " + to_string(fitness) +  " Fit Err " + to_string(fitness_error));
+                //logs.push_back("Individuo " + to_string(current) + " Fitness " + to_string(fitness) +  " Fit Err " + to_string(fitness_error));
 
                 cout << "Individuo " + to_string(current) + " Fitness " + to_string(fitness) +  " Fit Err " + to_string(fitness_error) << endl;
-
+*/
                 current += 1;
 
                 if (current == networks.size()) {
@@ -118,12 +116,10 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
 
                     double best_fitness = networks.at(0)->getFitness();
 
-                    generationsFitness.push_back(best_fitness);
+                    //generationsFitness.push_back(best_fitness);
 
-                    auto father = networks.at(0);
-                    auto mother = networks.at(1);
-
-                    networks.clear();
+                    auto father = new Network(*networks.at(0));
+                    auto mother = new Network(*networks.at(1));
 
                     for (unsigned int i = 0; i < max_per_generation; ++i) {
                         auto net = new Network(topology.data(), topology.size());
@@ -132,16 +128,21 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
 
                         net->mutate(.2);
 
-                        networks.push_back(net);
+                        free(networks.at(i));
+
+                        networks.at(i) = net;
                     }
 
-                    logs.push_back("Best Fitness: " + to_string(best_fitness));
+                    free(father);
+                    free(mother);
 
-                    cout << "Best Fitness: " + to_string(best_fitness) << endl;
+                    //logs.push_back("Best Fitness: " + to_string(best_fitness));
 
-                    logs.push_back("Geracao " + to_string(count) + " De " + to_string(max_generations));
+                    cout << "Best Fitness: " << best_fitness << endl;
 
-                    cout << "Geracao " + to_string(count) + " De " + to_string(max_generations) << endl;
+                    //logs.push_back("Geracao " + to_string(count) + " De " + to_string(max_generations));
+
+                    cout << "Geracao " << " De " << endl;
 
                     current = 0;
                 }
@@ -150,7 +151,7 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
             }
         }
 
-        auto output = network->predict({abs(angle_error), angle_error > 0 ? 1.0 : .0});
+        /*auto output = network->predict({abs(angle_error), angle_error > 0 ? 1.0 : .0});
 
         if (output[0] > 0) {
             youBot.setWheelsSpeed({-max_velocity, max_velocity, -max_velocity, max_velocity});
@@ -164,12 +165,12 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
             youBot.setWheelsSpeed({.0, .0, .0, .0});
         }
 
-        delete[] output;
+        free(output);*/
     }
 
-    network->save("align.json");
+    network->save("alignttt.json");
 
-    std::time_t timeStamp = std::time(nullptr);
+    /*std::time_t timeStamp = std::time(nullptr);
 
     json training_data;
 
@@ -177,7 +178,7 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
     training_data["bias"] = network->bias;
     training_data["time_stamp"] = timeStamp;
     training_data["generations_fitness"] = generationsFitness;
-    training_data["logs"] = logs;
+    //training_data["logs"] = logs;
 
     string name = "training_";
     name.append(to_string(timeStamp));
@@ -187,5 +188,5 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
 
     o << std::setw(4) << training_data << endl;
 
-    o.close();
+    o.close();*/
 }

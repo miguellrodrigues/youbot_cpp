@@ -12,10 +12,12 @@ YouBot::YouBot(Controller *controller) {
     this->base = new Base(controller);
     this->gripper = new Gripper(controller);
 
-    this->angle = new Angle();
+    this->angle = Angle();
 
     this->arm->reset();
     this->arm->setOrientation(Arm::ARM_FRONT);
+
+    this->position = new Vector(controller->getObjectPosition(def));
 }
 
 void YouBot::passiveWait(double seconds) {
@@ -27,11 +29,12 @@ void YouBot::passiveWait(double seconds) {
 }
 
 double YouBot::getRotationAngle() {
-    return angle->calculateAngle(controller->getObjectRotation(def));
+    return this->angle.calculateAngle(controller->getObjectOrientation(def));
 }
 
 Vector YouBot::getPosition() {
-    return Vector(controller->getObjectPosition(def));
+    this->position->update(controller->getObjectPosition(def));
+    return *this->position;
 }
 
 unsigned int YouBot::getHeight() {

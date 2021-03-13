@@ -139,6 +139,12 @@ double *Controller::getObjectRotation(const string& nodeDef) {
     return const_cast<double *>(rotationField->getSFRotation());
 }
 
+double *Controller::getObjectOrientation(const string& nodeDef) {
+    auto node = supervisor->getFromDef(nodeDef);
+
+    return const_cast<double *>(node->getOrientation());
+}
+
 void Controller::setObjectPosition(const string& nodeDef, double *position) {
     auto node = supervisor->getFromDef(nodeDef);
 

@@ -221,6 +221,8 @@ Matrix *Matrix::arrayToMatrix(double *array, unsigned int size) {
         matrix->setValue(i, 0, array[i]);
     }
 
+    delete[] array;
+
     return matrix;
 }
 
@@ -361,4 +363,8 @@ double *Matrix::vectorize() const {
 
 unsigned int Matrix::size() const {
     return this->rows * this->cols;
+}
+
+void Matrix::d() const {
+    delete[] this->data;
 }

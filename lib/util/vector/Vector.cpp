@@ -8,6 +8,11 @@
 namespace lib
 {
     Vector::Vector(double x, double y, double z): x(x), y(y), z(z) {
+        this->data = static_cast<double *>(malloc(sizeof(double) * 3));
+
+        this->data[0] = x;
+        this->data[1] = y;
+        this->data[2] = z;
     }
 
     Vector::Vector(const double *values) : Vector(values[0], values[1], values[2]) {
@@ -66,10 +71,10 @@ namespace lib
         this->z *= other.z;
     }
 
-    void Vector::update(const double *data) {
-        this->x = data[0];
-        this->y = data[1];
-        this->z = data[2];
+    void Vector::update(const double *d) {
+        this->x = d[0];
+        this->y = d[1];
+        this->z = d[2];
     }
 
     Vector *Vector::midPoint(const Vector& other) {

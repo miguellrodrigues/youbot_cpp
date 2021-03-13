@@ -69,7 +69,8 @@ private:
     Base *base;
     Gripper *gripper;
 
-    Angle *angle;
+    Vector *position;
+    Angle angle;
 
     string def = "youBot";
 };

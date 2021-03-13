@@ -79,7 +79,12 @@ void Network::feedForward() {
         for (int j = 0; j < r->rows; ++j) {
             this->layers.at(i + 1)->setNeuronValue(j, r->getValue(j, 0) + (this->bias));
         }
+
+        free(r);
     }
+
+    free(left);
+    free(right);
 }
 
 
@@ -243,6 +248,8 @@ double *Network::predict(vector<double> input) {
     feedForward();
 
     double *out = this->layers.at(this->topologySize - 1)->convertActivatedValues()->matrixToArray();
+
+    free(inputMatrix);
 
     return out;
 }

@@ -4,10 +4,11 @@
 
 #include "Angle.hpp"
 #include <cmath>
+#include <iostream>
+
+using namespace std;
 
 Angle::Angle() {
-    rotation_x = new Matrix(3, 3, false);
-
     double phi = -(M_PI / 2.0);
 
     double data[9] = {
@@ -17,9 +18,11 @@ Angle::Angle() {
     };
 
     rotation_x->assign_matrix_array(reinterpret_cast<double *>(data));
+
+    rotation_x = rotation_x->transpose();
 }
 
-Matrix &Angle::calculateMatrix(double *data) {
+Matrix *Angle::calculateMatrix(double *data) {
     auto *R = new Matrix(3, 3, false);
 
     double cosTheta = cos(data[3]);
@@ -33,13 +36,18 @@ Matrix &Angle::calculateMatrix(double *data) {
 
     R->assign_matrix_array(mx);
 
-    return *R;
+    return R;
 }
 
-double Angle::calculateAngle(double *data) {
-    auto R = calculateMatrix(data);
+double Angle::calculateAngle(double *data) const {
+    auto x = Matrix::arrayToMatrix(data, 9);
 
-    auto result = rotation_x->transpose()->multiply(R);
+    auto result = rotation_x->multiply(*x);
 
-    return atan2(result->getValue(1, 0), result->getValue(0, 0));
+    double angle = atan2(result->getValue(1, 0), result->getValue(0, 0));
+
+    delete x;
+    delete result;
+
+    return angle;
 }

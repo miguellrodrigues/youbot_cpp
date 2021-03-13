@@ -96,5 +96,9 @@ namespace lib
     void Vector::setX(double d) {
         this->x = d;
     }
+
+    Vector::~Vector() {
+        this->data.clear();
+    }
 }
 

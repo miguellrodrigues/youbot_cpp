@@ -371,3 +371,7 @@ vector<double> Matrix::to_vector() {
 
     return d;
 }
+
+Matrix::~Matrix() {
+    this->data.clear();
+}

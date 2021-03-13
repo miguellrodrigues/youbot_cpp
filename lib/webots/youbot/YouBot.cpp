@@ -94,7 +94,7 @@ void YouBot::gripRelease() {
 }
 
 void YouBot::setWheelsSpeed(vector<double> speeds) {
-    base->setWheelsSpeed(std::move(speeds));
+    base->setWheelsSpeed(speeds);
 }
 
 void YouBot::turnLeft() {

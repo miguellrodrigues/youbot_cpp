@@ -15,6 +15,8 @@ namespace lib {
     public:
         Vector(double x, double y, double z);
 
+        ~Vector();
+
         explicit Vector(const double *values);
 
         double length() const;

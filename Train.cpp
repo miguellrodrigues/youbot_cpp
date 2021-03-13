@@ -6,11 +6,15 @@
 
 #include "lib/webots/youbot/YouBot.hpp"
 #include "lib/neural_network/network/Network.hpp"
+#include <nlohmann/json.hpp>
 #include <fstream>
 #include <vector>
 #include <algorithm>
+#include <chrono>
+#include <iomanip>
 
 using std::vector;
+using json = nlohmann::json;
 
 double normalize(double d) {
     return atan2(sin(d), cos(d));
@@ -31,6 +35,7 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
             target_fitness = .0003;
 
     vector<Network *> networks;
+    vector<Network *> temp;
 
     vector<double> generationsFitness;
     vector<double> errors;
@@ -44,7 +49,7 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
 
     auto network = networks.at(0);
 
-    //vector<string> logs;
+    vector<string> logs;
 
     cout << "Geracao " << count << " De " << max_generations << endl;
 
@@ -79,7 +84,7 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
             comp *= -1;
         }
 
-        if (time > last_time + 1 && (int) time % time_interval == 0) {
+        /*if (time > last_time + 1 && (int) time % time_interval == 0) {
             last_time = time;
 
             if (count < max_generations) {
@@ -101,7 +106,7 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
 
                 controller.setObjectPosition("youBot", initialPosition->getValues());
 
-                //logs.push_back("Individuo " + to_string(current) + " Fitness " + to_string(fitness) +  " Fit Err " + to_string(fitness_error));
+                logs.push_back("Individuo " + to_string(current) + " Fitness " + to_string(fitness) +  " Fit Err " + to_string(fitness_error));
 
                 cout << "Individuo " + to_string(current) + " Fitness " + to_string(fitness) +  " Fit Err " + to_string(fitness_error) << endl;
 
@@ -116,10 +121,14 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
 
                     double best_fitness = networks.at(0)->getFitness();
 
-                    //generationsFitness.push_back(best_fitness);
+                    generationsFitness.push_back(best_fitness);
 
-                    auto father = new Network(*networks.at(0));
-                    auto mother = new Network(*networks.at(1));
+                    auto father = networks.at(0)->clone();
+                    auto mother = networks.at(1)->clone();
+
+                    for (auto n : networks) {
+                        free(n);
+                    }
 
                     for (unsigned int i = 0; i < max_per_generation; ++i) {
                         auto net = new Network(topology.data(), topology.size());
@@ -128,47 +137,45 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
 
                         net->mutate(.2);
 
-                        delete networks.at(i);
-
                         networks.at(i) = net;
                     }
 
-                    delete father;
-                    delete mother;
+                    free(father);
+                    free(mother);
 
-                    //logs.push_back("Best Fitness: " + to_string(best_fitness));
+                    logs.push_back("Best Fitness: " + to_string(best_fitness));
 
                     cout << "Best Fitness: " << best_fitness << endl;
 
-                    //logs.push_back("Geracao " + to_string(count) + " De " + to_string(max_generations));
+                    logs.push_back("Geracao " + to_string(count) + " De " + to_string(max_generations));
 
-                    cout << "Geracao " << " De " << endl;
+                    cout << "Geracao " << count << " De " << endl;
 
                     current = 0;
                 }
 
                 network = networks.at(current);
             }
-        }
+        }*/
 
-        auto output = network->predict({abs(angle_error), angle_error > 0 ? 1.0 : .0});
+        auto output = network->predict({abs(2), 2 > 0 ? 1.0 : .0});
 
-        if (output[0] > 0) {
+        if (output.at(0) > 0) {
             youBot.setWheelsSpeed({-max_velocity, max_velocity, -max_velocity, max_velocity});
         }
 
-        if (output[1] > 0) {
+        if (output.at(1) > 0) {
             youBot.setWheelsSpeed({max_velocity, -max_velocity, max_velocity, -max_velocity});
         }
 
-        if (output[2] > 0) {
+        if (output.at(2) > 0) {
             youBot.setWheelsSpeed({.0, .0, .0, .0});
         }
     }
 
     network->save("alignttt.json");
 
-    /*std::time_t timeStamp = std::time(nullptr);
+    std::time_t timeStamp = std::time(nullptr);
 
     json training_data;
 
@@ -176,7 +183,7 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
     training_data["bias"] = network->bias;
     training_data["time_stamp"] = timeStamp;
     training_data["generations_fitness"] = generationsFitness;
-    //training_data["logs"] = logs;
+    training_data["logs"] = logs;
 
     string name = "training_";
     name.append(to_string(timeStamp));
@@ -186,5 +193,5 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
 
     o << std::setw(4) << training_data << endl;
 
-    o.close();*/
+    o.close();
 }

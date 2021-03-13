@@ -9,7 +9,7 @@ Layer::Layer(unsigned int neurons) : neuronSize(neurons) {
     this->neurons.reserve(neuronSize);
 
     for (int i = 0; i < neurons; ++i) {
-        this->neurons.push_back(new Neuron(0.000));
+        this->neurons.push_back(new Neuron(.000));
     }
 }
 

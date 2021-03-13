@@ -46,9 +46,9 @@ Network::Network(unsigned int *topology, unsigned int topologySize) {
     }
 }
 
-void Network::setCurrentInput(Matrix &matrix) {
-    for (int i = 0; i < matrix.rows; ++i) {
-        this->layers.at(0)->setNeuronValue(i, matrix.getValue(i, 0));
+void Network::setCurrentInput(Matrix *matrix) {
+    for (int i = 0; i < matrix->rows; ++i) {
+        this->layers.at(0)->setNeuronValue(i, matrix->getValue(i, 0));
     }
 }
 
@@ -74,7 +74,7 @@ void Network::feedForward() {
 
         right = new Matrix(*this->weightMatrices.at(i));
 
-        r = Matrix::multiply(*right, *left);
+        r = right->multiply(*left);
 
         for (int j = 0; j < r->rows; ++j) {
             this->layers.at(i + 1)->setNeuronValue(j, r->getValue(j, 0) + (this->bias));
@@ -233,7 +233,7 @@ void Network::train(vector<double> input, vector<double> meta) {
     auto inputMatrix = Matrix::vectorToMatrix(std::move(input));
     auto metaMatrix = Matrix::vectorToMatrix(std::move(meta));
 
-    setCurrentInput(*inputMatrix);
+    setCurrentInput(inputMatrix);
 
     feedForward();
     setErrors(*metaMatrix);
@@ -243,16 +243,14 @@ void Network::train(vector<double> input, vector<double> meta) {
 vector<double> Network::predict(vector<double> input) {
     auto inputMatrix = Matrix::vectorToMatrix(std::move(input));
 
-    setCurrentInput(*inputMatrix);
+    setCurrentInput(inputMatrix);
     feedForward();
 
-    auto output_layer = this->layers.at(this->topologySize - 1)->convertActivatedValues();
+    auto *output_layer = this->layers.at(this->topologySize - 1)->convertActivatedValues();
 
     auto out = output_layer->to_vector();
 
     delete output_layer;
-
-    input.clear();
 
     return out;
 }
@@ -362,5 +360,29 @@ vector<vector<double>> Network::vectorizeWeightMatrices() {
     }
 
     return data;
+}
+
+Network::~Network() {
+    for (auto wm : this->weightMatrices) {
+        free(wm);
+    }
+
+    for (auto ly : this->layers) {
+        free(ly);
+    }
+}
+
+Network *Network::clone() {
+    auto n = new Network(this->topology.data(), this->topologySize);
+
+    for (unsigned int i = 0; i < this->weightMatrices.size(); ++i) {
+        n->weightMatrices.at(i) = new Matrix(*this->weightMatrices.at(i));
+    }
+
+    n->setFitness(this->getFitness());
+    n->bias = this->bias;
+    n->learningRate = this->learningRate;
+
+    return n;
 }
 

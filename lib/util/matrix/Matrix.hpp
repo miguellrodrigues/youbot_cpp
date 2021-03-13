@@ -17,6 +17,8 @@ public:
 
     Matrix();
 
+    ~Matrix();
+
     Matrix(unsigned int rows, unsigned int cols, bool isRandom);
 
     void setValue(unsigned int row, unsigned int col, double value);

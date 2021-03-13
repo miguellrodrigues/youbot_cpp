@@ -7,7 +7,7 @@ using namespace std;
 
 int main() {
 
-    new Train({2, 16, 16, 16, 3}, 10, 1000, 60);
+    new Train({2, 16, 16, 16, 3}, 5, 200, 60);
     //new Test();
 
     /*auto a = new Matrix(3, 2, false);

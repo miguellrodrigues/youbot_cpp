@@ -38,6 +38,10 @@ public:
 
     vector<Matrix *> weightMatrices;
 
+    ~Network();
+
+    Network *clone();
+
     double bias = 0.02;
 private:
     double learningRate = .0005;
@@ -52,7 +56,7 @@ private:
     vector<double> derivedErrors;
     vector<double> errors;
 
-    void setCurrentInput(Matrix &matrix);
+    void setCurrentInput(Matrix *matrix);
 
     void feedForward();
 

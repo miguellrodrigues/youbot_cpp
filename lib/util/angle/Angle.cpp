@@ -36,8 +36,8 @@ double Angle::calculateAngle(double *d) {
 
     double angle = atan2(result->getValue(1, 0), result->getValue(0, 0));
 
-    x->d();
-    result->d();
+    delete x;
+    delete result;
 
     return angle;
 }

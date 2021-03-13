@@ -18,7 +18,7 @@ public:
 
     void train(vector<double> input, vector<double> meta);
 
-    double *predict(vector<double> input);
+    vector<double> predict(vector<double> input);
 
     double globalError = 0.0;
 

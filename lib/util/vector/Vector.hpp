@@ -56,13 +56,13 @@ namespace lib {
             this->data[1] = this->y;
             this->data[2] = this->z;
 
-            return this->data;
+            return this->data.data();
         }
 
         void setX(double d);
 
     private:
-        double *data;
+        vector<double> data;
 
         double x;
         double y;

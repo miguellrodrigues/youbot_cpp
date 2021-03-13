@@ -31,36 +31,30 @@ int Matrix::randomInt(int min, int max) {
 Matrix::Matrix() = default;
 
 Matrix::Matrix(unsigned int rows, unsigned int cols, bool isRandom) : rows(rows), cols(cols) {
-    this->data = static_cast<double **>(malloc(rows * sizeof(double)));
+    for (unsigned int i = 0; i < rows; ++i) {
+        vector<double> values;
 
-    for (int i = 0; i < rows; ++i) {
-        this->data[i] = static_cast<double *>(malloc(cols * sizeof(double)));
-    }
-
-    if (isRandom) {
-        for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < cols; ++j) {
-                this->data[i][j] = randomDouble(-.501, .501);
+        for (unsigned int j = 0; j < cols; ++j) {
+            if (isRandom) {
+                values.push_back(randomDouble(-.501, .501));
+            } else {
+                values.push_back(.0);
             }
         }
-    } else {
-        for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < cols; ++j) {
-                this->data[i][j] = 0.0;
-            }
-        }
+
+        this->data.push_back(values);
     }
 }
 
-void Matrix::setValue(unsigned int row, unsigned int col, double value) const {
-    this->data[row][col] = value;
+void Matrix::setValue(unsigned int row, unsigned int col, double value) {
+    this->data.at(row).at(col) = value;
 }
 
-double Matrix::getValue(unsigned int row, unsigned int col) const {
-    return this->data[row][col];
+double Matrix::getValue(unsigned int row, unsigned int col) {
+    return this->data.at(row).at(col);
 }
 
-Matrix *Matrix::copy() const {
+Matrix *Matrix::copy() {
     auto *matrix = new Matrix(this->rows, this->cols, false);
 
     for (int i = 0; i < this->rows; ++i) {
@@ -72,7 +66,7 @@ Matrix *Matrix::copy() const {
     return matrix;
 }
 
-Matrix *Matrix::transpose() const {
+Matrix *Matrix::transpose() {
     auto *matrix = new Matrix(this->cols, this->rows, false);
 
     for (int i = 0; i < this->rows; ++i) {
@@ -84,7 +78,7 @@ Matrix *Matrix::transpose() const {
     return matrix;
 }
 
-Matrix *Matrix::hadamard(Matrix &mx) const {
+Matrix *Matrix::hadamard(Matrix &mx) {
     auto *matrix = new Matrix(this->rows, this->cols, false);
 
     for (int i = 0; i < this->rows; ++i) {
@@ -96,7 +90,7 @@ Matrix *Matrix::hadamard(Matrix &mx) const {
     return matrix;
 }
 
-Matrix *Matrix::multiply(Matrix &mx) const {
+Matrix *Matrix::multiply(Matrix &mx) {
     auto *matrix = new Matrix(this->rows, mx.cols, false);
 
     double aux;
@@ -162,7 +156,7 @@ Matrix *Matrix::multiply(Matrix &mx) const {
     return matrix;*/
 }
 
-void Matrix::add(Matrix &mx) const {
+void Matrix::add(Matrix &mx) {
     for (int i = 0; i < this->rows; ++i) {
         for (int j = 0; j < this->cols; ++j) {
             setValue(i, j, getValue(i, j) + mx.getValue(i, j));
@@ -170,7 +164,7 @@ void Matrix::add(Matrix &mx) const {
     }
 }
 
-void Matrix::subtract(Matrix &mx) const {
+void Matrix::subtract(Matrix &mx) {
     for (int i = 0; i < this->rows; ++i) {
         for (int j = 0; j < this->cols; ++j) {
             setValue(i, j, getValue(i, j) - mx.getValue(i, j));
@@ -178,7 +172,7 @@ void Matrix::subtract(Matrix &mx) const {
     }
 }
 
-void Matrix::scalar(double x) const {
+void Matrix::scalar(double x) {
     for (int i = 0; i < this->rows; ++i) {
         for (int j = 0; j < this->cols; ++j) {
             this->data[i][j] *= x;
@@ -186,7 +180,7 @@ void Matrix::scalar(double x) const {
     }
 }
 
-void Matrix::split(double x) const {
+void Matrix::split(double x) {
     for (int i = 0; i < this->rows; ++i) {
         for (int j = 0; j < this->cols; ++j) {
             this->data[i][j] /= x;
@@ -194,7 +188,7 @@ void Matrix::split(double x) const {
     }
 }
 
-void Matrix::map(double (*function)(double)) const {
+void Matrix::map(double (*function)(double)) {
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
             double value = this->data[i][j];
@@ -204,7 +198,7 @@ void Matrix::map(double (*function)(double)) const {
     }
 }
 
-double *Matrix::matrixToArray() const {
+double *Matrix::matrixToArray() {
     auto *arr = static_cast<double *>(malloc(this->rows * sizeof(double)));
 
     for (int i = 0; i < this->rows; ++i) {
@@ -252,15 +246,16 @@ Matrix *Matrix::multiply(Matrix &mx, Matrix &my) {
     return mx.multiply(my);
 }
 
-void Matrix::printToConsole() const {
-    for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < cols; ++j) {
-            cout << getValue(i, j) << " \n"[j == cols - 1];
+void Matrix::printToConsole() {
+    for (int i = 0; i < this->rows; i++) {
+        for (int j = 0; j < this->cols; j++) {
+            cout << this->data.at(i).at(j) << "\t\t";
         }
+        cout << endl;
     }
 }
 
-string Matrix::matrixToString() const {
+string Matrix::matrixToString() {
     string dataStr;
 
     for (unsigned int i = 0; i < this->rows; ++i) {
@@ -277,7 +272,7 @@ string Matrix::matrixToString() const {
     return dataStr;
 }
 
-Matrix *Matrix::operator+(Matrix &mx) const {
+Matrix *Matrix::operator+(Matrix &mx) {
     Matrix *c = copy();
 
     c->add(mx);
@@ -285,7 +280,7 @@ Matrix *Matrix::operator+(Matrix &mx) const {
     return c;
 }
 
-Matrix *Matrix::operator-(Matrix &mx) const {
+Matrix *Matrix::operator-(Matrix &mx) {
     Matrix *c = copy();
 
     c->subtract(mx);
@@ -293,7 +288,7 @@ Matrix *Matrix::operator-(Matrix &mx) const {
     return c;
 }
 
-Matrix *Matrix::operator*(Matrix &mx) const {
+Matrix *Matrix::operator*(Matrix &mx) {
     Matrix *c = copy();
 
     c->multiply(mx);
@@ -301,7 +296,7 @@ Matrix *Matrix::operator*(Matrix &mx) const {
     return c;
 }
 
-Matrix *Matrix::operator*(double x) const {
+Matrix *Matrix::operator*(double x) {
     Matrix *c = copy();
 
     c->scalar(x);
@@ -309,7 +304,7 @@ Matrix *Matrix::operator*(double x) const {
     return c;
 }
 
-Matrix *Matrix::operator/(double x) const {
+Matrix *Matrix::operator/(double x) {
     Matrix *c = copy();
 
     c->split(x);
@@ -317,27 +312,27 @@ Matrix *Matrix::operator/(double x) const {
     return c;
 }
 
-void Matrix::operator+=(Matrix &mx) const {
+void Matrix::operator+=(Matrix &mx) {
     add(mx);
 }
 
-void Matrix::operator-=(Matrix &mx) const {
+void Matrix::operator-=(Matrix &mx) {
     subtract(mx);
 }
 
-void Matrix::operator*=(Matrix &mx) const {
+void Matrix::operator*=(Matrix &mx) {
     multiply(mx);
 }
 
-void Matrix::operator*=(double x) const {
+void Matrix::operator*=(double x) {
     scalar(x);
 }
 
-void Matrix::operator/=(double x) const {
+void Matrix::operator/=(double x) {
     split(x);
 }
 
-void Matrix::assign_matrix_array(double *array) const {
+void Matrix::assign_matrix_array(double *array) {
     unsigned int aux = 0;
 
     for (unsigned int i = 0; i < rows; ++i) {
@@ -347,7 +342,7 @@ void Matrix::assign_matrix_array(double *array) const {
     }
 }
 
-double *Matrix::vectorize() const {
+double *Matrix::vectorize() {
     unsigned int n = rows * cols;
 
     auto *d = static_cast<double *>(malloc(sizeof(double) * n));
@@ -361,10 +356,18 @@ double *Matrix::vectorize() const {
     return d;
 }
 
-unsigned int Matrix::size() const {
+unsigned int Matrix::size() {
     return this->rows * this->cols;
 }
 
-void Matrix::d() const {
-    delete[] this->data;
+vector<double> Matrix::to_vector() {
+    vector<double> d;
+
+    for (unsigned int i = 0; i < rows; ++i) {
+        for (unsigned int j = 0; j < cols; ++j) {
+            d.push_back(getValue(i, j));
+        }
+    }
+
+    return d;
 }

@@ -72,7 +72,7 @@ void Network::feedForward() {
             left = this->layers.at(i)->convertValues();
         }
 
-        right = this->weightMatrices.at(i);
+        right = new Matrix(*this->weightMatrices.at(i));
 
         r = Matrix::multiply(*right, *left);
 
@@ -80,11 +80,10 @@ void Network::feedForward() {
             this->layers.at(i + 1)->setNeuronValue(j, r->getValue(j, 0) + (this->bias));
         }
 
-        free(r);
+        delete r;
+        delete left;
+        delete right;
     }
-
-    free(left);
-    free(right);
 }
 
 
@@ -241,15 +240,19 @@ void Network::train(vector<double> input, vector<double> meta) {
     backPropagation();
 }
 
-double *Network::predict(vector<double> input) {
+vector<double> Network::predict(vector<double> input) {
     auto inputMatrix = Matrix::vectorToMatrix(std::move(input));
 
     setCurrentInput(*inputMatrix);
     feedForward();
 
-    double *out = this->layers.at(this->topologySize - 1)->convertActivatedValues()->matrixToArray();
+    auto output_layer = this->layers.at(this->topologySize - 1)->convertActivatedValues();
 
-    free(inputMatrix);
+    auto out = output_layer->to_vector();
+
+    delete output_layer;
+
+    input.clear();
 
     return out;
 }

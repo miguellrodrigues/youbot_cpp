@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 
+using std::vector;
 
 class Matrix {
 
@@ -18,31 +19,31 @@ public:
 
     Matrix(unsigned int rows, unsigned int cols, bool isRandom);
 
-    void setValue(unsigned int row, unsigned int col, double value) const;
+    void setValue(unsigned int row, unsigned int col, double value);
 
-    double getValue(unsigned int row, unsigned int col) const;
+    double getValue(unsigned int row, unsigned int col);
 
-    Matrix *copy() const;
+    Matrix *copy() ;
 
-    Matrix *transpose() const;
+    Matrix *transpose() ;
 
-    Matrix *hadamard(Matrix &mx) const;
+    Matrix *hadamard(Matrix &mx) ;
 
-    Matrix *multiply(Matrix &mx) const;
+    Matrix *multiply(Matrix &mx) ;
 
-    void add(Matrix &mx) const;
+    void add(Matrix &mx);
 
-    void subtract(Matrix &mx) const;
+    void subtract(Matrix &mx);
 
-    void scalar(double x) const;
+    void scalar(double x);
 
-    void split(double x) const;
+    void split(double x);
 
-    void map(double (*function)(double)) const;
+    void map(double (*function)(double));
 
-    double *matrixToArray() const;
+    double *matrixToArray() ;
 
-    double *vectorize() const;
+    double *vectorize() ;
 
     static Matrix *arrayToMatrix(double *array, unsigned int size);
     static Matrix *vectorToMatrix(std::vector<double> vector);
@@ -50,42 +51,44 @@ public:
     static Matrix *multiply(Matrix &mx, Matrix &my);
     static Matrix *hadamard(Matrix &mx, Matrix &my);
 
-    void assign_matrix_array(double *array) const;
+    void assign_matrix_array(double *array);
 
-    void d() const;
+    void printToConsole() ;
 
-    void printToConsole() const;
+    std::string matrixToString() ;
 
-    std::string matrixToString() const;
+    Matrix *operator+(Matrix &mx) ;
 
-    Matrix *operator+(Matrix &mx) const;
+    Matrix *operator-(Matrix &mx) ;
 
-    Matrix *operator-(Matrix &mx) const;
+    Matrix *operator*(Matrix &mx) ;
 
-    Matrix *operator*(Matrix &mx) const;
+    Matrix *operator*(double x) ;
 
-    Matrix *operator*(double x) const;
+    Matrix *operator/(double x) ;
 
-    Matrix *operator/(double x) const;
+    void operator+=(Matrix &mx);
 
-    void operator+=(Matrix &mx) const;
+    void operator-=(Matrix &mx);
 
-    void operator-=(Matrix &mx) const;
+    void operator*=(Matrix &mx);
 
-    void operator*=(Matrix &mx) const;
+    void operator*=(double x);
 
-    void operator*=(double x) const;
+    void operator/=(double x);
 
-    void operator/=(double x) const;
+    //double **data{};
 
-    double **data{};
+    vector<vector<double>> data;
 
     unsigned int rows{};
     unsigned int cols{};
 
-    unsigned int size() const;
+    unsigned int size() ;
 
     static int randomInt(int min, int max);
+
+    vector<double> to_vector();
 };
 
 

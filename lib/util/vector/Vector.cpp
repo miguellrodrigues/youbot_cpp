@@ -8,11 +8,11 @@
 namespace lib
 {
     Vector::Vector(double x, double y, double z): x(x), y(y), z(z) {
-        this->data = static_cast<double *>(malloc(sizeof(double) * 3));
+        this->data = vector<double>();
 
-        this->data[0] = x;
-        this->data[1] = y;
-        this->data[2] = z;
+        this->data.push_back(x);
+        this->data.push_back(y);
+        this->data.push_back(z);
     }
 
     Vector::Vector(const double *values) : Vector(values[0], values[1], values[2]) {

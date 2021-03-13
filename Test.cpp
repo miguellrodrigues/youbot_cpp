@@ -38,7 +38,5 @@ Test::Test() {
         if (output[2] > 0) {
             youBot.setWheelsSpeed({.0, .0, .0, .0});
         }
-
-        delete[] output;
     }
 }

@@ -20,6 +20,14 @@ double Matrix::randomDouble(double min, double max) {
     return (dis(gen));
 }
 
+int Matrix::randomInt(int min, int max) {
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> dis(min, max);
+
+    return (dis(gen));
+}
+
 Matrix::Matrix() = default;
 
 Matrix::Matrix(unsigned int rows, unsigned int cols, bool isRandom) : rows(rows), cols(cols) {
@@ -349,4 +357,8 @@ double *Matrix::vectorize() const {
     }
 
     return d;
+}
+
+unsigned int Matrix::size() const {
+    return this->rows * this->cols;
 }

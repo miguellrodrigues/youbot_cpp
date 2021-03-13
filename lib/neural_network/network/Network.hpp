@@ -30,7 +30,7 @@ public:
 
     void assign(Network &other);
 
-    void crossOver(Network &father, Network &mother);
+    static void crossOver(Network &n, Network &father, Network &mother);
 
     void save(const string& path);
 
@@ -38,7 +38,7 @@ public:
 
     vector<Matrix *> weightMatrices;
 
-    double bias = 0.005;
+    double bias = 0.016;
 private:
     double learningRate = .0005;
 

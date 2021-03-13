@@ -16,7 +16,7 @@ using namespace std;
 using json = nlohmann::json;
 
 double mutateFunction(double x) {
-    return x + Matrix::randomDouble(-1.1, 1.1);
+    return x + Matrix::randomDouble(-1.0, 1.0);
 }
 
 Network::Network(unsigned int *topology, unsigned int topologySize) {
@@ -254,24 +254,34 @@ void Network::assign(Network &other) {
 }
 
 void Network::mutate(double rate) {
-    if (Matrix::randomDouble(0.0, 1.0) < rate) {
-        for (auto &weightMatrix : this->weightMatrices) {
-            weightMatrix->map(mutateFunction);
+    for (auto &weightMatrix : this->weightMatrices) {
+        unsigned int count = rate * weightMatrix->cols;
+
+        unsigned int random_row = Matrix::randomInt(0, (int)weightMatrix->rows - 1);
+
+        for (unsigned int i = 0; i < count; ++i) {
+            unsigned int random_col = Matrix::randomInt(0, (int)weightMatrix->cols - 1);
+
+            double value = weightMatrix->getValue(random_row, random_col);
+
+            weightMatrix->setValue(random_row, random_col, value + Matrix::randomDouble(-1.0, 1.0));
         }
+
+        //weightMatrix->map(mutateFunction);
     }
 }
 
-void Network::crossOver(Network &father, Network &mother) {
-    for (int i = 0; i < weightMatrices.size(); ++i) {
+void Network::crossOver(Network &n, Network &father, Network &mother) {
+    for (int i = 0; i < n.weightMatrices.size(); ++i) {
         Matrix *fatherWeight = father.weightMatrices.at(i);
         Matrix *motherWeight = mother.weightMatrices.at(i);
 
         for (int j = 0; j < fatherWeight->rows; ++j) {
             for (int k = 0; k < fatherWeight->cols; ++k) {
                 if (Matrix::randomDouble(0.0, 1.0) < 0.5) {
-                    this->weightMatrices.at(i)->setValue(j, k, fatherWeight->getValue(j, k));
+                    n.weightMatrices.at(i)->setValue(j, k, fatherWeight->getValue(j, k));
                 } else {
-                    this->weightMatrices.at(i)->setValue(j, k, motherWeight->getValue(j, k));
+                    n.weightMatrices.at(i)->setValue(j, k, motherWeight->getValue(j, k));
                 }
             }
         }

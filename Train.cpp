@@ -7,7 +7,6 @@
 #include "lib/webots/youbot/YouBot.hpp"
 #include "lib/neural_network/network/Network.hpp"
 #include "nlohmann/json.hpp"
-#include "lib/util/pid/Pid.hpp"
 
 #include <chrono>
 #include <fstream>
@@ -24,21 +23,21 @@ using json = nlohmann::json;
 
 
 Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, unsigned int max_generations, unsigned int time_interval) {
-    Controller controller(new Supervisor(), 16);
+    Controller controller(new Supervisor(), 50);
     YouBot youBot(&controller);
 
     auto center = youBot.getPosition();
     auto initialPosition = center;
 
     double  angle          = .0,
-            inc           = .4,
-            max_velocity   = 4.0,
+            comp           = .008,
+            max_velocity   = 8.0,
             last_time      = .0,
-            target_fitness = .0;
-
-    double x_min = -1.0859, x_max = -0.558922;
+            target_fitness = .0003;
 
     vector<Network *> networks;
+    vector<Network *> temp;
+
     vector<double> generationsFitness;
     vector<double> errors;
 
@@ -55,22 +54,44 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
 
     cout << "Geracao " << count << " De " << max_generations << endl;
 
-    double initialRotation[4] = {-0.999891, -0.0093612, -0.0113853, 1.57093};
-
-    auto pid = new Pid(4.0, .001, 1.0, 5.0, .01);
-
     while (controller.step() != -1) {
         double time = controller.getSupervisor()->getTime();
 
         auto youBotPosition = youBot.getPosition();
+        auto youBotRotationAngle = youBot.getRotationAngle();
 
-        auto boxPosition = Vector(controller.getObjectPosition("box"));
+        angle += comp;
 
-        /*if (time > last_time + 1 && (int) time % time_interval == 0) {
+        double x = 0.8 * cos(angle);
+        double z = 0.8 * sin(angle);
+
+        center.add(Vector(x, .0, z));
+
+        controller.setObjectPosition("box", center.getValues());
+
+        double theta = youBotPosition.differenceAngle(center);
+
+        center.subtract(Vector(x, .0, z));
+
+        double angle_error = normalize(youBotRotationAngle + theta);
+
+        errors.push_back(angle_error);
+
+        if (angle > M_PI || angle < -M_PI) {
+            comp *= -1;
+        }
+
+        if (time > last_time + 1 && (int) time % time_interval == 0) {
             last_time = time;
 
             if (count < max_generations) {
-                double fitness = abs(abs(youBotPosition.distance(boxPosition)) - .6);
+                double sum_errors = .0;
+
+                for (auto &err : errors) {
+                    sum_errors += abs(err);
+                }
+
+                double fitness = (sum_errors / errors.size()) + initialPosition.distance(youBotPosition);
                 double fitness_error = 0.5 * pow(target_fitness - fitness, 2.0);
 
                 errors.clear();
@@ -81,11 +102,10 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
                 network->setFitness(fitness);
 
                 controller.setObjectPosition("youBot", initialPosition.getValues());
-                controller.setObjectRotation("youBot", initialRotation);
 
                 logs.push_back("Individuo " + to_string(current) + " Fitness " + to_string(fitness) +  " Fit Err " + to_string(fitness_error));
 
-                cout << logs.at(logs.size() - 1) << endl;
+                cout << "Individuo " + to_string(current) + " Fitness " + to_string(fitness) +  " Fit Err " + to_string(fitness_error) << endl;
 
                 current += 1;
 
@@ -96,7 +116,7 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
                         return one->getFitness() < two->getFitness();
                     });
 
-                    double best_fitness = networks[0]->getFitness();
+                    double best_fitness = networks.at(0)->getFitness();
 
                     generationsFitness.push_back(best_fitness);
 
@@ -108,50 +128,46 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
                     for (unsigned int i = 0; i < max_per_generation; ++i) {
                         auto net = new Network(topology.data(), topology.size());
 
-                        net->crossOver(*father, *mother);
+                        Network::crossOver(*net, *father, *mother);
 
-                        net->mutate(.3);
+                        net->mutate(.2);
 
                         networks.push_back(net);
                     }
 
                     logs.push_back("Best Fitness: " + to_string(best_fitness));
 
-                    cout << logs.at(logs.size() - 1) << endl;
+                    cout << "Best Fitness: " + to_string(best_fitness) << endl;
 
                     logs.push_back("Geracao " + to_string(count) + " De " + to_string(max_generations));
 
-                    cout << logs.at(logs.size() - 1) << endl;
+                    cout << "Geracao " + to_string(count) + " De " + to_string(max_generations) << endl;
 
                     current = 0;
                 }
 
                 network = networks.at(current);
             }
-        }*/
+        }
 
-        /*auto output = network->predict({abs(youBotPosition.distance(boxPosition)) - .6});
+        auto output = network->predict({abs(angle_error), angle_error > 0 ? 1.0 : .0});
 
         if (output[0] > 0) {
-            youBot.setWheelsSpeed({max_velocity, max_velocity, max_velocity, max_velocity});
+            youBot.setWheelsSpeed({-max_velocity, max_velocity, -max_velocity, max_velocity});
         }
 
         if (output[1] > 0) {
-            youBot.setWheelsSpeed({-max_velocity, -max_velocity, -max_velocity, -max_velocity});
+            youBot.setWheelsSpeed({max_velocity, -max_velocity, max_velocity, -max_velocity});
         }
 
         if (output[2] > 0) {
             youBot.setWheelsSpeed({.0, .0, .0, .0});
-        }*/
+        }
 
-        double out = pid->compute(youBotPosition.distance(boxPosition) - .6, 0.14);
-
-        youBot.setWheelsSpeed({out, out, out, out});
-
-        network->train({youBotPosition.distance(boxPosition) - .6}, {out});
+        delete[] output;
     }
 
-    network->save("");
+    network->save("align.json");
 
     std::time_t timeStamp = std::time(nullptr);
 

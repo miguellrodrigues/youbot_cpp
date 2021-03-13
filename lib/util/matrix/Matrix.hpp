@@ -80,6 +80,10 @@ public:
 
     unsigned int rows{};
     unsigned int cols{};
+
+    unsigned int size() const;
+
+    static int randomInt(int min, int max);
 };
 
 

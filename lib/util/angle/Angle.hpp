@@ -10,7 +10,7 @@
 
 class Angle {
 public:
-    Angle(Matrix *rotation_x);
+    explicit Angle(Matrix *rotation_x);
 
     static Matrix *calculateMatrix(double *d);
 

@@ -54,6 +54,8 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
         auto youBotPosition = youBot.getPosition();
         auto youBotRotationAngle = youBot.getRotationAngle();
 
+        cout << youBotRotationAngle << endl;
+
         angle += comp;
 
         double x = 0.8 * cos(angle);
@@ -69,7 +71,7 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
 
         center->subtract(*pos);
 
-        free(pos);
+        delete pos;
 
         double angle_error = normalize(youBotRotationAngle + theta);
 
@@ -165,7 +167,7 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
             youBot.setWheelsSpeed({.0, .0, .0, .0});
         }
 
-        free(output);
+        delete[] output;
     }
 
     network->save("alignttt.json");

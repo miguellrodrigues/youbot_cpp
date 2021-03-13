@@ -9,7 +9,7 @@
 using namespace std;
 
 Angle::Angle(Matrix *rotation_x) {
-    this->rotation_x = rotation_x;
+    this->rotation_x = rotation_x->transpose();
 }
 
 Matrix *Angle::calculateMatrix(double *d) {
@@ -36,8 +36,8 @@ double Angle::calculateAngle(double *d) {
 
     double angle = atan2(result->getValue(1, 0), result->getValue(0, 0));
 
-    delete x;
-    delete result;
+    x->d();
+    result->d();
 
     return angle;
 }

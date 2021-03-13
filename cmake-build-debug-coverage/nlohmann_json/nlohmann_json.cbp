@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="nlohmann_json"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\nlohmann_json\;CMake Files\nlohmann_json\cmake\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/nlohmann_json"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/nlohmann_json/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/nlohmann_json/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/nlohmann_json/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/nlohmann_json/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/miguel/CLionProjects/youbot_cpp/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/miguel/CLionProjects/youbot_cpp/nlohmann_json/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\nlohmann_json\"/>
+		</Unit>
+		<Unit filename="/home/miguel/CLionProjects/youbot_cpp/nlohmann_json/cmake/config.cmake.in">
+			<Option virtualFolder="CMake Files\nlohmann_json\cmake\"/>
+		</Unit>
+		<Unit filename="/home/miguel/CLionProjects/youbot_cpp/nlohmann_json/cmake/nlohmann_jsonConfigVersion.cmake.in">
+			<Option virtualFolder="CMake Files\nlohmann_json\cmake\"/>
+		</Unit>
+		<Unit filename="/home/miguel/CLionProjects/youbot_cpp/nlohmann_json/cmake/pkg-config.pc.in">
+			<Option virtualFolder="CMake Files\nlohmann_json\cmake\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

@@ -10,13 +10,14 @@
 
 class Angle {
 public:
-    Angle();
+    Angle(Matrix *rotation_x);
 
-    static Matrix *calculateMatrix(double *data);
+    static Matrix *calculateMatrix(double *d);
 
-    double calculateAngle(double *data) const;
+    double calculateAngle(double *d);
 
-    const Matrix *rotation_x = new Matrix(3, 3, false);
+private:
+    Matrix *rotation_x;
 };
 
 

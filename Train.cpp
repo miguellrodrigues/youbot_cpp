@@ -32,7 +32,7 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
 
     vector<Network *> networks;
 
-    //vector<double> generationsFitness;
+    vector<double> generationsFitness;
     vector<double> errors;
 
     unsigned int count              = 0,
@@ -51,10 +51,10 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
     while (controller.step() != -1) {
         double time = controller.getSupervisor()->getTime();
 
-        //auto youBotPosition = youBot.getPosition();
+        auto youBotPosition = youBot.getPosition();
         auto youBotRotationAngle = youBot.getRotationAngle();
 
-        /*angle += comp;
+        angle += comp;
 
         double x = 0.8 * cos(angle);
         double z = 0.8 * sin(angle);
@@ -71,9 +71,9 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
 
         free(pos);
 
-        double angle_error = normalize(youBotRotationAngle + theta);*/
+        double angle_error = normalize(youBotRotationAngle + theta);
 
-        //errors.push_back(angle_error);
+        errors.push_back(angle_error);
 
         if (angle > M_PI || angle < -M_PI) {
             comp *= -1;
@@ -83,28 +83,28 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
             last_time = time;
 
             if (count < max_generations) {
-                /*double sum_errors = .0;
+                double sum_errors = .0;
 
                 for (auto &err : errors) {
                     sum_errors += abs(err);
                 }
 
-                double fitness = (sum_errors / errors.size()) + initialPosition.distance(youBotPosition);
+                double fitness = (sum_errors / errors.size()) + initialPosition->distance(youBotPosition);
                 double fitness_error = 0.5 * pow(target_fitness - fitness, 2.0);
 
                 errors.clear();
 
-                *//*if (fitness_error <= target_fitness)
-                    break;*//*
+                /*if (fitness_error <= target_fitness)
+                    break;*/
 
                 network->setFitness(fitness);
 
-                controller.setObjectPosition("youBot", initialPosition.getValues());
+                controller.setObjectPosition("youBot", initialPosition->getValues());
 
                 //logs.push_back("Individuo " + to_string(current) + " Fitness " + to_string(fitness) +  " Fit Err " + to_string(fitness_error));
 
                 cout << "Individuo " + to_string(current) + " Fitness " + to_string(fitness) +  " Fit Err " + to_string(fitness_error) << endl;
-*/
+
                 current += 1;
 
                 if (current == networks.size()) {
@@ -151,7 +151,7 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
             }
         }
 
-        /*auto output = network->predict({abs(angle_error), angle_error > 0 ? 1.0 : .0});
+        auto output = network->predict({abs(angle_error), angle_error > 0 ? 1.0 : .0});
 
         if (output[0] > 0) {
             youBot.setWheelsSpeed({-max_velocity, max_velocity, -max_velocity, max_velocity});
@@ -165,7 +165,7 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
             youBot.setWheelsSpeed({.0, .0, .0, .0});
         }
 
-        free(output);*/
+        free(output);
     }
 
     network->save("alignttt.json");

@@ -251,6 +251,7 @@ vector<double> Network::predict(vector<double> input) {
     auto out = output_layer->to_vector();
 
     delete output_layer;
+    delete inputMatrix;
 
     return out;
 }

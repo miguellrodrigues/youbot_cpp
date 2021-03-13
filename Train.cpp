@@ -84,7 +84,7 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
             comp *= -1;
         }
 
-        /*if (time > last_time + 1 && (int) time % time_interval == 0) {
+        if (time > last_time + 1 && (int) time % time_interval == 0) {
             last_time = time;
 
             if (count < max_generations) {
@@ -156,9 +156,9 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
 
                 network = networks.at(current);
             }
-        }*/
+        }
 
-        auto output = network->predict({abs(2), 2 > 0 ? 1.0 : .0});
+        auto output = network->predict({abs(angle_error), angle_error > 0 ? 1.0 : .0});
 
         if (output.at(0) > 0) {
             youBot.setWheelsSpeed({-max_velocity, max_velocity, -max_velocity, max_velocity});

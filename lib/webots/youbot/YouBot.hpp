@@ -72,6 +72,8 @@ private:
     Vector *position;
     Angle *angle;
 
+    Matrix *rotationMatrix;
+
     string def = "youBot";
 };
 

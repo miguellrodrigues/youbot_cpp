@@ -9,6 +9,8 @@ class Neuron {
 public:
     explicit Neuron(double val);
 
+    ~Neuron();
+
     void setValue(double val);
 
     void activate();
@@ -22,10 +24,10 @@ public:
     double getDerivedValue() const;
 
 private:
-    double value{};
+    double *value{};
 
-    double activatedValue{};
-    double derivedValue{};
+    double *activatedValue{};
+    double *derivedValue{};
 };
 
 

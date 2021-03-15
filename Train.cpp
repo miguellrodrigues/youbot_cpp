@@ -22,7 +22,7 @@ double normalize(double d) {
 
 
 Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, unsigned int max_generations, unsigned int time_interval) {
-    Controller controller(new Supervisor(), 50);
+    Controller controller(new Supervisor(), 20);
     YouBot youBot = * new YouBot(&controller);
 
     auto center = new Vector(youBot.getPosition());
@@ -99,8 +99,8 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
 
                 errors.clear();
 
-                if (fitness_error <= target_fitness)
-                    break;
+                /*if (fitness_error <= target_fitness)
+                    break;*/
 
                 network->setFitness(fitness);
 
@@ -126,22 +126,20 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
                     auto father = networks.at(0)->clone();
                     auto mother = networks.at(1)->clone();
 
-                    for (auto n : networks) {
-                        free(n);
-                    }
-
                     for (unsigned int i = 0; i < max_per_generation; ++i) {
+                        delete networks.at(i);
+
                         auto net = new Network(topology.data(), topology.size());
 
                         Network::crossOver(*net, *father, *mother);
 
                         net->mutate(.2);
 
-                        networks.at(i) = net;
+                        networks.push_back(net);
                     }
 
-                    free(father);
-                    free(mother);
+                    delete father;
+                    delete mother;
 
                     logs.push_back("Best Fitness: " + to_string(best_fitness));
 
@@ -180,7 +178,7 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
     json training_data;
 
     training_data["topology"] = topology;
-    training_data["bias"] = network->bias;
+    training_data["bias"] = network->getBias();
     training_data["time_stamp"] = timeStamp;
     training_data["generations_fitness"] = generationsFitness;
     training_data["logs"] = logs;

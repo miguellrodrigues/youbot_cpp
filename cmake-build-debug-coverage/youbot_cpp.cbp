@@ -133,6 +133,9 @@
 		<Unit filename="/home/miguel/CLionProjects/youbot_cpp/lib/neural_network/neuron/Neuron.hpp">
 			<Option target="youbot_cpp"/>
 		</Unit>
+		<Unit filename="/home/miguel/CLionProjects/youbot_cpp/lib/util/Numbers.hpp">
+			<Option target="youbot_cpp"/>
+		</Unit>
 		<Unit filename="/home/miguel/CLionProjects/youbot_cpp/lib/util/angle/Angle.cpp">
 			<Option target="youbot_cpp"/>
 		</Unit>

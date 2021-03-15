@@ -13,8 +13,6 @@ using std::vector;
 class Matrix {
 
 public:
-    static double randomDouble(double min, double max);
-
     Matrix();
 
     ~Matrix();
@@ -41,57 +39,36 @@ public:
 
     void split(double x);
 
-    void map(double (*function)(double));
+    vector<double> to_vector();
 
-    double *matrixToArray() ;
-
-    double *vectorize() ;
-
-    static Matrix *arrayToMatrix(double *array, unsigned int size);
     static Matrix *vectorToMatrix(std::vector<double> vector);
-
-    static Matrix *multiply(Matrix &mx, Matrix &my);
-    static Matrix *hadamard(Matrix &mx, Matrix &my);
 
     void assign_matrix_array(double *array);
 
+    unsigned int size() const;
+
+    const vector<vector<double>> &getData()
+    {
+        return this->data;
+    }
+
+    unsigned int getRows() const
+    {
+        return this->rows;
+    }
+
+    unsigned int getCols() const
+    {
+        return this->cols;
+    }
+
     void printToConsole() ;
 
-    std::string matrixToString() ;
-
-    Matrix *operator+(Matrix &mx) ;
-
-    Matrix *operator-(Matrix &mx) ;
-
-    Matrix *operator*(Matrix &mx) ;
-
-    Matrix *operator*(double x) ;
-
-    Matrix *operator/(double x) ;
-
-    void operator+=(Matrix &mx);
-
-    void operator-=(Matrix &mx);
-
-    void operator*=(Matrix &mx);
-
-    void operator*=(double x);
-
-    void operator/=(double x);
-
-    //double **data{};
-
+private:
     vector<vector<double>> data;
 
     unsigned int rows{};
     unsigned int cols{};
-
-    unsigned int size() ;
-
-    static int randomInt(int min, int max);
-
-    vector<double> to_vector();
 };
-
 
 #endif //REDENEURAL_MATRIX_HPP

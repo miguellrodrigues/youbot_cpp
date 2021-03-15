@@ -34,7 +34,7 @@ namespace lib
         return pow(distance(other), 2.0);
     }
 
-    double Vector::angle(const Vector& other) {
+    double Vector::angle(const Vector& other) const {
         double dot = this->dot(other) / (this->length() * other.length());
         return acos(dot);
     }
@@ -91,10 +91,6 @@ namespace lib
         Vector copy(this->x, this->y, this->z);
 
         return copy;
-    }
-
-    void Vector::setX(double d) {
-        this->x = d;
     }
 
     Vector::~Vector() {

@@ -60,6 +60,8 @@ vector<PositionSensor *> Controller::getPositionSensors() {
 
     for (auto &device : devices) { sensors.push_back((PositionSensor *) device); }
 
+    devices.clear();
+
     return sensors;
 }
 
@@ -71,6 +73,8 @@ vector<DistanceSensor *> Controller::getDistanceSensors() {
     sensors.reserve(devices.size());
 
     for (auto &device : devices) { sensors.push_back((DistanceSensor *) device); }
+
+    devices.clear();
 
     return sensors;
 }
@@ -84,6 +88,8 @@ vector<LightSensor *> Controller::getLightSensors() {
 
     for (auto &device : devices) { sensors.push_back((LightSensor *) device); }
 
+    devices.clear();
+
     return sensors;
 }
 
@@ -95,6 +101,8 @@ vector<TouchSensor *> Controller::getTouchSensors() {
     sensors.reserve(devices.size());
 
     for (auto &device : devices) { sensors.push_back((TouchSensor *) device); }
+
+    devices.clear();
 
     return sensors;
 }
@@ -108,6 +116,8 @@ vector<Motor *> Controller::getMotors() {
 
     for (auto &device : devices) { sensors.push_back((Motor *) device); }
 
+    devices.clear();
+
     return sensors;
 }
 
@@ -120,45 +130,29 @@ Device *Controller::getDeviceByName(string name) {
         }
     }
 
+    allDevices.clear();
+
     return nullptr;
 }
 
 double *Controller::getObjectPosition(const string& nodeDef) {
-    auto robotNode = supervisor->getFromDef(nodeDef);
-
-    auto translationField = robotNode->getField("translation");
-
-    return const_cast<double *>(translationField->getSFVec3f());
+    return const_cast<double *>(supervisor->getFromDef(nodeDef)->getPosition());
 }
 
 double *Controller::getObjectRotation(const string& nodeDef) {
-    auto robotNode = supervisor->getFromDef(nodeDef);
-
-    auto rotationField = robotNode->getField("rotation");
-
-    return const_cast<double *>(rotationField->getSFRotation());
+    return const_cast<double *>(supervisor->getFromDef(nodeDef)->getField("rotation")->getSFRotation());
 }
 
 double *Controller::getObjectOrientation(const string& nodeDef) {
-    auto node = supervisor->getFromDef(nodeDef);
-
-    return const_cast<double *>(node->getOrientation());
+    return const_cast<double *>(supervisor->getFromDef(nodeDef)->getOrientation());
 }
 
 void Controller::setObjectPosition(const string& nodeDef, double *position) {
-    auto node = supervisor->getFromDef(nodeDef);
-
-    auto translationField = node->getField("translation");
-
-    translationField->setSFVec3f(position);
+    supervisor->getFromDef(nodeDef)->getField("translation")->setSFVec3f(position);
 }
 
 void Controller::setObjectRotation(const string& nodeDef, double *rotation) {
-    auto robotNode = supervisor->getFromDef(nodeDef);
-
-    auto rotationField = robotNode->getField("rotation");
-
-    rotationField->setSFRotation(rotation);
+    supervisor->getFromDef(nodeDef)->getField("rotation")->setSFRotation(rotation);
 }
 
 double *Controller::getObjectVelocity(const string& nodeDef) {
@@ -169,14 +163,19 @@ void Controller::setupMotors(double position) {
     vector<Motor *> motors = getMotors();
 
     for (auto &motor : motors) {
+        motor->setVelocity(.0);
         motor->setPosition(position);
     }
+
+    motors.clear();
 }
 
 void Controller::setMotorVelocity(unsigned int index, double velocity) {
     vector<Motor *> motors = getMotors();
 
     motors.at(index)->setVelocity(velocity);
+
+    motors.clear();
 }
 
 Controller::~Controller() {

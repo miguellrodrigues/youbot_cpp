@@ -3,43 +3,45 @@
 //
 
 #include "Neuron.hpp"
-#include <cmath>
+#include "../../util/Numbers.hpp"
 
-double sigmoid(double x) {
-    return (x / (1 + std::abs(x)));
-}
+Neuron::Neuron(double val) {
+    this->value = static_cast<double *>(malloc(sizeof(double)));
+    this->activatedValue = static_cast<double *>(malloc(sizeof(double)));
+    this->derivedValue = static_cast<double *>(malloc(sizeof(double)));
 
-double derivative(double x) {
-    return (1 / pow((1 + std::abs(x)), 2.0));
-}
-
-Neuron::Neuron(double val) : value(val) {
     setValue(val);
 }
 
 void Neuron::activate() {
-    this->activatedValue = sigmoid(this->value);
+    *this->activatedValue = Numbers::sigmoid(*this->value);
 }
 
 void Neuron::derive() {
-    this->derivedValue = derivative(this->activatedValue);
+    *this->derivedValue = Numbers::derivative(*this->activatedValue);
 }
 
 double Neuron::getValue() const {
-    return this->value;
+    return *this->value;
 }
 
 double Neuron::getActivatedValue() const {
-    return this->activatedValue;
+    return *this->activatedValue;
 }
 
 double Neuron::getDerivedValue() const {
-    return this->derivedValue;
+    return *this->derivedValue;
 }
 
 void Neuron::setValue(double val) {
-    this->value = val;
+    *this->value = val;
 
     this->activate();
     this->derive();
+}
+
+Neuron::~Neuron() {
+    delete this->value;
+    delete this->activatedValue;
+    delete this->derivedValue;
 }

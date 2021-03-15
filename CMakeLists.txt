@@ -38,7 +38,7 @@ set(SOURCES ${C_SOURCES} ${CPP_SOURCES}
         lib/util/angle/Angle.cpp
         lib/util/angle/Angle.hpp
         include/Train.hpp
-        include/Test.hpp lib/neural_network/cuda/matmul/MatUtil.cu lib/neural_network/cuda/matmul/MatUtil.cuh lib/neural_network/cuda/dev_array.h)
+        include/Test.hpp lib/neural_network/cuda/matmul/MatUtil.cu lib/neural_network/cuda/matmul/MatUtil.cuh lib/neural_network/cuda/dev_array.h lib/util/Numbers.hpp)
 
 add_subdirectory(nlohmann_json)
 

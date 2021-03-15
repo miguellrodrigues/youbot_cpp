@@ -16,6 +16,8 @@ class Layer {
 public:
     explicit Layer(unsigned int size);
 
+    ~Layer();
+
     void setNeuronValue(unsigned int index, double value);
 
     Matrix *convertValues();
@@ -24,12 +26,9 @@ public:
 
     Matrix *convertDerivedValues();
 
-    unsigned int getNeuronsSize() const { return this->neuronSize; }
-
     vector<Neuron *> getNeurons() { return this->neurons; }
 
 private:
-    unsigned int neuronSize;
     vector<Neuron *> neurons;
 };
 

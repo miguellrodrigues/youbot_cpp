@@ -27,7 +27,7 @@ namespace lib {
 
         double distanceSquared(const Vector& other) const;
 
-        double angle(const Vector& other);
+        double angle(const Vector& other) const;
 
         double differenceAngle(const Vector& other) const;
 
@@ -43,11 +43,11 @@ namespace lib {
 
         void update(const double *d);
 
-        double getX() { return this->x; }
+        double getX() const { return this->x; }
 
-        double getY() { return this->y; }
+        double getY() const { return this->y; }
 
-        double getZ() { return this->z; }
+        double getZ() const { return this->z; }
 
         Vector *midPoint(const Vector& other);
 
@@ -61,8 +61,6 @@ namespace lib {
             return this->data.data();
         }
 
-        void setX(double d);
-
     private:
         vector<double> data;
 
@@ -73,4 +71,4 @@ namespace lib {
 }
 
 
-#endif //CINEMATICCONTROLLER_VECTOR_H
+#endif

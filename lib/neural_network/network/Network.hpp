@@ -16,45 +16,63 @@ class Network {
 public:
     Network(unsigned int *topology, unsigned int topologySize);
 
+    ~Network();
+
+    Network *clone();
+
     void train(vector<double> input, vector<double> meta);
 
     vector<double> predict(vector<double> input);
 
-    double globalError = 0.0;
-
-    double getFitness() const { return this->fitness; }
-
-    void setFitness(double fit) { this->fitness = fit; }
-
     void mutate(double rate);
 
-    void assign(Network &other);
-
     static void crossOver(Network &n, Network &father, Network &mother);
+
+    void assign(Network &other);
 
     void save(const string& path);
 
     static Network &load(const string& path);
 
-    vector<Matrix *> weightMatrices;
+    double getFitness() const { return this->fitness; }
 
-    ~Network();
+    void setFitness(double fit) { this->fitness = fit; }
 
-    Network *clone();
+    double getGlobalError() const
+    {
+        return this->globalError;
+    }
 
-    double bias = 0.02;
+    double getBias() const
+    {
+        return this->bias;
+    }
+
+    const vector<Matrix *> &getWeightMatrices() const
+    {
+        return this->weightMatrices;
+    }
+
 private:
     double learningRate = .0005;
 
     double fitness = .0;
 
+    double globalError = 0.0;
+
+    double bias = 0.02;
+
     unsigned int topologySize{};
+
     vector<unsigned int> topology;
 
     vector<Layer *> layers;
+    vector<Matrix *> weightMatrices;
 
     vector<double> derivedErrors;
     vector<double> errors;
+
+    vector<vector<double>> vectorizeWeightMatrices();
 
     void setCurrentInput(Matrix *matrix);
 
@@ -65,8 +83,6 @@ private:
     void backPropagation();
 
     void setRecurrentInput();
-
-    vector<vector<double>> vectorizeWeightMatrices();
 };
 
 

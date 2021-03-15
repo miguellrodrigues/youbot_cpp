@@ -4,9 +4,7 @@
 
 #include "Matrix.hpp"
 #include "../Numbers.hpp"
-#include <cstdlib>
 #include <string>
-#include <random>
 #include <iostream>
 
 using namespace std;
@@ -19,7 +17,7 @@ Matrix::Matrix(unsigned int rows, unsigned int cols, bool isRandom) : rows(rows)
 
         for (unsigned int j = 0; j < cols; ++j) {
             if (isRandom) {
-                values.push_back(Numbers::randomDouble(-.501, .501));
+                values.push_back(Numbers::randomDouble(-10.0, 10.0));
             } else {
                 values.push_back(.0);
             }

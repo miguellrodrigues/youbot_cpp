@@ -22,7 +22,7 @@ double normalize(double d) {
 
 
 Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, unsigned int max_generations, unsigned int time_interval) {
-    Controller controller(new Supervisor(), 20);
+    Controller controller(new Supervisor(), 50);
     YouBot youBot = * new YouBot(&controller);
 
     auto center = new Vector(youBot.getPosition());
@@ -135,7 +135,7 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
 
                         net->mutate(.2);
 
-                        networks.push_back(net);
+                        networks.at(i) = net;
                     }
 
                     delete father;
@@ -169,6 +169,8 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
         if (output.at(2) > 0) {
             youBot.setWheelsSpeed({.0, .0, .0, .0});
         }
+
+        output.clear();
     }
 
     network->save("alignttt.json");

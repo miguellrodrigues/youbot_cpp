@@ -382,4 +382,10 @@ Network::~Network() {
     for (auto ly : this->layers) {
         delete ly;
     }
+
+    this->layers.clear();
+    this->weightMatrices.clear();
+
+    this->errors.clear();
+    this->derivedErrors.clear();
 }

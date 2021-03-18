@@ -37,9 +37,13 @@ namespace lib {
 
         void add(const Vector& other);
 
+        void add(double ox, double oy, double oz);
+
         void subtract(const Vector& other);
 
-        void multiply(Vector other);
+        void subtract(double ox, double oy, double oz);
+
+        void multiply(const Vector& other);
 
         void update(const double *d);
 

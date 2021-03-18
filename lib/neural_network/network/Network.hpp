@@ -26,7 +26,7 @@ public:
 
     void mutate(double rate);
 
-    static void crossOver(Network &n, Network &father, Network &mother);
+    static vector<Network *> crossOver(Network &father, Network &mother);
 
     void assign(Network &other);
 
@@ -60,7 +60,7 @@ private:
 
     double globalError = 0.0;
 
-    double bias = 0.02;
+    double bias = 0.01;
 
     unsigned int topologySize{};
 
@@ -73,6 +73,10 @@ private:
     vector<double> errors;
 
     vector<vector<double>> vectorizeWeightMatrices();
+
+    static vector<vector<vector<double>>> slice(const vector<Matrix *>& matrices);
+
+    static vector<Matrix *> combine(const vector<vector<vector<double>>>& data, unsigned int rows, unsigned int cols);
 
     void setCurrentInput(Matrix *matrix);
 

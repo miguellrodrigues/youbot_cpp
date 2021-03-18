@@ -59,13 +59,25 @@ namespace lib
         this->z += other.z;
     }
 
+    void Vector::add(double ox, double oy, double oz) {
+        this->x += ox;
+        this->y += oy;
+        this->z += oz;
+    }
+
     void Vector::subtract(const Vector& other) {
         this->x -= other.x;
         this->y -= other.y;
         this->z -= other.z;
     }
 
-    void Vector::multiply(Vector other) {
+    void Vector::subtract(double ox, double oy, double oz) {
+        this->x -= ox;
+        this->y -= oy;
+        this->z -= oz;
+    }
+
+    void Vector::multiply(const Vector& other) {
         this->x *= other.x;
         this->y *= other.y;
         this->z *= other.z;

@@ -2,16 +2,13 @@
 
 #include "lib/webots/youbot/YouBot.hpp"
 #include "lib/neural_network/network/Network.hpp"
-
-double nm(double d) {
-    return atan2(sin(d), cos(d));
-}
+#include "lib/util/Numbers.hpp"
 
 Test::Test() {
     Controller controller(new Supervisor(), 14);
     YouBot youBot(&controller);
 
-    double max_velocity   = 8.0;
+    double M   = 8.0;
 
     auto network_a = Network::load("align.json");
 
@@ -21,22 +18,28 @@ Test::Test() {
 
         auto boxPosition = new Vector(controller.getObjectPosition("box"));
 
-        double angle_error = nm(youBotRotationAngle + youBotPosition.differenceAngle(*boxPosition));
+        double angle_error = Numbers::normalizeAngle(youBotRotationAngle + youBotPosition.differenceAngle(*boxPosition));
 
         cout << angle_error << endl;
 
+        /*auto output = network_a.predict({abs(angle_error), angle_error > 0 ? 1.0 : .0});
+
+        if (output.at(0) > 0) {
+            youBot.setWheelsSpeed({-s, s, -s, s});
+        }
+
+        if (output.at(1) > 0) {
+            youBot.setWheelsSpeed({s, -s, s, -s});
+        }
+
+        output.clear()*/
+
         auto output = network_a.predict({abs(angle_error), angle_error > 0 ? 1.0 : .0});
 
-        if (output[0] > 0) {
-            youBot.setWheelsSpeed({-max_velocity, max_velocity, -max_velocity, max_velocity});
-        }
+        double s = M * output.at(0);
 
-        if (output[1] > 0) {
-            youBot.setWheelsSpeed({max_velocity, -max_velocity, max_velocity, -max_velocity});
-        }
+        youBot.setWheelsSpeed({-s, s, -s, s});
 
-        if (output[2] > 0) {
-            youBot.setWheelsSpeed({.0, .0, .0, .0});
-        }
+        output.clear();
     }
 }

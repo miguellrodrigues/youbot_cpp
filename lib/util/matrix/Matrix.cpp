@@ -17,7 +17,7 @@ Matrix::Matrix(unsigned int rows, unsigned int cols, bool isRandom) : rows(rows)
 
         for (unsigned int j = 0; j < cols; ++j) {
             if (isRandom) {
-                values.push_back(Numbers::randomDouble(-10.0, 10.0));
+                values.push_back(Numbers::randomDouble(-1.0, 1.0));
             } else {
                 values.push_back(.0);
             }

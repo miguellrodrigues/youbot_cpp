@@ -1,5 +1,0 @@
-/home/miguel/ide/CLion-2020.3.1/clion-2020.3.1/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=--coverage -DCMAKE_C_FLAGS=--coverage -G "CodeBlocks - Unix Makefiles" /home/miguel/CLionProjects/youbot_cpp
--- Using the single-header code from /home/miguel/CLionProjects/youbot_cpp/nlohmann_json/single_include/
--- Configuring done
--- Generating done
--- Build files have been written to: /home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage

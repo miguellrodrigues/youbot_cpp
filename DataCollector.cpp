@@ -32,8 +32,15 @@ DataCollector::DataCollector() {
 
     vector<double> errors;
     vector<double> outputs;
+    vector<double> sig;
+
+    vector<unsigned int> topology = {2, 16, 32, 16, 1};
+
+    auto net = new Network(topology.data(), topology.size());
 
     while (controller.step() != -1) {
+        double time = controller.getSupervisor()->getTime();
+
         auto youBotPosition = youBot.getPosition();
         auto youBotRotationAngle = youBot.getRotationAngle();
 
@@ -56,17 +63,30 @@ DataCollector::DataCollector() {
 
         double angle_error = Numbers::normalizeAngle(youBotRotationAngle + theta);
 
-        double output = pid->compute(angle_error, .16);
+        if (time > 20) {
+             auto _a = Numbers::map(angle_error, -M_PI, M_PI, .0, 1.0);
 
-        youBot.setWheelsSpeed({-output, output, -output, output});
+             auto out = net->predict({_a, angle_error > 0 ? 1.0 : .0});
 
-        errors.push_back(angle_error);
-        outputs.push_back(output);
+             double s = Numbers::map(out[0], .0, 1.0, -10, 10);;
+
+             youBot.setWheelsSpeed({-s, s, -s, s});
+        } else {
+            double output = pid->compute(angle_error, .16);
+
+            youBot.setWheelsSpeed({-output, output, -output, output});
+
+            auto _a = Numbers::map(angle_error, -M_PI, M_PI, .0, 1.0);
+            double _o = Numbers::map(output, -10, 10, .0, 1.0);
+
+            net->train({_a, angle_error > 0 ? 1.0 : .0}, {_o});
+        }
     }
 
     json data;
 
     data["errors"] = errors;
+    data["sig"] = sig;
     data["outputs"] = outputs;
 
     string name = "data.json";
@@ -76,4 +96,6 @@ DataCollector::DataCollector() {
     o << std::setw(4) << data << endl;
 
     o.close();
+
+    net->save("ttrained.json");
 }

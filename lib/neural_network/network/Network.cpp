@@ -258,11 +258,24 @@ void Network::setErrors(Matrix &meta) {
 void Network::backPropagation() {
     vector<Matrix *> weights;
 
+    Matrix *gradients;
+    Matrix *_gradients;
+    Matrix *derivedOutputValues;
+    Matrix *lastHiddenLayerActivated;
+    Matrix *deltaWeightsLastHiddenToOutput;
+    Matrix *tempWeights;
+    Matrix *transposeWeights;
+    Matrix *derivedValues;
+    Matrix *layerGradients;
+    Matrix *layerValues;
+    Matrix *deltaWeights;
+    Matrix *_tempWeights;
+
     unsigned int indexOutputLayer = this->topologySize - 1;
 
-    auto *gradients = new Matrix(this->topology.at(indexOutputLayer), 1, false);
+    gradients = new Matrix(this->topology.at(indexOutputLayer), 1, false);
 
-    Matrix *derivedOutputValues = this->layers.at(indexOutputLayer)->convertDerivedValues();
+    derivedOutputValues = this->layers.at(indexOutputLayer)->convertDerivedValues();
 
     for (int i = 0; i < this->topology.at(indexOutputLayer); ++i) {
         double error = this->derivedErrors.at(i);
@@ -273,13 +286,11 @@ void Network::backPropagation() {
         gradients->setValue(i, 0, gradient);
     }
 
-    delete derivedOutputValues;
+    lastHiddenLayerActivated = this->layers.at(indexOutputLayer - 1)->convertActivatedValues();
 
-    Matrix *lastHiddenLayerActivated = this->layers.at(indexOutputLayer - 1)->convertActivatedValues();
+    deltaWeightsLastHiddenToOutput = gradients->multiply(*lastHiddenLayerActivated->transpose());
 
-    Matrix *deltaWeightsLastHiddenToOutput = gradients->multiply(*lastHiddenLayerActivated->transpose());
-
-    auto *tempWeights = new Matrix(
+    tempWeights = new Matrix(
             this->topology.at(indexOutputLayer),
             this->topology.at(indexOutputLayer - 1),
             false);
@@ -295,25 +306,25 @@ void Network::backPropagation() {
         }
     }
 
-    weights.push_back(tempWeights);
+    weights.push_back(tempWeights->copy());
 
+    delete derivedOutputValues;
     delete lastHiddenLayerActivated;
     delete deltaWeightsLastHiddenToOutput;
+    delete tempWeights;
 
     //last hidden to input
 
     for (int i = ((int) indexOutputLayer - 1); i > 0; --i) {
-        Matrix *transposeWeights = this->weightMatrices.at(i)->transpose();
+        _gradients = gradients->copy();
 
-        gradients = transposeWeights->multiply(*gradients);
+        transposeWeights = this->weightMatrices.at(i)->transpose();
 
-        delete transposeWeights;
+        gradients = transposeWeights->multiply(*_gradients);
 
-        Matrix *derivedValues = this->layers.at(i)->convertDerivedValues();
+        derivedValues = this->layers.at(i)->convertDerivedValues();
 
-        Matrix *layerGradients = derivedValues->hadamard(*gradients);
-
-        delete derivedValues;
+        layerGradients = derivedValues->hadamard(*gradients);
 
         for (int j = 0; j < layerGradients->getRows(); ++j) {
             for (int k = 0; k < layerGradients->getCols(); ++k) {
@@ -321,16 +332,12 @@ void Network::backPropagation() {
             }
         }
 
-        delete layerGradients;
-
-        Matrix *layerValues =
+        layerValues =
                 i == 1 ? this->layers.at(0)->convertValues() : this->layers.at(i - 1)->convertActivatedValues();
 
-        Matrix *deltaWeights = (gradients->multiply(*layerValues->transpose()));
+        deltaWeights = (gradients->multiply(*layerValues->transpose()));
 
-        delete layerValues;
-
-        auto *_tempWeights = new Matrix(this->weightMatrices.at(i - 1)->getRows(),
+        _tempWeights = new Matrix(this->weightMatrices.at(i - 1)->getRows(),
                                         this->weightMatrices.at(i - 1)->getCols(),
                                         false);
 
@@ -347,10 +354,16 @@ void Network::backPropagation() {
 
         weights.push_back(_tempWeights->copy());
 
-        delete _tempWeights;
-
+        delete _gradients;
+        delete transposeWeights;
+        delete derivedValues;
+        delete layerGradients;
+        delete layerValues;
         delete deltaWeights;
+        delete _tempWeights;
     }
+
+    delete gradients;
 
     for (auto weightMatrix : this->weightMatrices) {
         delete weightMatrix;
@@ -361,7 +374,8 @@ void Network::backPropagation() {
     reverse(weights.begin(), weights.end());
 
     for (auto weight : weights) {
-        this->weightMatrices.push_back(weight);
+        this->weightMatrices.push_back(weight->copy());
+        delete weight;
     }
 
     weights.clear();

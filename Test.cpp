@@ -10,7 +10,7 @@ Test::Test() {
 
     double M   = 3.0;
 
-    auto network_a = Network::load("trained.json");
+    auto network_a = Network::load("ttrained.json");
 
     while (controller.step() != -1) {
         auto youBotPosition = youBot.getPosition();
@@ -20,14 +20,12 @@ Test::Test() {
 
         double angle_error = Numbers::normalizeAngle(youBotRotationAngle + youBotPosition.differenceAngle(*boxPosition));
 
-        auto output = network_a.predict({abs(angle_error)});
+        auto _a = Numbers::map(angle_error, -M_PI, M_PI, .0, 1.0);
 
-        double s = output.at(0) * 10;
+        auto out = network_a.predict({_a, angle_error > 0 ? 1.0 : .0});
 
-        cout << s << endl;
+        double s = Numbers::map(out[0], .0, 1.0, -5, 5);;
 
         youBot.setWheelsSpeed({-s, s, -s, s});
-
-        output.clear();
     }
 }

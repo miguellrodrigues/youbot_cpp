@@ -26,20 +26,16 @@ TrainSup::TrainSup() {
     vector<double> errors = data["errors"];
     vector<double> outputs = data["outputs"];
 
-    vector<unsigned int> topology = {1, 16, 16, 16, 1};
+    vector<double> sig = data["sig"];
+
+    vector<unsigned int> topology = {2, 16, 32, 16, 1};
 
     auto network = new Network(topology.data(), topology.size());
 
-    double error = 10.0;
+    for (unsigned int j = 0; j < errors.size(); j++) {
+        network->train({errors[j], sig[j]}, {outputs[j]});
 
-    while (error > 0.1) {
-        for (unsigned int i = 0; i < errors.size(); ++i) {
-            network->train({errors[i]}, {outputs[i]});
-        }
-
-        error = network->getGlobalError();
-
-        cout << error << endl;
+        cout << network->getGlobalError() << endl;
     }
 
     network->save("trained.json");

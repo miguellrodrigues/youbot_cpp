@@ -100,42 +100,21 @@ void Network::mutate(double rate) {
     }
 }
 
-vector<Network *> Network::crossOver(Network &father, Network &mother) {
-    vector<Network *> child;
+void Network::crossOver(Network *net, Network *father, Network *mother) {
+    for (int i = 0; i < net->getWeightMatrices().size(); i++) {
+        Matrix *fatherWeight = father->weightMatrices.at(i);
+        Matrix *motherWeight = mother->weightMatrices.at(i);
 
-    child.push_back(new Network(father.topology.data(), father.topology.size()));
-    child.push_back(new Network(mother.topology.data(), mother.topology.size()));
-
-    for (int n = 0; n < child.size(); ++n) {
-        auto net = child.at(n);
-
-        for (int i = 0; i < net->getWeightMatrices().size(); i++) {
-            vector<unsigned int> mask;
-
-            Matrix *fatherWeight = father.weightMatrices.at(i);
-            Matrix *motherWeight = mother.weightMatrices.at(i);
-
-            for (int j = 0; j < fatherWeight->getRows(); ++j) {
-                for (int k = 0; k < fatherWeight->getCols(); ++k) {
-                    if (Numbers::randomInt(0, 1) == 0) {
-                        if (n == 0) {
-                            net->weightMatrices.at(i)->setValue(j, k, fatherWeight->getValue(j, k));
-                        } else {
-                            net->weightMatrices.at(i)->setValue(j, k, motherWeight->getValue(j, k));
-                        }
-                    } else {
-                        if (n == 0) {
-                            net->weightMatrices.at(i)->setValue(j, k, motherWeight->getValue(j, k));
-                        } else {
-                            net->weightMatrices.at(i)->setValue(j, k, fatherWeight->getValue(j, k));
-                        }
-                    }
+        for (int j = 0; j < fatherWeight->getRows(); ++j) {
+            for (int k = 0; k < fatherWeight->getCols(); ++k) {
+                if (Numbers::randomInt(0, 1) == 0) {
+                    net->weightMatrices.at(i)->setValue(j, k, fatherWeight->getValue(j, k));
+                } else {
+                    net->weightMatrices.at(i)->setValue(j, k, motherWeight->getValue(j, k));
                 }
             }
         }
     }
-
-    return child;
 }
 
 void Network::assign(Network &other) {
@@ -212,95 +191,6 @@ vector<vector<double>> Network::vectorizeWeightMatrices() {
 
     return data;
 }
-
-vector<vector<vector<double>>> Network::slice(const vector<Matrix *>& matrices) {
-    vector<vector<vector<double>>> data;
-
-    for (auto matrix : matrices) {
-        vector<vector<double>> slices;
-
-        unsigned int size = matrix->size();
-
-        auto matrix_vector = matrix->to_vector();
-
-        unsigned int point_1 = Numbers::randomInt(1, (int)size - 1);
-        unsigned int point_2 = Numbers::randomInt((int)point_1, (int)size - 1);
-
-        if (point_1 == point_2)
-            point_2 += 1;
-
-        vector<double> slice_x;
-        vector<double> slice_y;
-        vector<double> slice_z;
-
-        for (unsigned int i = 0; i < point_1; ++i) {
-            slice_x.push_back(matrix_vector.at(i));
-        }
-
-        for (unsigned int i = point_1; i < point_2; ++i) {
-            slice_y.push_back(matrix_vector.at(i));
-        }
-
-        for (unsigned int i = point_2; i < size; ++i) {
-            slice_z.push_back(matrix_vector.at(i));
-        }
-
-        slices.push_back(slice_x);
-        slices.push_back(slice_y);
-        slices.push_back(slice_z);
-
-        data.push_back(slices);
-    }
-
-    return data;
-}
-
-vector<Matrix *> Network::combine(const vector<vector<vector<double>>>& data, unsigned int rows, unsigned int cols)
-{
-    auto father_slices = data.at(0);
-    auto mother_slices = data.at(1);
-
-    vector<vector<Matrix *>> d;
-
-    vector<double> c1;
-    vector<double> c2;
-
-    auto *m1 = new Matrix(rows, cols, false);
-    auto *m2 = new Matrix(rows, cols, false);
-
-    for (double & i : father_slices.at(0)) {
-        c1.push_back(i);
-    }
-
-    for (double & i : mother_slices.at(1)) {
-        c1.push_back(i);
-    }
-
-    for (double & i : father_slices.at(2)) {
-        c1.push_back(i);
-    }
-
-    for (double & i : mother_slices.at(0)) {
-        c2.push_back(i);
-    }
-
-    for (double & i : father_slices.at(1)) {
-        c2.push_back(i);
-    }
-
-    for (double & i : mother_slices.at(2)) {
-        c2.push_back(i);
-    }
-
-    for (int i = 0, c = 0; i < rows; i++) {
-        for (int j = 0; j < cols; ++j) {
-            m1->setValue(i, j, c1.at(c++));
-        }
-    }
-
-    return {m1, m2};
-}
-
 
 void Network::setCurrentInput(Matrix *matrix) {
     for (int i = 0; i < matrix->getRows(); ++i) {

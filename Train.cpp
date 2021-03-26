@@ -17,21 +17,22 @@
 using std::vector;
 using json = nlohmann::json;
 
-Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, unsigned int max_generations, unsigned int time_interval) {
+Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, unsigned int max_generations,
+             unsigned int time_interval) {
     assert(max_per_generation % 2 == 0);
 
     Controller controller(new Supervisor(), 64);
-    YouBot youBot = * new YouBot(&controller);
+    YouBot youBot = *new YouBot(&controller);
 
     auto initialPosition = new Vector(youBot.getPosition());
     auto pos = new Vector(initialPosition->getX(), .05, initialPosition->getZ());
 
     double comps[6] = {0.01, 0.014, 0.012, 0.0078, 0.001, 0.016};
 
-    double  angle          = .0,
-            comp           = comps[0],
-            max_velocity   = 8.0,
-            last_time      = .0,
+    double angle = .0,
+            comp = comps[0],
+            max_velocity = 8.0,
+            last_time = .0,
             target_fitness = .0001;
 
     vector<Network *> networks;
@@ -40,8 +41,8 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
     vector<double> generationsFitness;
     vector<double> errors;
 
-    unsigned int count              = 0,
-                 current            = 0;
+    unsigned int count = 0,
+            current = 0;
 
     for (unsigned int i = 0; i < max_per_generation; ++i) {
         networks.push_back(new Network(topology.data(), topology.size()));
@@ -104,9 +105,11 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
 
                 controller.setObjectPosition("youBot", initialPosition->getValues());
 
-                logs.push_back("Individuo " + to_string(current) + " Fitness " + to_string(fitness) +  " Fit Err " + to_string(fitness_error));
+                logs.push_back("Individuo " + to_string(current) + " Fitness " + to_string(fitness) + " Fit Err " +
+                               to_string(fitness_error));
 
-                cout << "Individuo " + to_string(current) + " Fitness " + to_string(fitness) +  " Fit Err " + to_string(fitness_error) << endl;
+                cout << "Individuo " + to_string(current) + " Fitness " + to_string(fitness) + " Fit Err " +
+                        to_string(fitness_error) << endl;
 
                 current += 1;
 
@@ -123,23 +126,23 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
 
                     auto father = networks.at(0)->clone();
 
-                    for (auto & net : networks) {
+                    for (auto net : networks) {
                         temp.push_back(net->clone());
 
                         delete net;
                     }
 
-                    for (unsigned int i = 0, c = 0; i < max_per_generation / 2; ++i) {
-                        auto child = Network::crossOver(*father, *temp.at(Numbers::randomInt(0, (int)temp.size() - 1)));
+                    for (unsigned int i = 0; i < max_per_generation; ++i) {
+                        auto net = new Network(topology.data(), topology.size());
 
-                        for (auto & j : child) {
-                            networks.at(c++) = j;
-                        }
+                        Network::crossOver(net, father, temp.at(Numbers::randomInt(0, temp.size() - 1)));
 
-                        child.clear();
+                        net->mutate(.2);
+
+                        networks.at(i) = net;
                     }
 
-                    for (auto & net : temp) {
+                    for (auto net : temp) {
                         delete net;
                     }
 
@@ -162,9 +165,9 @@ Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, uns
             }
         }
 
-        auto output = network->predict({abs(angle_error), angle_error > 0 ? 1.0 : .0});
+        auto output = network->predict({abs(angle_error) / M_PI, angle_error > 0 ? 1.0 : .0});
 
-        double s = max_velocity * output.at(0);
+        double s = output.at(0) * 2 * M_PI;
 
         youBot.setWheelsSpeed({-s, s, -s, s});
 

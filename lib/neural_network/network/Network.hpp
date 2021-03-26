@@ -26,7 +26,7 @@ public:
 
     void mutate(double rate);
 
-    static vector<Network *> crossOver(Network &father, Network &mother);
+    static void crossOver(Network *net, Network *father, Network *mother);
 
     void assign(Network &other);
 
@@ -73,10 +73,6 @@ private:
     vector<double> errors;
 
     vector<vector<double>> vectorizeWeightMatrices();
-
-    static vector<vector<vector<double>>> slice(const vector<Matrix *>& matrices);
-
-    static vector<Matrix *> combine(const vector<vector<vector<double>>>& data, unsigned int rows, unsigned int cols);
 
     void setCurrentInput(Matrix *matrix);
 

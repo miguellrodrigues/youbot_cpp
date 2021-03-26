@@ -30,12 +30,10 @@ TrainSup::TrainSup() {
 
     vector<unsigned int> topology = {2, 16, 32, 16, 1};
 
-    auto network = new Network(topology.data(), topology.size());
+    Network *network = new Network(topology.data(), topology.size());
 
     for (unsigned int j = 0; j < errors.size(); j++) {
         network->train({errors[j], sig[j]}, {outputs[j]});
-
-        cout << network->getGlobalError() << endl;
     }
 
     network->save("trained.json");

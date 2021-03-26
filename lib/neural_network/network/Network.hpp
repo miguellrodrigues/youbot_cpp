@@ -68,6 +68,7 @@ private:
 
     vector<Layer *> layers;
     vector<Matrix *> weightMatrices;
+    vector<Matrix *> temp_weights;
 
     vector<double> derivedErrors;
     vector<double> errors;

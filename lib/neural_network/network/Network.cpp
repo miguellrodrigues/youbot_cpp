@@ -26,13 +26,13 @@ Network::Network(unsigned int *topology, unsigned int topologySize) {
     }
 
     for (unsigned int i = 0; i < topologySize; ++i) {
-        auto *layer = new Layer(this->topology.at(i));
+        Layer *layer = new Layer(this->topology.at(i));
 
         this->layers.push_back(layer);
     }
 
     for (unsigned int i = 0; i < (topologySize - 1); ++i) {
-        auto *weightMatrix = new Matrix(topology[i + 1], topology[i], true);
+        Matrix *weightMatrix = new Matrix(topology[i + 1], topology[i], true);
 
         this->weightMatrices.push_back(weightMatrix);
     }
@@ -41,10 +41,12 @@ Network::Network(unsigned int *topology, unsigned int topologySize) {
         errors.push_back(0.00);
         derivedErrors.push_back(0.00);
     }
+
+    this->temp_weights.reserve(this->weightMatrices.size());
 }
 
 Network *Network::clone() {
-    auto n = new Network(this->topology.data(), this->topologySize);
+    Network *n = new Network(this->topology.data(), this->topologySize);
 
     for (unsigned int i = 0; i < this->weightMatrices.size(); ++i) {
         n->weightMatrices.at(i) = new Matrix(*this->weightMatrices.at(i));
@@ -58,8 +60,8 @@ Network *Network::clone() {
 }
 
 void Network::train(vector<double> input, vector<double> meta) {
-    auto inputMatrix = Matrix::vectorToMatrix(std::move(input));
-    auto metaMatrix = Matrix::vectorToMatrix(std::move(meta));
+    Matrix *inputMatrix = Matrix::vectorToMatrix(std::move(input));
+    Matrix *metaMatrix = Matrix::vectorToMatrix(std::move(meta));
 
     setCurrentInput(inputMatrix);
 
@@ -72,14 +74,14 @@ void Network::train(vector<double> input, vector<double> meta) {
 }
 
 vector<double> Network::predict(vector<double> input) {
-    auto inputMatrix = Matrix::vectorToMatrix(std::move(input));
+    Matrix *inputMatrix = Matrix::vectorToMatrix(std::move(input));
 
     setCurrentInput(inputMatrix);
     feedForward();
 
-    auto *output_layer = this->layers.at(this->topologySize - 1)->convertActivatedValues();
+    Matrix *output_layer = this->layers.at(this->topologySize - 1)->convertActivatedValues();
 
-    auto out = output_layer->to_vector();
+    vector<double> out = output_layer->to_vector();
 
     delete output_layer;
     delete inputMatrix;
@@ -88,7 +90,7 @@ vector<double> Network::predict(vector<double> input) {
 }
 
 void Network::mutate(double rate) {
-    for (auto &weightMatrix : this->weightMatrices) {
+    for (Matrix *weightMatrix : this->weightMatrices) {
         unsigned int count = rate * weightMatrix->getCols();
 
         unsigned int random_row = Numbers::randomInt(0, (int) weightMatrix->getRows() - 1);
@@ -160,11 +162,11 @@ Network &Network::load(const string &path) {
     vector<unsigned int> topology = data["topology"];
     vector<vector<double>> weightMatrices = data["weight_matrices"];
 
-    auto network = new Network(topology.data(), topology.size());
+    Network *network = new Network(topology.data(), topology.size());
 
     for (unsigned int i = 0; i < network->weightMatrices.size(); i++) {
-        auto matrix = network->weightMatrices.at(i);
-        auto json_matrix = weightMatrices.at(i);
+        Matrix *matrix = network->weightMatrices.at(i);
+        vector<double> json_matrix = weightMatrices.at(i);
 
         unsigned int count = 0;
         for (unsigned int j = 0; j < matrix->getRows(); ++j) {
@@ -180,7 +182,7 @@ Network &Network::load(const string &path) {
 vector<vector<double>> Network::vectorizeWeightMatrices() {
     vector<vector<double>> data;
 
-    for (auto &matrix : this->weightMatrices) {
+    for (Matrix *matrix : this->weightMatrices) {
         vector<double> x;
 
         for (unsigned int i = 0; i < matrix->getRows(); i++) {
@@ -256,8 +258,6 @@ void Network::setErrors(Matrix &meta) {
 }
 
 void Network::backPropagation() {
-    vector<Matrix *> weights;
-
     Matrix *gradients;
     Matrix *_gradients;
     Matrix *derivedOutputValues;
@@ -306,7 +306,9 @@ void Network::backPropagation() {
         }
     }
 
-    weights.push_back(tempWeights->copy());
+    unsigned int x = 0;
+
+    this->temp_weights.push_back(tempWeights->copy());
 
     delete derivedOutputValues;
     delete lastHiddenLayerActivated;
@@ -352,7 +354,7 @@ void Network::backPropagation() {
             }
         }
 
-        weights.push_back(_tempWeights->copy());
+        this->temp_weights.push_back(_tempWeights->copy());
 
         delete _gradients;
         delete transposeWeights;
@@ -365,24 +367,24 @@ void Network::backPropagation() {
 
     delete gradients;
 
-    for (auto weightMatrix : this->weightMatrices) {
-        delete weightMatrix;
+    for (Matrix *matrix : this->weightMatrices) {
+        delete matrix;
     }
 
     this->weightMatrices.clear();
 
-    reverse(weights.begin(), weights.end());
+    reverse(this->temp_weights.begin(), this->temp_weights.end());
 
-    for (auto weight : weights) {
+    for (Matrix *weight : this->temp_weights) {
         this->weightMatrices.push_back(weight->copy());
         delete weight;
     }
 
-    weights.clear();
+    this->temp_weights.clear();
 }
 
 void Network::setRecurrentInput() {
-    auto output = layers.at(topologySize - 1)->convertActivatedValues();
+    Matrix *output = layers.at(topologySize - 1)->convertActivatedValues();
 
     for (unsigned int i = topology.at(0) - topology[topologySize - 1]; i < topology.at(0); ++i) {
         this->layers.at(0)->setNeuronValue(i, output->getValue(i - topology[topologySize - 1], 0));
@@ -390,11 +392,11 @@ void Network::setRecurrentInput() {
 }
 
 Network::~Network() {
-    for (auto wm : this->weightMatrices) {
+    for (Matrix *wm : this->weightMatrices) {
         delete wm;
     }
 
-    for (auto ly : this->layers) {
+    for (Layer *ly : this->layers) {
         delete ly;
     }
 

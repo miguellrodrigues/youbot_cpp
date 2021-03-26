@@ -8,10 +8,10 @@ using namespace std;
 int main() {
 
     //new TrainGenetic({2, 16, 16, 16, 1}, 10, 200, 60);
-    new Test();
+    //new Test();
 
     //new DataCollector();
-    //new TrainSup();
+    new TrainSup();
 
     return 0;
 }

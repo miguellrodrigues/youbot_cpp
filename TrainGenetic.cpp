@@ -2,7 +2,7 @@
 // Created by miguel on 11/03/2021.
 //
 
-#include "include/Train.hpp"
+#include "include/TrainGenetic.hpp"
 
 #include "lib/webots/youbot/YouBot.hpp"
 #include "lib/neural_network/network/Network.hpp"
@@ -17,8 +17,8 @@
 using std::vector;
 using json = nlohmann::json;
 
-Train::Train(vector<unsigned int> topology, unsigned int max_per_generation, unsigned int max_generations,
-             unsigned int time_interval) {
+TrainGenetic::TrainGenetic(vector<unsigned int> topology, unsigned int max_per_generation, unsigned int max_generations,
+                           unsigned int time_interval) {
     assert(max_per_generation % 2 == 0);
 
     Controller controller(new Supervisor(), 64);

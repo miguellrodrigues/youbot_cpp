@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/youbot_cpp.dir/DataCollector.cpp.o"
   "CMakeFiles/youbot_cpp.dir/Test.cpp.o"
-  "CMakeFiles/youbot_cpp.dir/Train.cpp.o"
+  "CMakeFiles/youbot_cpp.dir/TrainGenetic.cpp.o"
+  "CMakeFiles/youbot_cpp.dir/TrainSup.cpp.o"
   "CMakeFiles/youbot_cpp.dir/lib/neural_network/layer/Layer.cpp.o"
   "CMakeFiles/youbot_cpp.dir/lib/neural_network/network/Network.cpp.o"
   "CMakeFiles/youbot_cpp.dir/lib/neural_network/neuron/Neuron.cpp.o"

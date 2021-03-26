@@ -94,16 +94,28 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/miguel/CLionProjects/youbot_cpp/DataCollector.cpp">
+			<Option target="youbot_cpp"/>
+		</Unit>
 		<Unit filename="/home/miguel/CLionProjects/youbot_cpp/Test.cpp">
 			<Option target="youbot_cpp"/>
 		</Unit>
-		<Unit filename="/home/miguel/CLionProjects/youbot_cpp/Train.cpp">
+		<Unit filename="/home/miguel/CLionProjects/youbot_cpp/TrainGenetic.cpp">
+			<Option target="youbot_cpp"/>
+		</Unit>
+		<Unit filename="/home/miguel/CLionProjects/youbot_cpp/TrainSup.cpp">
+			<Option target="youbot_cpp"/>
+		</Unit>
+		<Unit filename="/home/miguel/CLionProjects/youbot_cpp/TrainSup.hpp">
+			<Option target="youbot_cpp"/>
+		</Unit>
+		<Unit filename="/home/miguel/CLionProjects/youbot_cpp/include/DataCollector.hpp">
 			<Option target="youbot_cpp"/>
 		</Unit>
 		<Unit filename="/home/miguel/CLionProjects/youbot_cpp/include/Test.hpp">
 			<Option target="youbot_cpp"/>
 		</Unit>
-		<Unit filename="/home/miguel/CLionProjects/youbot_cpp/include/Train.hpp">
+		<Unit filename="/home/miguel/CLionProjects/youbot_cpp/include/TrainGenetic.hpp">
 			<Option target="youbot_cpp"/>
 		</Unit>
 		<Unit filename="/home/miguel/CLionProjects/youbot_cpp/lib/neural_network/cuda/dev_array.h">

@@ -66,6 +66,9 @@ void Network::train(vector<double> input, vector<double> meta) {
     feedForward();
     setErrors(*metaMatrix);
     backPropagation();
+
+    delete inputMatrix;
+    delete metaMatrix;
 }
 
 vector<double> Network::predict(vector<double> input) {
@@ -300,14 +303,11 @@ void Network::backPropagation() {
     //last hidden to input
 
     for (int i = ((int) indexOutputLayer - 1); i > 0; --i) {
-        auto *_gradients = new Matrix(*gradients);
-
         Matrix *transposeWeights = this->weightMatrices.at(i)->transpose();
 
-        gradients = new Matrix(*transposeWeights->multiply(*_gradients));
+        gradients = transposeWeights->multiply(*gradients);
 
         delete transposeWeights;
-        delete _gradients;
 
         Matrix *derivedValues = this->layers.at(i)->convertDerivedValues();
 
@@ -345,12 +345,14 @@ void Network::backPropagation() {
             }
         }
 
-        weights.push_back(_tempWeights);
+        weights.push_back(_tempWeights->copy());
+
+        delete _tempWeights;
 
         delete deltaWeights;
     }
 
-    for (auto &weightMatrix : this->weightMatrices) {
+    for (auto weightMatrix : this->weightMatrices) {
         delete weightMatrix;
     }
 
@@ -358,12 +360,11 @@ void Network::backPropagation() {
 
     reverse(weights.begin(), weights.end());
 
-    for (auto &weight : weights) {
-        this->weightMatrices.push_back(new Matrix(*weight));
-        delete weight;
+    for (auto weight : weights) {
+        this->weightMatrices.push_back(weight);
     }
 
-    //setRecurrentInput();
+    weights.clear();
 }
 
 void Network::setRecurrentInput() {

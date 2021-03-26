@@ -54,13 +54,13 @@ public:
     }
 
 private:
-    double learningRate = .0005;
+    double learningRate = .0001;
 
     double fitness = .0;
 
     double globalError = 0.0;
 
-    double bias = 0.01;
+    double bias = 0.1;
 
     unsigned int topologySize{};
 

@@ -143,6 +143,33 @@ youbot_cpp/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/youbot_cpp.dir/build.make CMakeFiles/youbot_cpp.dir/build
 .PHONY : youbot_cpp/fast
 
+DataCollector.o: DataCollector.cpp.o
+
+.PHONY : DataCollector.o
+
+# target to build an object file
+DataCollector.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/youbot_cpp.dir/build.make CMakeFiles/youbot_cpp.dir/DataCollector.cpp.o
+.PHONY : DataCollector.cpp.o
+
+DataCollector.i: DataCollector.cpp.i
+
+.PHONY : DataCollector.i
+
+# target to preprocess a source file
+DataCollector.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/youbot_cpp.dir/build.make CMakeFiles/youbot_cpp.dir/DataCollector.cpp.i
+.PHONY : DataCollector.cpp.i
+
+DataCollector.s: DataCollector.cpp.s
+
+.PHONY : DataCollector.s
+
+# target to generate assembly for a file
+DataCollector.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/youbot_cpp.dir/build.make CMakeFiles/youbot_cpp.dir/DataCollector.cpp.s
+.PHONY : DataCollector.cpp.s
+
 Test.o: Test.cpp.o
 
 .PHONY : Test.o
@@ -170,32 +197,59 @@ Test.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/youbot_cpp.dir/build.make CMakeFiles/youbot_cpp.dir/Test.cpp.s
 .PHONY : Test.cpp.s
 
-Train.o: Train.cpp.o
+TrainGenetic.o: TrainGenetic.cpp.o
 
-.PHONY : Train.o
+.PHONY : TrainGenetic.o
 
 # target to build an object file
-Train.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/youbot_cpp.dir/build.make CMakeFiles/youbot_cpp.dir/Train.cpp.o
-.PHONY : Train.cpp.o
+TrainGenetic.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/youbot_cpp.dir/build.make CMakeFiles/youbot_cpp.dir/TrainGenetic.cpp.o
+.PHONY : TrainGenetic.cpp.o
 
-Train.i: Train.cpp.i
+TrainGenetic.i: TrainGenetic.cpp.i
 
-.PHONY : Train.i
+.PHONY : TrainGenetic.i
 
 # target to preprocess a source file
-Train.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/youbot_cpp.dir/build.make CMakeFiles/youbot_cpp.dir/Train.cpp.i
-.PHONY : Train.cpp.i
+TrainGenetic.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/youbot_cpp.dir/build.make CMakeFiles/youbot_cpp.dir/TrainGenetic.cpp.i
+.PHONY : TrainGenetic.cpp.i
 
-Train.s: Train.cpp.s
+TrainGenetic.s: TrainGenetic.cpp.s
 
-.PHONY : Train.s
+.PHONY : TrainGenetic.s
 
 # target to generate assembly for a file
-Train.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/youbot_cpp.dir/build.make CMakeFiles/youbot_cpp.dir/Train.cpp.s
-.PHONY : Train.cpp.s
+TrainGenetic.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/youbot_cpp.dir/build.make CMakeFiles/youbot_cpp.dir/TrainGenetic.cpp.s
+.PHONY : TrainGenetic.cpp.s
+
+TrainSup.o: TrainSup.cpp.o
+
+.PHONY : TrainSup.o
+
+# target to build an object file
+TrainSup.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/youbot_cpp.dir/build.make CMakeFiles/youbot_cpp.dir/TrainSup.cpp.o
+.PHONY : TrainSup.cpp.o
+
+TrainSup.i: TrainSup.cpp.i
+
+.PHONY : TrainSup.i
+
+# target to preprocess a source file
+TrainSup.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/youbot_cpp.dir/build.make CMakeFiles/youbot_cpp.dir/TrainSup.cpp.i
+.PHONY : TrainSup.cpp.i
+
+TrainSup.s: TrainSup.cpp.s
+
+.PHONY : TrainSup.s
+
+# target to generate assembly for a file
+TrainSup.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/youbot_cpp.dir/build.make CMakeFiles/youbot_cpp.dir/TrainSup.cpp.s
+.PHONY : TrainSup.cpp.s
 
 lib/neural_network/layer/Layer.o: lib/neural_network/layer/Layer.cpp.o
 
@@ -557,12 +611,18 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... youbot_cpp"
+	@echo "... DataCollector.o"
+	@echo "... DataCollector.i"
+	@echo "... DataCollector.s"
 	@echo "... Test.o"
 	@echo "... Test.i"
 	@echo "... Test.s"
-	@echo "... Train.o"
-	@echo "... Train.i"
-	@echo "... Train.s"
+	@echo "... TrainGenetic.o"
+	@echo "... TrainGenetic.i"
+	@echo "... TrainGenetic.s"
+	@echo "... TrainSup.o"
+	@echo "... TrainSup.i"
+	@echo "... TrainSup.s"
 	@echo "... lib/neural_network/layer/Layer.o"
 	@echo "... lib/neural_network/layer/Layer.i"
 	@echo "... lib/neural_network/layer/Layer.s"

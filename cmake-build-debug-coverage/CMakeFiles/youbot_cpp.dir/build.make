@@ -77,9 +77,22 @@ include CMakeFiles/youbot_cpp.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/youbot_cpp.dir/flags.make
 
+CMakeFiles/youbot_cpp.dir/DataCollector.cpp.o: CMakeFiles/youbot_cpp.dir/flags.make
+CMakeFiles/youbot_cpp.dir/DataCollector.cpp.o: ../DataCollector.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/youbot_cpp.dir/DataCollector.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/youbot_cpp.dir/DataCollector.cpp.o -c /home/miguel/CLionProjects/youbot_cpp/DataCollector.cpp
+
+CMakeFiles/youbot_cpp.dir/DataCollector.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/youbot_cpp.dir/DataCollector.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/miguel/CLionProjects/youbot_cpp/DataCollector.cpp > CMakeFiles/youbot_cpp.dir/DataCollector.cpp.i
+
+CMakeFiles/youbot_cpp.dir/DataCollector.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/youbot_cpp.dir/DataCollector.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/miguel/CLionProjects/youbot_cpp/DataCollector.cpp -o CMakeFiles/youbot_cpp.dir/DataCollector.cpp.s
+
 CMakeFiles/youbot_cpp.dir/Test.cpp.o: CMakeFiles/youbot_cpp.dir/flags.make
 CMakeFiles/youbot_cpp.dir/Test.cpp.o: ../Test.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/youbot_cpp.dir/Test.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/youbot_cpp.dir/Test.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/youbot_cpp.dir/Test.cpp.o -c /home/miguel/CLionProjects/youbot_cpp/Test.cpp
 
 CMakeFiles/youbot_cpp.dir/Test.cpp.i: cmake_force
@@ -90,22 +103,35 @@ CMakeFiles/youbot_cpp.dir/Test.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/youbot_cpp.dir/Test.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/miguel/CLionProjects/youbot_cpp/Test.cpp -o CMakeFiles/youbot_cpp.dir/Test.cpp.s
 
-CMakeFiles/youbot_cpp.dir/Train.cpp.o: CMakeFiles/youbot_cpp.dir/flags.make
-CMakeFiles/youbot_cpp.dir/Train.cpp.o: ../Train.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/youbot_cpp.dir/Train.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/youbot_cpp.dir/Train.cpp.o -c /home/miguel/CLionProjects/youbot_cpp/Train.cpp
+CMakeFiles/youbot_cpp.dir/TrainGenetic.cpp.o: CMakeFiles/youbot_cpp.dir/flags.make
+CMakeFiles/youbot_cpp.dir/TrainGenetic.cpp.o: ../TrainGenetic.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/youbot_cpp.dir/TrainGenetic.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/youbot_cpp.dir/TrainGenetic.cpp.o -c /home/miguel/CLionProjects/youbot_cpp/TrainGenetic.cpp
 
-CMakeFiles/youbot_cpp.dir/Train.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/youbot_cpp.dir/Train.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/miguel/CLionProjects/youbot_cpp/Train.cpp > CMakeFiles/youbot_cpp.dir/Train.cpp.i
+CMakeFiles/youbot_cpp.dir/TrainGenetic.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/youbot_cpp.dir/TrainGenetic.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/miguel/CLionProjects/youbot_cpp/TrainGenetic.cpp > CMakeFiles/youbot_cpp.dir/TrainGenetic.cpp.i
 
-CMakeFiles/youbot_cpp.dir/Train.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/youbot_cpp.dir/Train.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/miguel/CLionProjects/youbot_cpp/Train.cpp -o CMakeFiles/youbot_cpp.dir/Train.cpp.s
+CMakeFiles/youbot_cpp.dir/TrainGenetic.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/youbot_cpp.dir/TrainGenetic.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/miguel/CLionProjects/youbot_cpp/TrainGenetic.cpp -o CMakeFiles/youbot_cpp.dir/TrainGenetic.cpp.s
+
+CMakeFiles/youbot_cpp.dir/TrainSup.cpp.o: CMakeFiles/youbot_cpp.dir/flags.make
+CMakeFiles/youbot_cpp.dir/TrainSup.cpp.o: ../TrainSup.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/youbot_cpp.dir/TrainSup.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/youbot_cpp.dir/TrainSup.cpp.o -c /home/miguel/CLionProjects/youbot_cpp/TrainSup.cpp
+
+CMakeFiles/youbot_cpp.dir/TrainSup.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/youbot_cpp.dir/TrainSup.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/miguel/CLionProjects/youbot_cpp/TrainSup.cpp > CMakeFiles/youbot_cpp.dir/TrainSup.cpp.i
+
+CMakeFiles/youbot_cpp.dir/TrainSup.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/youbot_cpp.dir/TrainSup.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/miguel/CLionProjects/youbot_cpp/TrainSup.cpp -o CMakeFiles/youbot_cpp.dir/TrainSup.cpp.s
 
 CMakeFiles/youbot_cpp.dir/main.cpp.o: CMakeFiles/youbot_cpp.dir/flags.make
 CMakeFiles/youbot_cpp.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/youbot_cpp.dir/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/youbot_cpp.dir/main.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/youbot_cpp.dir/main.cpp.o -c /home/miguel/CLionProjects/youbot_cpp/main.cpp
 
 CMakeFiles/youbot_cpp.dir/main.cpp.i: cmake_force
@@ -118,7 +144,7 @@ CMakeFiles/youbot_cpp.dir/main.cpp.s: cmake_force
 
 CMakeFiles/youbot_cpp.dir/lib/util/vector/Vector.cpp.o: CMakeFiles/youbot_cpp.dir/flags.make
 CMakeFiles/youbot_cpp.dir/lib/util/vector/Vector.cpp.o: ../lib/util/vector/Vector.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/util/vector/Vector.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/util/vector/Vector.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/youbot_cpp.dir/lib/util/vector/Vector.cpp.o -c /home/miguel/CLionProjects/youbot_cpp/lib/util/vector/Vector.cpp
 
 CMakeFiles/youbot_cpp.dir/lib/util/vector/Vector.cpp.i: cmake_force
@@ -131,7 +157,7 @@ CMakeFiles/youbot_cpp.dir/lib/util/vector/Vector.cpp.s: cmake_force
 
 CMakeFiles/youbot_cpp.dir/lib/util/pid/Pid.cpp.o: CMakeFiles/youbot_cpp.dir/flags.make
 CMakeFiles/youbot_cpp.dir/lib/util/pid/Pid.cpp.o: ../lib/util/pid/Pid.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/util/pid/Pid.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/util/pid/Pid.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/youbot_cpp.dir/lib/util/pid/Pid.cpp.o -c /home/miguel/CLionProjects/youbot_cpp/lib/util/pid/Pid.cpp
 
 CMakeFiles/youbot_cpp.dir/lib/util/pid/Pid.cpp.i: cmake_force
@@ -144,7 +170,7 @@ CMakeFiles/youbot_cpp.dir/lib/util/pid/Pid.cpp.s: cmake_force
 
 CMakeFiles/youbot_cpp.dir/lib/webots/controller/Controller.cpp.o: CMakeFiles/youbot_cpp.dir/flags.make
 CMakeFiles/youbot_cpp.dir/lib/webots/controller/Controller.cpp.o: ../lib/webots/controller/Controller.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/webots/controller/Controller.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/webots/controller/Controller.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/youbot_cpp.dir/lib/webots/controller/Controller.cpp.o -c /home/miguel/CLionProjects/youbot_cpp/lib/webots/controller/Controller.cpp
 
 CMakeFiles/youbot_cpp.dir/lib/webots/controller/Controller.cpp.i: cmake_force
@@ -157,7 +183,7 @@ CMakeFiles/youbot_cpp.dir/lib/webots/controller/Controller.cpp.s: cmake_force
 
 CMakeFiles/youbot_cpp.dir/lib/neural_network/network/Network.cpp.o: CMakeFiles/youbot_cpp.dir/flags.make
 CMakeFiles/youbot_cpp.dir/lib/neural_network/network/Network.cpp.o: ../lib/neural_network/network/Network.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/neural_network/network/Network.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/neural_network/network/Network.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/youbot_cpp.dir/lib/neural_network/network/Network.cpp.o -c /home/miguel/CLionProjects/youbot_cpp/lib/neural_network/network/Network.cpp
 
 CMakeFiles/youbot_cpp.dir/lib/neural_network/network/Network.cpp.i: cmake_force
@@ -170,7 +196,7 @@ CMakeFiles/youbot_cpp.dir/lib/neural_network/network/Network.cpp.s: cmake_force
 
 CMakeFiles/youbot_cpp.dir/lib/util/matrix/Matrix.cpp.o: CMakeFiles/youbot_cpp.dir/flags.make
 CMakeFiles/youbot_cpp.dir/lib/util/matrix/Matrix.cpp.o: ../lib/util/matrix/Matrix.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/util/matrix/Matrix.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/util/matrix/Matrix.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/youbot_cpp.dir/lib/util/matrix/Matrix.cpp.o -c /home/miguel/CLionProjects/youbot_cpp/lib/util/matrix/Matrix.cpp
 
 CMakeFiles/youbot_cpp.dir/lib/util/matrix/Matrix.cpp.i: cmake_force
@@ -183,7 +209,7 @@ CMakeFiles/youbot_cpp.dir/lib/util/matrix/Matrix.cpp.s: cmake_force
 
 CMakeFiles/youbot_cpp.dir/lib/neural_network/neuron/Neuron.cpp.o: CMakeFiles/youbot_cpp.dir/flags.make
 CMakeFiles/youbot_cpp.dir/lib/neural_network/neuron/Neuron.cpp.o: ../lib/neural_network/neuron/Neuron.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/neural_network/neuron/Neuron.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/neural_network/neuron/Neuron.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/youbot_cpp.dir/lib/neural_network/neuron/Neuron.cpp.o -c /home/miguel/CLionProjects/youbot_cpp/lib/neural_network/neuron/Neuron.cpp
 
 CMakeFiles/youbot_cpp.dir/lib/neural_network/neuron/Neuron.cpp.i: cmake_force
@@ -196,7 +222,7 @@ CMakeFiles/youbot_cpp.dir/lib/neural_network/neuron/Neuron.cpp.s: cmake_force
 
 CMakeFiles/youbot_cpp.dir/lib/neural_network/layer/Layer.cpp.o: CMakeFiles/youbot_cpp.dir/flags.make
 CMakeFiles/youbot_cpp.dir/lib/neural_network/layer/Layer.cpp.o: ../lib/neural_network/layer/Layer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/neural_network/layer/Layer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/neural_network/layer/Layer.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/youbot_cpp.dir/lib/neural_network/layer/Layer.cpp.o -c /home/miguel/CLionProjects/youbot_cpp/lib/neural_network/layer/Layer.cpp
 
 CMakeFiles/youbot_cpp.dir/lib/neural_network/layer/Layer.cpp.i: cmake_force
@@ -209,7 +235,7 @@ CMakeFiles/youbot_cpp.dir/lib/neural_network/layer/Layer.cpp.s: cmake_force
 
 CMakeFiles/youbot_cpp.dir/lib/webots/youbot/arm/Arm.cpp.o: CMakeFiles/youbot_cpp.dir/flags.make
 CMakeFiles/youbot_cpp.dir/lib/webots/youbot/arm/Arm.cpp.o: ../lib/webots/youbot/arm/Arm.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/webots/youbot/arm/Arm.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/webots/youbot/arm/Arm.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/youbot_cpp.dir/lib/webots/youbot/arm/Arm.cpp.o -c /home/miguel/CLionProjects/youbot_cpp/lib/webots/youbot/arm/Arm.cpp
 
 CMakeFiles/youbot_cpp.dir/lib/webots/youbot/arm/Arm.cpp.i: cmake_force
@@ -222,7 +248,7 @@ CMakeFiles/youbot_cpp.dir/lib/webots/youbot/arm/Arm.cpp.s: cmake_force
 
 CMakeFiles/youbot_cpp.dir/lib/webots/youbot/base/Base.cpp.o: CMakeFiles/youbot_cpp.dir/flags.make
 CMakeFiles/youbot_cpp.dir/lib/webots/youbot/base/Base.cpp.o: ../lib/webots/youbot/base/Base.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/webots/youbot/base/Base.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/webots/youbot/base/Base.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/youbot_cpp.dir/lib/webots/youbot/base/Base.cpp.o -c /home/miguel/CLionProjects/youbot_cpp/lib/webots/youbot/base/Base.cpp
 
 CMakeFiles/youbot_cpp.dir/lib/webots/youbot/base/Base.cpp.i: cmake_force
@@ -235,7 +261,7 @@ CMakeFiles/youbot_cpp.dir/lib/webots/youbot/base/Base.cpp.s: cmake_force
 
 CMakeFiles/youbot_cpp.dir/lib/webots/youbot/gripper/Gripper.cpp.o: CMakeFiles/youbot_cpp.dir/flags.make
 CMakeFiles/youbot_cpp.dir/lib/webots/youbot/gripper/Gripper.cpp.o: ../lib/webots/youbot/gripper/Gripper.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/webots/youbot/gripper/Gripper.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/webots/youbot/gripper/Gripper.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/youbot_cpp.dir/lib/webots/youbot/gripper/Gripper.cpp.o -c /home/miguel/CLionProjects/youbot_cpp/lib/webots/youbot/gripper/Gripper.cpp
 
 CMakeFiles/youbot_cpp.dir/lib/webots/youbot/gripper/Gripper.cpp.i: cmake_force
@@ -248,7 +274,7 @@ CMakeFiles/youbot_cpp.dir/lib/webots/youbot/gripper/Gripper.cpp.s: cmake_force
 
 CMakeFiles/youbot_cpp.dir/lib/webots/youbot/YouBot.cpp.o: CMakeFiles/youbot_cpp.dir/flags.make
 CMakeFiles/youbot_cpp.dir/lib/webots/youbot/YouBot.cpp.o: ../lib/webots/youbot/YouBot.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/webots/youbot/YouBot.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/webots/youbot/YouBot.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/youbot_cpp.dir/lib/webots/youbot/YouBot.cpp.o -c /home/miguel/CLionProjects/youbot_cpp/lib/webots/youbot/YouBot.cpp
 
 CMakeFiles/youbot_cpp.dir/lib/webots/youbot/YouBot.cpp.i: cmake_force
@@ -261,7 +287,7 @@ CMakeFiles/youbot_cpp.dir/lib/webots/youbot/YouBot.cpp.s: cmake_force
 
 CMakeFiles/youbot_cpp.dir/lib/util/angle/Angle.cpp.o: CMakeFiles/youbot_cpp.dir/flags.make
 CMakeFiles/youbot_cpp.dir/lib/util/angle/Angle.cpp.o: ../lib/util/angle/Angle.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/util/angle/Angle.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/youbot_cpp.dir/lib/util/angle/Angle.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/youbot_cpp.dir/lib/util/angle/Angle.cpp.o -c /home/miguel/CLionProjects/youbot_cpp/lib/util/angle/Angle.cpp
 
 CMakeFiles/youbot_cpp.dir/lib/util/angle/Angle.cpp.i: cmake_force
@@ -274,8 +300,10 @@ CMakeFiles/youbot_cpp.dir/lib/util/angle/Angle.cpp.s: cmake_force
 
 # Object files for target youbot_cpp
 youbot_cpp_OBJECTS = \
+"CMakeFiles/youbot_cpp.dir/DataCollector.cpp.o" \
 "CMakeFiles/youbot_cpp.dir/Test.cpp.o" \
-"CMakeFiles/youbot_cpp.dir/Train.cpp.o" \
+"CMakeFiles/youbot_cpp.dir/TrainGenetic.cpp.o" \
+"CMakeFiles/youbot_cpp.dir/TrainSup.cpp.o" \
 "CMakeFiles/youbot_cpp.dir/main.cpp.o" \
 "CMakeFiles/youbot_cpp.dir/lib/util/vector/Vector.cpp.o" \
 "CMakeFiles/youbot_cpp.dir/lib/util/pid/Pid.cpp.o" \
@@ -293,8 +321,10 @@ youbot_cpp_OBJECTS = \
 # External object files for target youbot_cpp
 youbot_cpp_EXTERNAL_OBJECTS =
 
+youbot_cpp: CMakeFiles/youbot_cpp.dir/DataCollector.cpp.o
 youbot_cpp: CMakeFiles/youbot_cpp.dir/Test.cpp.o
-youbot_cpp: CMakeFiles/youbot_cpp.dir/Train.cpp.o
+youbot_cpp: CMakeFiles/youbot_cpp.dir/TrainGenetic.cpp.o
+youbot_cpp: CMakeFiles/youbot_cpp.dir/TrainSup.cpp.o
 youbot_cpp: CMakeFiles/youbot_cpp.dir/main.cpp.o
 youbot_cpp: CMakeFiles/youbot_cpp.dir/lib/util/vector/Vector.cpp.o
 youbot_cpp: CMakeFiles/youbot_cpp.dir/lib/util/pid/Pid.cpp.o
@@ -311,7 +341,7 @@ youbot_cpp: CMakeFiles/youbot_cpp.dir/lib/util/angle/Angle.cpp.o
 youbot_cpp: CMakeFiles/youbot_cpp.dir/build.make
 youbot_cpp: /usr/local/webots/lib/controller/libController.so
 youbot_cpp: CMakeFiles/youbot_cpp.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking CXX executable youbot_cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Linking CXX executable youbot_cpp"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/youbot_cpp.dir/link.txt --verbose=$(VERBOSE)
 	/home/miguel/ide/CLion-2020.3.1/clion-2020.3.1/bin/cmake/linux/bin/cmake -E copy /home/miguel/CLionProjects/youbot_cpp/cmake-build-debug-coverage/youbot_cpp /home/miguel/CLionProjects/youbot_cpp
 
